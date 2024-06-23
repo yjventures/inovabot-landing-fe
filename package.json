@@ -11,13 +11,17 @@
   "dependencies": {
     "@formatjs/intl-localematcher": "^0.5.4",
     "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "lucide-react": "^0.396.0",
     "negotiator": "^0.6.3",
     "next": "14.2.4",
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.77.6",
-    "sharp": "^0.33.4"
+    "sharp": "^0.33.4",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "eslint": "^8",
