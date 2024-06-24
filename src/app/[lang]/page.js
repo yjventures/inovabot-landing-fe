@@ -1,4 +1,5 @@
 import Hero from '@/components/pages/homepage/Hero'
+import LeadGeneration from '@/components/pages/homepage/LeadGeneration'
 import Marquee from '@/components/pages/homepage/Marquee'
 import Nav from '@/components/pages/homepage/Nav'
 
@@ -13,6 +14,7 @@ export default function Home() {
       <div className='mt-20'>
         <Hero />
         <Marquee />
+        <LeadGeneration />
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ export default function Marquee() {
       <p className='text-center text-balance'>Trusted by +20,000 businesses</p>
       <div className='space-y-3 my-5'>
         <div className='w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]'>
-          <ul className='flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll h-20'>
+          <ul className='flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll h-24'>
             {logos.concat(logos).map((logo, index) => (
               <li key={index} className='h-full'>
                 <Image src={logo.src} alt={logo.alt} className='h-full w-auto' />
@@ -37,7 +37,7 @@ export default function Marquee() {
         </div>
 
         <div className='w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]'>
-          <ul className='flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverted h-20'>
+          <ul className='flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll-inverted h-24'>
             {logos.concat(logos).map((logo, index) => (
               <li key={index} className='h-full'>
                 <Image src={logo.src} alt={logo.alt} className='h-full w-auto' />
