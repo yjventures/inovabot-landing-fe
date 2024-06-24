@@ -1,3 +1,13 @@
+import Nav from '@/components/pages/homepage/Nav'
+
+export const metadata = {
+  title: 'Inova | AI Solutions'
+}
+
 export default function Home() {
-  return <p>Hello</p>
+  return (
+    <div className='container'>
+      <Nav />
+    </div>
+  )
 }
