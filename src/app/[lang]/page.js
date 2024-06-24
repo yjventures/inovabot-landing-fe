@@ -1,4 +1,5 @@
 import Hero from '@/components/pages/homepage/Hero'
+import Marquee from '@/components/pages/homepage/Marquee'
 import Nav from '@/components/pages/homepage/Nav'
 
 export const metadata = {
@@ -11,6 +12,7 @@ export default function Home() {
       <Nav />
       <div className='mt-20'>
         <Hero />
+        <Marquee />
       </div>
     </div>
   )
