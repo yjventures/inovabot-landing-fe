@@ -18,9 +18,24 @@ module.exports = {
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        text: {
+          DEFAULT: 'var(--text)',
+          black: 'var(--text-black)',
+          secondary: 'var(--text-secondary)',
+          tertiary: 'var(--text-tertiary)'
+        },
+        ['light-green']: 'var(--light-green)',
+        ['light-gray']: {
+          DEFAULT: 'var(--light-gray)',
+          secondary: 'var(--light-gray-secondary)'
+        },
+        ['dark-gray']: {
+          DEFAULT: 'var(--dark-gray)',
+          secondary: 'var(--dark-gray-secondary)'
+        },
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))'
+          DEFAULT: 'var(--primary)',
+          foreground: 'var(--primary-foreground) '
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
