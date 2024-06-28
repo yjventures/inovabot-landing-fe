@@ -16,7 +16,9 @@ export default function Clients({ t }) {
       >
         {t.title}
       </Typography>
-      <p className='text-text-secondary text-xl font-medium max-w-2/3'>{t.description}</p>
+      <Typography variant='description' className='max-w-2/3'>
+        {t.description}
+      </Typography>
 
       <div className='grid grid-cols-2 md:grid-cols-4 w-full gap-4 md:gap-8 lg:gap-10 pt-10'>
         <Img src={logo1} alt='logo1' className='p-6 sm:p-5 md:p-10 bg-primary-foreground' sizes='400px' />

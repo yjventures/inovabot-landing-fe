@@ -21,7 +21,9 @@ export default function Hero({ t }) {
           >
             {t.title}
           </Typography>
-          <p className='text-text-secondary text-xl font-medium max-w-2/3'>{t.description}</p>
+          <Typography variant='description' className='max-w-2/3'>
+            {t.description}
+          </Typography>
           <div className='flex items-center gap-x-4 pt-6 pb-10'>
             <Button>{t.cta}</Button>
             <p className='text-text-secondary font-medium text-lg'>{t.creditCardText}</p>

@@ -2,10 +2,10 @@ import Navbar from '@/components/common/Navbar'
 import ReduxProvider from '@/lib/redux/redux-provider'
 import '@/styles/globals.scss'
 import { getCommonDict } from '@/utils/i18n/get-dictionary'
-import { Inter } from 'next/font/google'
+import { Poppins } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 
-const inter = Inter({ subsets: ['latin'] })
+const poppins = Poppins({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700'] })
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,7 +17,7 @@ export default async function RootLayout({ children, params: { lang } }) {
   return (
     <html lang='en'>
       <ReduxProvider>
-        <body className={inter.className}>
+        <body className={poppins.className}>
           <Navbar t={t.header} />
           <main className='mt-20'>{children}</main>
           <Toaster position='top-center' />

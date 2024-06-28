@@ -9,18 +9,20 @@ const tags = {
   h5: 'h5',
   h6: 'h6',
   body: 'p',
+  description: 'p',
   'body-small': 'p',
   small: 'span'
 }
 
 const sizes = {
-  h1: 'font-semibold text-3xl lg:text-4xl xl:text-5xl',
-  h2: 'font-semibold text-2xl lg:text-3xl xl:text-4xl',
-  h3: 'font-semibold text-xl lg:text-2xl xl:text-3xl',
+  h1: 'font-bold text-3xl lg:text-4xl xl:text-5xl',
+  h2: 'font-bold text-2xl lg:text-3xl xl:text-4xl',
+  h3: 'font-bold text-xl lg:text-2xl xl:text-3xl',
   h4: 'font-semibold text-xl sm:text-2xl',
   h5: 'font-semibold text-lg sm:text-xl',
   h6: 'font-semibold',
   body: 'text-base',
+  description: 'text-text-secondary text-xl font-medium text-balance',
   'body-small': 'text-sm sm:text-xs'
 }
 
