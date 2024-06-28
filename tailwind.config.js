@@ -24,7 +24,10 @@ module.exports = {
           secondary: 'var(--text-secondary)',
           tertiary: 'var(--text-tertiary)'
         },
-        ['light-green']: 'var(--light-green)',
+        ['light-green']: {
+          DEFAULT: 'var(--light-green)',
+          secondary: 'var(--light-green-sec ondary)'
+        },
         ['light-gray']: {
           DEFAULT: 'var(--light-gray)',
           secondary: 'var(--light-gray-secondary)'
