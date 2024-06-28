@@ -1,3 +1,4 @@
+import Clients from '@/components/pages/homepage/Clients'
 import Hero from '@/components/pages/homepage/Hero'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
 
@@ -10,6 +11,7 @@ export default async function Home({ params: { lang } }) {
   return (
     <main>
       <Hero t={t.hero} />
+      <Clients t={t.clients} />
     </main>
   )
 }

@@ -3,6 +3,8 @@ import logo1 from '@/assets/images/pages/homepage/header/logo1.png'
 import logo2 from '@/assets/images/pages/homepage/header/logo2.png'
 import logo3 from '@/assets/images/pages/homepage/header/logo3.png'
 import logo4 from '@/assets/images/pages/homepage/header/logo4.png'
+import patternImg from '@/assets/images/pages/homepage/header/pattern.png'
+import TagLine from '@/components/common/TagLine'
 import { Button } from '@/components/ui/button'
 import { Img } from '@/components/ui/img'
 import Typography from '@/components/ui/typography'
@@ -12,11 +14,14 @@ export default function Hero({ t }) {
     <section className='bg-primary-foreground -mt-20 py-20 md:py-0'>
       <div className='pl-5 md:pl-8 flex flex-col md:flex-row items-center justify-normal md:justify-between gap-x-5 xl:gap-x-10 gap-y-12 min-h-dvh'>
         <div className='w-full md:w-1/2 order-2 md:order-1 pr-5 md:pr-0'>
-          <p className='text-white bg-primary px-3 py-1 text-xs rounded-full inline-block'>{t.headerTag}</p>
-          <Typography variant='h1' className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl'>
+          <TagLine>{t.headerTag}</TagLine>
+          <Typography
+            variant='h1'
+            className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl max-w-2/3'
+          >
             {t.title}
           </Typography>
-          <p className='text-text-secondary text-xl font-medium'>{t.description}</p>
+          <p className='text-text-secondary text-xl font-medium max-w-2/3'>{t.description}</p>
           <div className='flex items-center gap-x-4 pt-6 pb-10'>
             <Button>{t.cta}</Button>
             <p className='text-text-secondary font-medium text-lg'>{t.creditCardText}</p>
@@ -32,8 +37,14 @@ export default function Hero({ t }) {
             </div>
           </div>
         </div>
-        <div className='w-full max-w-2/3 mt-10 md:mt-0 md:w-1/2 order-1 md:order-2'>
-          <Img src={heroImg} alt='hero' sizes='100vw' className='w-full h-auto' />
+        <div className='w-full max-w-2/3 mt-10 md:mt-0 md:w-1/2 order-1 md:order-2 relative'>
+          <Img
+            src={patternImg}
+            alt='pattern'
+            sizes='312px'
+            className='w-auto h-1/2 absolute top-1/2 left-0 -translate-y-1/2 z-[1]'
+          />
+          <Img src={heroImg} alt='hero' sizes='100vw' className='w-full h-auto inset-0 z-[3]' />
         </div>
       </div>
     </section>

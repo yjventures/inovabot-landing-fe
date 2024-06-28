@@ -6,5 +6,10 @@
     "cta": "Get My AI Agent",
     "creditCardText": "No credit card required",
     "brandsTitle": "Trusted by Thousands of Businesses"
+  },
+  "clients": {
+    "tag": "Our Clients",
+    "title": "Trusted by Thousands of Businesses",
+    "description": "Turn Your Website into a Lead Generation Machine"
   }
 }

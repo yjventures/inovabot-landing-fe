@@ -29,7 +29,7 @@ const Typography = forwardRef(({ variant, children, className, as, ...rest }, re
   const Tag = as || tags[variant]
 
   return (
-    <Tag ref={ref} className={cn(sizeClasses, className)} {...rest}>
+    <Tag ref={ref} className={cn('text-text-primary', sizeClasses, className)} {...rest}>
       {children}
     </Tag>
   )
