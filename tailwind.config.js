@@ -22,7 +22,7 @@ module.exports = {
           DEFAULT: 'var(--text)',
           black: 'var(--text-black)',
           secondary: 'var(--text-secondary)',
-          tertiary: 'var(--text-tertiary)'
+          tartiary: 'var(--text-tartiary)'
         },
         ['light-green']: {
           DEFAULT: 'var(--light-green)',
