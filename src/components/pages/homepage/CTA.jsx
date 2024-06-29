@@ -11,7 +11,7 @@ export default function CTA({ t }) {
         <TagLine className='uppercase'>{t.tag}</TagLine>
         <Typography
           variant='h2'
-          className='text-balance text-center text-white pt-10 pb-8 leading-loose text-2xl md:text-3xl lg:text-5xl max-w-2/3'
+          className='text-balance text-center text-white pt-10 pb-8 leading-loose text-2xl md:text-3xl lg:text-5xl max-w-[75%]'
         >
           {t.title}
         </Typography>

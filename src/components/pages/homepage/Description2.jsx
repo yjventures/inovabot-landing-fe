@@ -6,7 +6,10 @@ export default function Description2({ t }) {
   return (
     <section className='py-20 container flex flex-col min-[850px]:flex-row items-center justify-center gap-x-10 xl:gap-x-20 gap-y-10'>
       <div className='w-full min-[850px]:w-3/5 order-2 min-[850px]:order-1'>
-        <Typography variant='h2' className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-2/3'>
+        <Typography
+          variant='h2'
+          className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-[75%]'
+        >
           {t.title}
         </Typography>
         <ul className='space-y-3 pl-5'>

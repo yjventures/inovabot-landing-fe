@@ -17,11 +17,11 @@ export default function Hero({ t }) {
           <TagLine>{t.headerTag}</TagLine>
           <Typography
             variant='h1'
-            className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl max-w-2/3'
+            className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl max-w-[75%]'
           >
             {t.title}
           </Typography>
-          <Typography variant='description' className='max-w-2/3'>
+          <Typography variant='description' className='max-w-[75%]'>
             {t.description}
           </Typography>
           <div className='flex items-center gap-x-4 pt-6 pb-10'>
@@ -39,7 +39,7 @@ export default function Hero({ t }) {
             </div>
           </div>
         </div>
-        <div className='w-full max-w-2/3 mt-10 md:mt-0 md:w-1/2 order-1 md:order-2 relative'>
+        <div className='w-full max-w-[75%] mt-10 md:mt-0 md:w-1/2 order-1 md:order-2 relative'>
           <Img
             src={patternImg}
             alt='pattern'

@@ -9,7 +9,10 @@ export default function Description1({ t }) {
         <Img src={desc1Img} alt='description1' className='max-w-[85%] mx-auto min-[850px]:mx-0' sizes='100vw' />
       </div>
       <div className='w-full min-[850px]:w-2/5'>
-        <Typography variant='h2' className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-2/3'>
+        <Typography
+          variant='h2'
+          className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-[75%]'
+        >
           {t.title}
         </Typography>
         <ul className='space-y-3 pl-5'>
