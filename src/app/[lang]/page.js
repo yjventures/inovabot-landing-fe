@@ -1,5 +1,6 @@
 import AskAgent from '@/components/pages/homepage/AskAgent'
 import CTA from '@/components/pages/homepage/CTA'
+import CTA2 from '@/components/pages/homepage/CTA2'
 import Clients from '@/components/pages/homepage/Clients'
 import Description1 from '@/components/pages/homepage/Description1'
 import Description2 from '@/components/pages/homepage/Description2'
@@ -24,6 +25,7 @@ export default async function Home({ params: { lang } }) {
       <Description1 t={t.description1} />
       <Description2 t={t.description2} />
       <Description3 t={t.description3} />
+      <CTA2 t={t.cta2} />
     </main>
   )
 }

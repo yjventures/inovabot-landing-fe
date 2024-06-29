@@ -73,5 +73,11 @@
       "Upsell or cross-sell based on customer needs",
       "Summarize insights on customer needs and issues"
     ]
+  },
+  "cta2": {
+    "title": "Integrate with Your Favorite Tools",
+    "description": "Connect with popular tools like Gmail, HubSpot, WhatsApp, and more to enhance your platform’s capabilities.",
+    "cta": "Get Started",
+    "cta2": "Learn More"
   }
 }
