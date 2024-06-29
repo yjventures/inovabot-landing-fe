@@ -7,6 +7,7 @@ import Description2 from '@/components/pages/homepage/Description2'
 import Description3 from '@/components/pages/homepage/Description3'
 import Features from '@/components/pages/homepage/Features'
 import Hero from '@/components/pages/homepage/Hero'
+import NewsLetter from '@/components/pages/homepage/NewsLetter'
 import PricingComparison from '@/components/pages/homepage/PricingComparison'
 import Testimonials from '@/components/pages/homepage/Testimonials'
 import PricingPlans from '@/components/pages/homepage/pricingPlans'
@@ -32,6 +33,7 @@ export default async function Home({ params: { lang } }) {
       <PricingPlans t={t.pricingPlans} />
       <PricingComparison t={t.pricingComparison} />
       <Testimonials t={t.testimonials} />
+      <NewsLetter t={t.newsLetter} />
     </main>
   )
 }
