@@ -151,5 +151,146 @@
         "mostPopular": false
       }
     ]
+  },
+  "pricingComparison": {
+    "comparePlans": "Compare Plans",
+    "month": "Month",
+    "annual": "Annual",
+    "off": "40% Off",
+    "description": "Choose your workspace plan according to your organisational plan",
+    "choose": "Choose This Plan",
+    "tiers": [
+      {
+        "name": "Basic",
+        "id": "tier-basic",
+        "href": "#",
+        "priceMonthly": "$9",
+        "description": "Quis suspendisse ut fermentum neque vivamus non tellus.",
+        "mostPopular": false
+      },
+      {
+        "name": "Essential",
+        "id": "tier-essential",
+        "href": "#",
+        "priceMonthly": "$29",
+        "description": "Quis eleifend a tincidunt pellentesque. A tempor in sed.",
+        "mostPopular": false
+      },
+      {
+        "name": "Premium",
+        "id": "tier-premium",
+        "href": "#",
+        "priceMonthly": "$59",
+        "description": "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
+        "mostPopular": false
+      },
+      {
+        "name": "Enterprise",
+        "id": "tier-enterprise",
+        "href": "#",
+        "priceMonthly": "$99",
+        "description": "Orci volutpat ut sed sed neque, dui eget. Quis tristique non.",
+        "mostPopular": false
+      }
+    ],
+    "features": [
+      {
+        "name": "Integrations",
+        "tiers": {
+          "Basic": true,
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Shared links",
+        "tiers": {
+          "Basic": true,
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Importing and exporting",
+        "tiers": {
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Team members",
+        "tiers": {
+          "Essential": "Up to 20 users",
+          "Premium": "Up to 50 users",
+          "Enterprise": "Unlimited"
+        }
+      },
+      {
+        "name": "Advanced analytics",
+        "tiers": {
+          "Basic": true,
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Basic reports",
+        "tiers": {
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Professional reports",
+        "tiers": {
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Custom report builder",
+        "tiers": {
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "24/7 online support",
+        "tiers": {
+          "Basic": true,
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Quarterly product workshops",
+        "tiers": {
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "Priority phone support",
+        "tiers": {
+          "Essential": true,
+          "Premium": true,
+          "Enterprise": true
+        }
+      },
+      {
+        "name": "1:1 onboarding tour",
+        "tiers": {
+          "Premium": true,
+          "Enterprise": true
+        }
+      }
+    ]
   }
 }

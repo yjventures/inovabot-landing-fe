@@ -29,7 +29,7 @@ export default async function Home({ params: { lang } }) {
       <Description3 t={t.description3} />
       <CTA2 t={t.cta2} />
       <PricingPlans t={t.pricingPlans} />
-      <PricingComparison />
+      <PricingComparison t={t.pricingComparison} />
     </main>
   )
 }
