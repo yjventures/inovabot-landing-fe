@@ -9,7 +9,9 @@ import Typography from '@/components/ui/typography'
 export default function Clients({ t }) {
   return (
     <section className='container flex flex-col items-center justify-center py-20'>
-      <TagLine>{t.tag}</TagLine>
+      <TagLine variant='light' className='uppercase'>
+        {t.tag}
+      </TagLine>
       <Typography
         variant='h2'
         className='text-balance leading-loose pt-8 pb-9 text-2xl md:text-3xl lg:text-5xl max-w-2/3'
