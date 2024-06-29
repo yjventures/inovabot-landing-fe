@@ -23,7 +23,7 @@ export default function Description3({ t }) {
       <div className='w-full min-[850px]:w-2/5'>
         <Typography
           variant='h2'
-          className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-[75%]'
+          className='text-balance leading-loose pb-9 text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
         >
           {t.title}
         </Typography>

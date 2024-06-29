@@ -50,11 +50,11 @@ export default function Testimonials({ t }) {
         </TagLine>
         <Typography
           variant='h2'
-          className='text-balance leading-loose pt-6 pb-5 text-2xl md:text-3xl lg:text-5xl max-w-[75%]'
+          className='text-balance leading-loose pt-6 pb-5 text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
         >
           {t.title}
         </Typography>
-        <Typography variant='description' className='max-w-[75%]'>
+        <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
           {t.description}
         </Typography>
       </div>

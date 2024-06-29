@@ -5,8 +5,8 @@ import Typography from '@/components/ui/typography'
 
 export default function Testimonial({ testimonial }) {
   return (
-    <div className='flex items-center justify-between px-20'>
-      <div className='w-1/2 flex items-center gap-x-3'>
+    <div className='flex flex-col md:flex-row items-center justify-between px-20 gap-x-5 gap-y-8'>
+      <div className='w-full md:w-1/2 flex items-center gap-x-3'>
         <Img
           src={testimonial.img}
           alt='Person 1'
@@ -18,7 +18,7 @@ export default function Testimonial({ testimonial }) {
         </div>
       </div>
 
-      <div className='w-1/2 p-3 relative'>
+      <div className='w-full md:w-1/2 p-3 relative'>
         <Img src={openingQuote} alt='Opening quote' className='absolute top-0 left-0 w-24 h-auto' />
         <Img src={closingQuote} alt='Opening quote' className='absolute bottom-0 right-0 w-24 h-auto' />
         <p className='text-text font-semibold text-2xl relative'>{testimonial.testimonial}</p>

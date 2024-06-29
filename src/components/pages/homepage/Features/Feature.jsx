@@ -9,7 +9,7 @@ export default function Feature({ feature, index }) {
       <div className='size-16 flex items-center justify-center bg-primary rounded-lg'>
         {featureIcons[index] && createElement(featureIcons[index], { className: 'text-white' })}
       </div>
-      <Typography variant='h4' className='max-w-[75%]'>
+      <Typography variant='h4' className='max-w-full sm:max-w-[75%]'>
         {feature.title}
       </Typography>
       <Typography variant='description' className='text-base'>

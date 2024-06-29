@@ -17,7 +17,7 @@ export default function CTA2({ t }) {
     <section className='bg-primary-foreground py-20'>
       <div className='container flex flex-col lg:flex-row items-center justify-normal lg:justify-between gap-x-10 gap-y-10'>
         <div className='w-full lg:w-1/2 flex flex-col order-2 lg:order-1'>
-          <Typography variant='h3' className='max-w-[75%]'>
+          <Typography variant='h3' className='max-w-full sm:max-w-[75%]'>
             {t.title}
           </Typography>
           <Typography variant='description' className='py-6'>
