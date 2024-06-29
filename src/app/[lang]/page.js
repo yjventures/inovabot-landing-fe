@@ -7,6 +7,7 @@ import Description2 from '@/components/pages/homepage/Description2'
 import Description3 from '@/components/pages/homepage/Description3'
 import Features from '@/components/pages/homepage/Features'
 import Hero from '@/components/pages/homepage/Hero'
+import PricingComparison from '@/components/pages/homepage/PricingComparison'
 import PricingPlans from '@/components/pages/homepage/pricingPlans'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
 
@@ -28,6 +29,7 @@ export default async function Home({ params: { lang } }) {
       <Description3 t={t.description3} />
       <CTA2 t={t.cta2} />
       <PricingPlans t={t.pricingPlans} />
+      <PricingComparison />
     </main>
   )
 }
