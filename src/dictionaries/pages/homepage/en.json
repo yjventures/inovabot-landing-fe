@@ -292,5 +292,10 @@
         }
       }
     ]
+  },
+  "testimonials": {
+    "tag": "Testimonials",
+    "title": "Trusted by the Finest",
+    "description": "See testimonials from satisfied users who have transformed their businesses with Inova’s AI bot."
   }
 }
