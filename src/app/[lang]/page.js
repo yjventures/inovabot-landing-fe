@@ -1,5 +1,6 @@
 import AskAgent from '@/components/pages/homepage/AskAgent'
 import Clients from '@/components/pages/homepage/Clients'
+import Features from '@/components/pages/homepage/Features'
 import Hero from '@/components/pages/homepage/Hero'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
 
@@ -14,6 +15,7 @@ export default async function Home({ params: { lang } }) {
       <Hero t={t.hero} />
       <Clients t={t.clients} />
       <AskAgent t={t.askAgent} />
+      <Features t={t.features} />
     </main>
   )
 }
