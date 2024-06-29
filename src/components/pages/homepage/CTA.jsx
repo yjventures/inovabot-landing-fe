@@ -6,7 +6,7 @@ import Typography from '@/components/ui/typography'
 
 export default function CTA({ t }) {
   return (
-    <section className='w-full py-20 bg-dark-gray'>
+    <section className='w-full py-32 bg-dark-gray'>
       <div className='container flex flex-col items-center justify-center'>
         <TagLine className='uppercase'>{t.tag}</TagLine>
         <Typography

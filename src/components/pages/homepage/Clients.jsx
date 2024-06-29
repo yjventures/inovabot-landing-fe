@@ -8,7 +8,7 @@ import Typography from '@/components/ui/typography'
 
 export default function Clients({ t }) {
   return (
-    <section className='container flex flex-col items-center justify-center py-20'>
+    <section className='container flex flex-col items-center justify-center py-32'>
       <TagLine variant='light' className='uppercase'>
         {t.tag}
       </TagLine>
