@@ -43,5 +43,11 @@
       "title": "Support in multiple languages",
       "description": "Communicate in over 175 languages"
     }
-  ]
+  ],
+  "cta": {
+    "tag": "Get Started",
+    "title": "Create the Perfect AI Sales Agent in Just 5 Minutes",
+    "description": "All it takes is 5 minutes to set up your AI sales agent.",
+    "cta": "Enhance Customer Interactions"
+  }
 }
