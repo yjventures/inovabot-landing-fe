@@ -21,6 +21,7 @@ module.exports = {
         text: {
           DEFAULT: 'var(--text)',
           black: 'var(--text-black)',
+          dark: 'var(--text-dark)',
           secondary: 'var(--text-secondary)',
           tartiary: 'var(--text-tartiary)'
         },

@@ -49,5 +49,29 @@
     "title": "Create the Perfect AI Sales Agent in Just 5 Minutes",
     "description": "All it takes is 5 minutes to set up your AI sales agent.",
     "cta": "Enhance Customer Interactions"
+  },
+  "description1": {
+    "title": "Create AI Navigation Now",
+    "listItems": [
+      "Proactive engagement: Reach out to potential buyers.",
+      "Capture and qualify leads: Gather detailed visitor information.",
+      "Summarize customer insights: Understand needs and issues efficiently."
+    ]
+  },
+  "description2": {
+    "title": "Personalized Responses for Informed Decisions",
+    "listItems": [
+      "Support for 175+ languages",
+      "24/7 high-quality responses across multiple channels",
+      "Engage in meaningful conversations to increase customer lifetime value"
+    ]
+  },
+  "description3": {
+    "title": "Get a Personalized Sales Agent for Your Website",
+    "listItems": [
+      "Book meetings and recommend products",
+      "Upsell or cross-sell based on customer needs",
+      "Summarize insights on customer needs and issues"
+    ]
   }
 }
