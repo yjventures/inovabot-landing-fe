@@ -59,7 +59,7 @@ export default function Testimonials({ t }) {
         </Typography>
       </div>
 
-      <Carousel className='mt-10'>
+      <Carousel className='mt-10' opts={{ loop: true }}>
         <CarouselContent>
           {testimonialsData?.map(testimonial => (
             <CarouselItem key={testimonial.id}>
