@@ -46,7 +46,7 @@ export default function Hero({ t }) {
             sizes='312px'
             className='w-auto h-1/2 absolute top-1/2 left-0 -translate-y-1/2 z-[1]'
           />
-          <Img src={heroImg} alt='hero' sizes='100vw' className='w-full h-auto inset-0 z-[3]' />
+          <Img src={heroImg} alt='hero' sizes='100vw' className='w-full h-auto inset-0 z-[3] relative' />
         </div>
       </div>
     </section>

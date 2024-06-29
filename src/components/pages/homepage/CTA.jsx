@@ -1,5 +1,7 @@
+import dotsImage from '@/assets/images/pages/homepage/cta/dots.png'
 import TagLine from '@/components/common/TagLine'
 import { Button } from '@/components/ui/button'
+import { Img } from '@/components/ui/img'
 import Typography from '@/components/ui/typography'
 
 export default function CTA({ t }) {
@@ -15,7 +17,8 @@ export default function CTA({ t }) {
         </Typography>
         <p className='text-text-tartiary text-center max-w-[75%] font-medium text-lg'>{t.description}</p>
         <Button className='my-10'>{t.cta}</Button>
-        <div className='rounded-2xl overflow-hidden max-w-[950px] w-full aspect-video'>
+        <div className='rounded-2xl max-w-[950px] w-full aspect-video relative'>
+          <Img src={dotsImage} alt='dots' className='absolute -right-12 -bottom-8 w-36 h-auto z-0' />
           <iframe
             src='https://www.youtube.com/embed/k85mRPqvMbE?si=Sm5m7JmCudUXNUhE'
             title='YouTube video player'
@@ -23,7 +26,7 @@ export default function CTA({ t }) {
             allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
             referrerpolicy='strict-origin-when-cross-origin'
             allowfullscreen
-            className='w-full h-full'
+            className='w-full h-full rounded-2xl z-10 relative'
           ></iframe>
         </div>
       </div>
