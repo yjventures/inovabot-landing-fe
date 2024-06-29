@@ -2,6 +2,7 @@ import AskAgent from '@/components/pages/homepage/AskAgent'
 import CTA from '@/components/pages/homepage/CTA'
 import Clients from '@/components/pages/homepage/Clients'
 import Description1 from '@/components/pages/homepage/Description1'
+import Description2 from '@/components/pages/homepage/Description2'
 import Features from '@/components/pages/homepage/Features'
 import Hero from '@/components/pages/homepage/Hero'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
@@ -20,6 +21,7 @@ export default async function Home({ params: { lang } }) {
       <Features t={t.features} />
       <CTA t={t.cta} />
       <Description1 t={t.description1} />
+      <Description2 t={t.description2} />
     </main>
   )
 }
