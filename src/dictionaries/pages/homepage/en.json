@@ -11,5 +11,15 @@
     "tag": "Our Clients",
     "title": "Trusted by Thousands of Businesses",
     "description": "Turn Your Website into a Lead Generation Machine"
+  },
+  "askAgent": {
+    "title": "Ask agent",
+    "placeholders": [
+      "What's the first rule of Fight Club?",
+      "Who is Tyler Durden?",
+      "Where is Andrew Laeddis Hiding?",
+      "Write a Javascript method to reverse a string",
+      "How to assemble your own PC?"
+    ]
   }
 }
