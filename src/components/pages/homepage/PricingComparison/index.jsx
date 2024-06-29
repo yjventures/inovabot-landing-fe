@@ -6,8 +6,8 @@ export default function PricingComparison({ t }) {
     <div className='py-20 container hidden lg:block'>
       {/* lg+ */}
       {/*FIXME: Fix the scroll padding issue here for scrolling the comparison table*/}
-      <div className='border pt-20'>
-        <table className='w-full table-fixed text-left scroll-pt-20'>
+      <div className='border pt-20 rounded-sm overflow-hidden'>
+        <table className='w-full table-fixed border-collapse text-left scroll-pt-20'>
           <caption className='sr-only'>Pricing plan comparison</caption>
           <colgroup>
             <col className='w-1/4' />
@@ -18,7 +18,7 @@ export default function PricingComparison({ t }) {
           </colgroup>
 
           <tbody>
-            <tr className='sticky top-0 left-0 backdrop-blur-md'>
+            <tr className='sticky top-0 left-0'>
               <th scope='row' className='p-3 space-y-3'>
                 <div className='flex flex-wrap items-center gap-x-4'>
                   <Typography variant='h6'>{t.comparePlans}</Typography>
