@@ -208,9 +208,10 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit }
         </motion.svg>
       </button>
 
-      <div className={'absolute inset-0 left-0 sm:left-20 flex items-center rounded-full pointer-events-none'}>
-        <AnimatePresence mode='wait'>
-          {!value && (
+      {!value && (
+        <div className={'absolute inset-0 left-0 sm:left-20 flex items-center rounded-full pointer-events-none'}>
+          <AnimatePresence mode='wait'>
+            (
             <motion.p
               initial={{
                 y: 5,
@@ -233,9 +234,10 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit }
             >
               {placeholders[currentPlaceholder]}
             </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
+            )
+          </AnimatePresence>
+        </div>
+      )}
     </form>
   )
 }
