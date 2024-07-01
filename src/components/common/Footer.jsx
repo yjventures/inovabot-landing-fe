@@ -18,7 +18,7 @@ export default function Footer({ t }) {
       <div className='flex flex-col items-center justify-center gap-y-8'>
         <Img src={logo} alt='Inova' className='w-48 h-auto' />
 
-        <ul className='container flex justify-center gap-x-5 text-text-secondary font-medium'>
+        <ul className='container flex flex-wrap justify-center gap-x-5 text-text-secondary font-medium'>
           {footerLinks.map(link => (
             <li key={link.id}>
               <LLink href={link.href}>{link.title}</LLink>
