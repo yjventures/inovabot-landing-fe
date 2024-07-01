@@ -1,8 +1,9 @@
 'use client'
 
 import logo from '@/assets/images/ui/logo.png'
+import { cn } from '@/lib/utils'
 import { AlignRight } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Img } from '../../ui/img'
 import LLink from '../../ui/llink'
 import MobileNavbar from './MobileNavbar'
@@ -10,9 +11,24 @@ import SignupButtons from './SignupButtons'
 
 export default function Navbar({ t }) {
   const [navbarOpen, setnavbarOpen] = useState(false)
+  const [isTop, setIsTop] = useState(true)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+      setIsTop(scrollTop === 0)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
   return (
     <>
-      <header className='fixed w-full top-0 left-0 right-0 h-20 backdrop-blur-lg z-40'>
+      <header className={cn('fixed w-full top-0 left-0 right-0 h-20 backdrop-blur-lg z-40', { 'bg-white/50': !isTop })}>
         <nav className='container flex items-center justify-between h-full'>
           <Img src={logo} alt='Inova' className='w-auto h-1/2' />
           <ul className='hidden lg:flex gap-x-5 text-text-secondary font-medium'>
