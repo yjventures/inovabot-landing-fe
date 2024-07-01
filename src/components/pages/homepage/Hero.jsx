@@ -31,7 +31,7 @@ export default function Hero({ t }) {
 
           <div className='space-y-2.5'>
             <p className='text-sm font-medium text-text-tartiary'>{t.brandsTitle}</p>
-            <div className='flex items-center gap-x-5'>
+            <div className='flex flex-wrap items-center gap-x-5 gap-y-3'>
               <Img src={logo1} sizes='120px' alt='logo1' className='w-[102px] h-auto' />
               <Img src={logo2} sizes='120px' alt='logo2' className='w-[102px] h-auto' />
               <Img src={logo3} sizes='120px' alt='logo3' className='w-[102px] h-auto' />
