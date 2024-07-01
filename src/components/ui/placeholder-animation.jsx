@@ -154,7 +154,7 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit }
         )}
         ref={canvasRef}
       />
-      <div className='h-full flex items-center ml-3 gap-x-2 absolute top-0 left-0'>
+      <div className='h-full hidden sm:flex items-center ml-3 gap-x-2 absolute top-0 left-0'>
         <Search className='size-4' />
         <p className='text-sm'>{title}</p>
       </div>
@@ -170,7 +170,7 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit }
         value={value}
         type='text'
         className={cn(
-          'w-full relative text-sm sm:text-base z-50 border-none bg-transparent h-full rounded-lg focus:outline-none focus:ring-0 pl-20 sm:pl-28 pr-20',
+          'w-full relative text-sm sm:text-base z-50 border-none bg-transparent h-full rounded-lg focus:outline-none focus:ring-0 pl-4 sm:pl-28 pr-20',
           animating && 'text-transparent dark:text-transparent'
         )}
       />
@@ -208,7 +208,7 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit }
         </motion.svg>
       </button>
 
-      <div className={'absolute inset-0 left-20 flex items-center rounded-full pointer-events-none'}>
+      <div className={'absolute inset-0 left-0 sm:left-20 flex items-center rounded-full pointer-events-none'}>
         <AnimatePresence mode='wait'>
           {!value && (
             <motion.p

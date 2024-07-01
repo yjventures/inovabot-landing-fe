@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 
 export default function SignupButtons({ t, className }) {
   return (
-    <div className={cn('flex flex-col lg:flex-row gap-y-3 gap-x-6', className)}>
+    <div className={cn('flex flex-col items-center justify-center lg:flex-row gap-y-3 gap-x-6', className)}>
       <LLink href='/login' className='text-text-secondary font-medium'>
         {t.login}
       </LLink>
