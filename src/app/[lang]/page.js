@@ -1,17 +1,19 @@
-import AskAgent from '@/components/pages/homepage/AskAgent'
-import CTA from '@/components/pages/homepage/CTA'
-import CTA2 from '@/components/pages/homepage/CTA2'
-import Clients from '@/components/pages/homepage/Clients'
-import Description1 from '@/components/pages/homepage/Description1'
-import Description2 from '@/components/pages/homepage/Description2'
-import Description3 from '@/components/pages/homepage/Description3'
-import Features from '@/components/pages/homepage/Features'
-import Hero from '@/components/pages/homepage/Hero'
-import Marquee from '@/components/pages/homepage/Marquee'
-import NewsLetter from '@/components/pages/homepage/NewsLetter'
-import PricingComparison from '@/components/pages/homepage/PricingComparison'
-import Testimonials from '@/components/pages/homepage/Testimonials'
-import PricingPlans from '@/components/pages/homepage/pricingPlans'
+import {
+  AskAgent,
+  CTA,
+  CTA2,
+  Clients,
+  Description1,
+  Description2,
+  Description3,
+  Features,
+  Hero,
+  Marquee,
+  NewsLetter,
+  PricingComparison,
+  PricingPlans,
+  Testimonials
+} from '@/components/pages/homepage'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
 
 export const metadata = {

@@ -8,6 +8,7 @@ import TagLine from '@/components/common/TagLine'
 import { Button } from '@/components/ui/button'
 import { Img } from '@/components/ui/img'
 import Typography from '@/components/ui/typography'
+import { cn } from '@/lib/utils'
 
 export default function Hero({ t }) {
   return (
@@ -24,8 +25,11 @@ export default function Hero({ t }) {
           <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
             {t.description}
           </Typography>
-          <div className='flex items-center gap-x-4 pt-6 pb-10'>
-            <Button>{t.cta}</Button>
+          <div className={cn('flex items-center gap-x-4 pt-6 pb-10', { 'flex-col gap-y-3': t.cta2 })}>
+            <div className='flex items-center gap-x-4'>
+              <Button>{t.cta}</Button>
+              {t.cta2 ? <Button variant='secondary'>{t.cta}</Button> : null}
+            </div>
             <p className='text-text-secondary font-medium text-lg'>{t.creditCardText}</p>
           </div>
 

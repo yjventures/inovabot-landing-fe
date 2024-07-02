@@ -90,13 +90,18 @@ module.exports = {
         'infinite-scroll-inverted': {
           from: { transform: 'translateX(-50%)' },
           to: { transform: 'translateX(0%)' }
+        },
+        border: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'infinite-scroll': 'infinite-scroll 25s linear infinite',
-        'infinite-scroll-inverted': 'infinite-scroll-inverted 25s linear infinite'
+        'infinite-scroll-inverted': 'infinite-scroll-inverted 25s linear infinite',
+        border: 'border 5s ease infinite'
       }
     }
   },

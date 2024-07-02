@@ -140,105 +140,108 @@ export function PlaceholderAnimation({ title, placeholders, onChange, onSubmit, 
     onSubmit && onSubmit(e)
   }
   return (
-    <form
-      className={cn(
-        'w-full relative max-w-xl mx-auto bg-white dark:bg-zinc-800 h-12 rounded-lg overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200',
-        value && 'bg-gray-50',
-        className
-      )}
-      onSubmit={handleSubmit}
-    >
-      <canvas
-        className={cn(
-          'absolute pointer-events-none  text-base transform scale-50 top-[20%] left-20 sm:left-20 origin-top-left filter invert dark:invert-0 pr-20',
-          !animating ? 'opacity-0' : 'opacity-100'
-        )}
-        ref={canvasRef}
-      />
-      <div className='h-full hidden sm:flex items-center ml-3 gap-x-2 absolute top-0 left-0'>
-        <Search className='size-4' />
-        <p className='text-sm'>{title}</p>
-      </div>
-      <input
-        onChange={e => {
-          if (!animating) {
-            setValue(e.target.value)
-            onChange && onChange(e)
-          }
-        }}
-        onKeyDown={handleKeyDown}
-        ref={inputRef}
-        value={value}
-        type='text'
-        className={cn(
-          'w-full relative text-sm sm:text-base z-50 border-none bg-transparent h-full rounded-lg focus:outline-none focus:ring-0 pl-4 sm:pl-28 pr-20',
-          animating && 'text-transparent dark:text-transparent'
-        )}
-      />
-
-      <button
-        disabled={!value}
-        type='submit'
-        className='absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-md disabled:bg-gray-100 bg-primary dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center'
-      >
-        <motion.svg width='19' height='18' viewBox='0 0 19 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
-          <path
-            d='M1.57301 16.4347L18 9.39126L1.57301 2.34778L1.56519 7.82604L13.3043 9.39126L1.56519 10.9565L1.57301 16.4347Z'
-            fill='white'
-            stroke='white'
-            stroke-width='0.391304'
+    <div className={cn('w-full max-w-xl mx-auto', className)}>
+      <section className={cn('p-0.5 rounded-xl bg-gradient-to-tr from-fuchsia-500 to-cyan-500 animate-border')}>
+        <form
+          className={cn(
+            'relative bg-white dark:bg-zinc-800 h-12 rounded-[10px] overflow-hidden shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),_0px_1px_0px_0px_rgba(25,28,33,0.02),_0px_0px_0px_1px_rgba(25,28,33,0.08)] transition duration-200',
+            value && 'bg-gray-50'
+          )}
+          onSubmit={handleSubmit}
+        >
+          <canvas
+            className={cn(
+              'absolute pointer-events-none  text-base transform scale-50 top-[20%] left-20 sm:left-20 origin-top-left filter invert dark:invert-0 pr-20',
+              !animating ? 'opacity-0' : 'opacity-100'
+            )}
+            ref={canvasRef}
+          />
+          <div className='h-full hidden sm:flex items-center ml-3 gap-x-2 absolute top-0 left-0'>
+            <Search className='size-4' />
+            <p className='text-sm'>{title}</p>
+          </div>
+          <input
+            onChange={e => {
+              if (!animating) {
+                setValue(e.target.value)
+                onChange && onChange(e)
+              }
+            }}
+            onKeyDown={handleKeyDown}
+            ref={inputRef}
+            value={value}
+            type='text'
+            className={cn(
+              'w-full relative text-sm sm:text-base z-50 border-none bg-transparent h-full rounded-lg focus:outline-none focus:ring-0 pl-4 sm:pl-28 pr-20',
+              animating && 'text-transparent dark:text-transparent'
+            )}
           />
 
-          <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-          <motion.path
-            d='M5 12l14 0'
-            initial={{
-              strokeDasharray: '50%',
-              strokeDashoffset: '50%'
-            }}
-            animate={{
-              strokeDashoffset: value ? 0 : '50%'
-            }}
-            transition={{
-              duration: 0.3,
-              ease: 'linear'
-            }}
-          />
-          <path d='M13 18l6 -6' />
-          <path d='M13 6l6 6' />
-        </motion.svg>
-      </button>
+          <button
+            disabled={!value}
+            type='submit'
+            className='absolute right-2 top-1/2 z-50 -translate-y-1/2 h-8 w-8 rounded-md disabled:bg-gray-100 bg-primary dark:bg-zinc-900 dark:disabled:bg-zinc-800 transition duration-200 flex items-center justify-center'
+          >
+            <motion.svg width='19' height='18' viewBox='0 0 19 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+              <path
+                d='M1.57301 16.4347L18 9.39126L1.57301 2.34778L1.56519 7.82604L13.3043 9.39126L1.56519 10.9565L1.57301 16.4347Z'
+                fill='white'
+                stroke='white'
+                stroke-width='0.391304'
+              />
 
-      {!value && (
-        <div className={'absolute inset-0 left-0 sm:left-20 flex items-center rounded-full pointer-events-none'}>
-          <AnimatePresence mode='wait'>
-            (
-            <motion.p
-              initial={{
-                y: 5,
-                opacity: 0
-              }}
-              key={`current-placeholder-${currentPlaceholder}`}
-              animate={{
-                y: 0,
-                opacity: 1
-              }}
-              exit={{
-                y: -15,
-                opacity: 0
-              }}
-              transition={{
-                duration: 0.3,
-                ease: 'linear'
-              }}
-              className='text-xs sm:text-sm font-medium text-text-secondary pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate'
-            >
-              {placeholders[currentPlaceholder]}
-            </motion.p>
-            )
-          </AnimatePresence>
-        </div>
-      )}
-    </form>
+              <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+              <motion.path
+                d='M5 12l14 0'
+                initial={{
+                  strokeDasharray: '50%',
+                  strokeDashoffset: '50%'
+                }}
+                animate={{
+                  strokeDashoffset: value ? 0 : '50%'
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: 'linear'
+                }}
+              />
+              <path d='M13 18l6 -6' />
+              <path d='M13 6l6 6' />
+            </motion.svg>
+          </button>
+
+          {!value && (
+            <div className={'absolute inset-0 left-0 sm:left-20 flex items-center rounded-full pointer-events-none'}>
+              <AnimatePresence mode='wait'>
+                (
+                <motion.p
+                  initial={{
+                    y: 5,
+                    opacity: 0
+                  }}
+                  key={`current-placeholder-${currentPlaceholder}`}
+                  animate={{
+                    y: 0,
+                    opacity: 1
+                  }}
+                  exit={{
+                    y: -15,
+                    opacity: 0
+                  }}
+                  transition={{
+                    duration: 0.3,
+                    ease: 'linear'
+                  }}
+                  className='text-xs sm:text-sm font-medium text-text-secondary pl-4 sm:pl-12 text-left w-[calc(100%-2rem)] truncate'
+                >
+                  {placeholders[currentPlaceholder]}
+                </motion.p>
+                )
+              </AnimatePresence>
+            </div>
+          )}
+        </form>
+      </section>
+    </div>
   )
 }
