@@ -43,7 +43,7 @@ const testimonialsData = [
 
 export default function Testimonials({ t }) {
   return (
-    <section className='w-full min-[1400px]:max-w-[1400px] px-0 md:px-8 py-20'>
+    <section className='w-full min-[1400px]:max-w-[1400px] px-0 md:px-8 py-20 mx-auto'>
       <div className='flex flex-col items-center justify-center text-center text-balance'>
         <TagLine variant='light' className='uppercase'>
           {t.tag}
