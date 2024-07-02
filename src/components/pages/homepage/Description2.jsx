@@ -12,13 +12,16 @@ export default function Description2({ t }) {
         >
           {t.title}
         </Typography>
-        <ul className='space-y-3 pl-5'>
-          {t.listItems.map((item, index) => (
-            <li key={index} className='text-lg text-text-dark list-disc list-item text-balance'>
-              {item}
-            </li>
-          ))}
-        </ul>
+        {t.listItems ? (
+          <ul className='space-y-3 pl-5'>
+            {t.listItems.map((item, index) => (
+              <li key={index} className='text-lg text-text-dark list-disc list-item text-balance'>
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {t.description ? <p className='text-lg text-text-dark text-balance'>{t.description}</p> : null}
       </div>
       <div className='w-full min-[850px]:w-2/5 order-1 min-[850px]:order-2'>
         <Img src={desc2Img} alt='description1' className='max-w-[85%] mx-auto min-[850px]:mx-0' sizes='100vw' />

@@ -27,13 +27,16 @@ export default function Description3({ t }) {
         >
           {t.title}
         </Typography>
-        <ul className='space-y-3 pl-5'>
-          {t.listItems.map((item, index) => (
-            <li key={index} className='text-lg text-text-dark list-disc list-item text-balance'>
-              {item}
-            </li>
-          ))}
-        </ul>
+        {t.listItems ? (
+          <ul className='space-y-3 pl-5'>
+            {t.listItems.map((item, index) => (
+              <li key={index} className='text-lg text-text-dark list-disc list-item text-balance'>
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        {t.description ? <p className='text-lg text-text-dark text-balance'>{t.description}</p> : null}
       </div>
     </section>
   )
