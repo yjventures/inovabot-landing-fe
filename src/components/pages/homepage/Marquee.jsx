@@ -1,5 +1,3 @@
-// src/components/Marquee.js
-
 import logo1 from '@/assets/logos/1.png'
 import logo10 from '@/assets/logos/10.png'
 import logo2 from '@/assets/logos/2.png'

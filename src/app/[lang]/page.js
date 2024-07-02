@@ -7,6 +7,7 @@ import Description2 from '@/components/pages/homepage/Description2'
 import Description3 from '@/components/pages/homepage/Description3'
 import Features from '@/components/pages/homepage/Features'
 import Hero from '@/components/pages/homepage/Hero'
+import Marquee from '@/components/pages/homepage/Marquee'
 import NewsLetter from '@/components/pages/homepage/NewsLetter'
 import PricingComparison from '@/components/pages/homepage/PricingComparison'
 import Testimonials from '@/components/pages/homepage/Testimonials'
@@ -21,9 +22,10 @@ export default async function Home({ params: { lang } }) {
   const t = await getHomepageDict(lang)
   return (
     <main>
+      <AskAgent t={t.askAgent} />
       <Hero t={t.hero} />
       <Clients t={t.clients} />
-      <AskAgent t={t.askAgent} />
+      <Marquee />
       <Features t={t.features} />
       <CTA t={t.cta} />
       <Description1 t={t.description1} />

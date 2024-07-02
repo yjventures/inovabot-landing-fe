@@ -12,7 +12,7 @@ import Typography from '@/components/ui/typography'
 export default function Hero({ t }) {
   return (
     <section className='bg-primary-foreground -mt-20 py-20 md:py-0'>
-      <div className='pl-5 md:pl-8 flex flex-col md:flex-row items-center justify-normal md:justify-between gap-x-5 xl:gap-x-10 gap-y-12 min-h-dvh'>
+      <div className='pl-5 sm:pl-8 md:pl-12 lg:pl-20 xl:pl-32 flex flex-col md:flex-row items-center justify-normal md:justify-between gap-x-5 xl:gap-x-10 gap-y-12 min-h-dvh'>
         <div className='w-full md:w-1/2 order-2 md:order-1 pr-5 md:pr-0'>
           <TagLine>{t.headerTag}</TagLine>
           <Typography
