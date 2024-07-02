@@ -25,10 +25,10 @@ export default function Hero({ t }) {
           <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
             {t.description}
           </Typography>
-          <div className={cn('flex items-center gap-x-4 pt-6 pb-10', { 'flex-col gap-y-3': t.cta2 })}>
+          <div className={cn('flex items-center gap-x-4 pt-6 pb-10', { 'flex-col gap-y-3 items-start': t.cta2 })}>
             <div className='flex items-center gap-x-4'>
               <Button>{t.cta}</Button>
-              {t.cta2 ? <Button variant='secondary'>{t.cta}</Button> : null}
+              {t.cta2 ? <Button variant='outline'>{t.cta2}</Button> : null}
             </div>
             <p className='text-text-secondary font-medium text-lg'>{t.creditCardText}</p>
           </div>
