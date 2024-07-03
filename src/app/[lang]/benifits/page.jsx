@@ -1,4 +1,5 @@
 import BenifitsFeatures from '@/components/pages/benifits/BenifitsFeatures'
+import GetStartedCTA from '@/components/pages/benifits/GetStartedCTA'
 import { Hero, NewsLetter, Testimonials } from '@/components/pages/homepage'
 import { getBenifitsDict, getHomepageDict } from '@/utils/i18n/get-dictionary'
 
@@ -9,6 +10,7 @@ export default async function page({ params: { lang } }) {
     <main>
       <Hero t={t.hero} />
       <BenifitsFeatures t={t.features} />
+      <GetStartedCTA t={t.getStartedCTA} />
       <Testimonials t={homeT.testimonials} />
       <NewsLetter t={homeT.newsLetter} />
     </main>

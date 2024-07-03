@@ -6,7 +6,7 @@ import Feature from '../homepage/Features/Feature'
 export default function BenifitsFeatures({ t }) {
   const featureIcons = [MessagesSquare, LineChartIcon, Users, PencilLine, Grid2x2, Settings]
   return (
-    <section className='container flex flex-col items-center text-center justify-center py-32'>
+    <section className='container flex flex-col items-center text-center justify-center pt-32'>
       <TagLine variant='light' className='uppercase'>
         {t.tag}
       </TagLine>

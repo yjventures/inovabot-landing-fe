@@ -44,5 +44,11 @@
         "description": "Integrate effortlessly with your existing CRM systems for streamlined operations."
       }
     ]
+  },
+  "getStartedCTA": {
+    "title": "Get Started with Inova AI Bot",
+    "description": "Experience the transformative power of AI for your business. Start now and watch your business grow.",
+    "cta": "Sign Up for Free",
+    "cta2": "Contact Us"
   }
 }
