@@ -17,6 +17,12 @@ const aiChatbotDict = {
   ar: () => import('./../../dictionaries/pages/ai-chatbot/ar.json').then(m => m.default)
 }
 
+const benifitsDict = {
+  en: () => import('./../../dictionaries/pages/benifits/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/benifits/ar.json').then(m => m.default)
+}
+
 export const getCommonDict = getDict(commonDict)
 export const getHomepageDict = getDict(homepageDict)
 export const getAiChatbotDict = getDict(aiChatbotDict)
+export const getBenifitsDict = getDict(benifitsDict)
