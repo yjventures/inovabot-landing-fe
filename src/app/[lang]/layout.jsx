@@ -1,5 +1,3 @@
-import Footer from '@/components/common/Footer'
-import Navbar from '@/components/common/Navbar'
 import ReduxProvider from '@/lib/redux/redux-provider'
 import '@/styles/globals.scss'
 import { getCommonDict } from '@/utils/i18n/get-dictionary'
@@ -19,9 +17,7 @@ export default async function RootLayout({ children, params: { lang } }) {
     <html lang='en'>
       <ReduxProvider>
         <body className={poppins.className}>
-          <Navbar t={t.header} />
-          <main className='mt-20'>{children}</main>
-          <Footer t={t.footer} />
+          {children}
           <Toaster position='top-center' />
         </body>
       </ReduxProvider>
