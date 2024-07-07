@@ -1,11 +1,15 @@
 import bg from '@/assets/images/pages/auth/signup-hero.png'
+import SignupForm from '@/components/pages/auth/signupform'
 import { Img } from '@/components/ui/img'
-import { Input } from '@/components/ui/input'
 import Typography from '@/components/ui/typography'
+
+export const metadata = {
+  title: 'Signup | Inova'
+}
 
 export default function SignupPage() {
   return (
-    <main className='flex h-screen items-center'>
+    <main className='flex h-screen items-center bg-primary-foreground'>
       <div className='w-1/2 h-screen p-6'>
         <Img src={bg} alt='Inova signup' className='w-full h-full object-cover rounded-lg' />
       </div>
@@ -15,9 +19,7 @@ export default function SignupPage() {
         </Typography>
         <p className='text-text-tartiary'>Register now and start your adventure.</p>
 
-        <Input />
-        <Input />
-        <Input />
+        <SignupForm />
       </div>
     </main>
   )
