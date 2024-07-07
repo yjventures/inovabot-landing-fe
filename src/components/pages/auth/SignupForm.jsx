@@ -5,9 +5,11 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import LLink from '@/components/ui/llink'
+import Typography from '@/components/ui/typography'
 import { useSignupMutation } from '@/redux/features/authApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
-import { useEffect } from 'react'
+import { MailCheck } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
@@ -21,6 +23,8 @@ export default function SignupForm() {
   } = useForm()
 
   const [signup, { isLoading, isSuccess, isError, error }] = useSignupMutation()
+
+  const [showEmailSendComp, setshowEmailSendComp] = useState(false)
 
   const onSubmit = data => {
     if (!data.checked) return toast.error('Please agree to the terms and conditions')
@@ -38,10 +42,26 @@ export default function SignupForm() {
   useEffect(() => {
     if (isSuccess) {
       reset()
+      setshowEmailSendComp(true)
       toast.success('Check your email to verify your account')
     }
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isSuccess, isError, error, reset])
+
+  if (showEmailSendComp)
+    return (
+      <div className='flex items-center justify-center mt-10'>
+        <div className='flex flex-col items-center justify-center'>
+          <MailCheck size={72} strokeWidth={1} className='text-emerald-500' />
+          <Typography variant='h3' className='font-medium text-center mt-5'>
+            Check Your Inbox
+          </Typography>
+          <p className='font-medium text-text-tartiary text-lg text-balance mt-5 max-w-md'>
+            We have sent you an email to verify your account. Please check your inbox.
+          </p>
+        </div>
+      </div>
+    )
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
