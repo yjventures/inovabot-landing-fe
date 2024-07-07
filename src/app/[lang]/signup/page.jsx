@@ -1,5 +1,5 @@
 import bg from '@/assets/images/pages/auth/signup-hero.png'
-import SignupForm from '@/components/pages/auth/signupform'
+import SignupForm from '@/components/pages/auth/SignupForm'
 import { Img } from '@/components/ui/img'
 import Typography from '@/components/ui/typography'
 

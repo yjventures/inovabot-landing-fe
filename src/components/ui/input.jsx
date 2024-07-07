@@ -72,13 +72,13 @@ const Input = forwardRef(
             )}
           </div>
           {required ? (
-            <>
+            <div className='flex justify-start mt-2'>
               {errors[name] && errors[name]?.type === 'required' ? (
-                <span className='text-red-500 text-xs h-5 leading-none'>{label} is required</span>
+                <span className='text-red-500 text-xs h-5 leading-none !text-left'>{label} is required</span>
               ) : (
-                <div className='w-full h-4' />
+                <div className='w-full h-5' />
               )}
-            </>
+            </div>
           ) : null}
         </div>
       </div>
