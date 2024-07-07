@@ -15,6 +15,7 @@ export default function ForgotPasswordForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
   } = useForm()
 
@@ -23,8 +24,6 @@ export default function ForgotPasswordForm() {
   const onSubmit = data => {
     const allData = {
       email: data.email.trim(),
-      password: data.password,
-      type: 'email',
       userType: 'user'
     }
 
@@ -34,7 +33,7 @@ export default function ForgotPasswordForm() {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Sent Verify OTP Successfully!')
-      push('/forgot-password/verify-otp')
+      push(`/forgot-password/verify-otp?email=${watch('email')}`)
     }
 
     if (isError) toast.error(rtkErrorMesage(error))
