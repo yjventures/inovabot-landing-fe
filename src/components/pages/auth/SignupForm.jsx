@@ -31,7 +31,7 @@ export default function SignupForm({ t }) {
 
     const allData = {
       name: data.firstName + ' ' + data.lastName,
-      email: data.email.trim(),
+      email: data.email.trim().toLowerCase(),
       password: data.password,
       type: 'user'
     }

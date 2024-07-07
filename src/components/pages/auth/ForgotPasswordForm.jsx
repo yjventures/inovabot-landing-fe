@@ -23,7 +23,7 @@ export default function ForgotPasswordForm() {
 
   const onSubmit = data => {
     const allData = {
-      email: data.email.trim(),
+      email: data.email.trim().toLowerCase(),
       userType: 'user'
     }
 

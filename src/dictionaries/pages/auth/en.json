@@ -18,5 +18,16 @@
       "agreeToTerms": "Please agree to the terms and conditions!",
       "checkEmail": "Check your email to verify your account"
     }
+  },
+  "signupVerify": {
+    "title": "Signup Verify | Inova",
+    "verifyEmailTitle": "Verify Your Email!",
+    "verifyEmailDescription": "We'll verify your email address now!",
+    "verifyingEmailTitle": "Verifying Email...",
+    "verifyingEmailDescription": "Please wait till we verify your email address.",
+    "emailVerifiedTitle": "Email is verified",
+    "emailVerifiedDescription": "Email verification successful. Soon you will be redirected to login page.",
+    "emailVerificationFailedTitle": "Email verification failed",
+    "emailVerificationFailedDescription": "Email verification failed."
   }
 }

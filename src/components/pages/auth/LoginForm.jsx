@@ -29,7 +29,7 @@ export default function LoginForm() {
 
   const onSubmit = data => {
     const allData = {
-      email: data.email.trim(),
+      email: data.email.trim().toLowerCase(),
       password: data.password,
       type: 'email',
       userType: 'user'
