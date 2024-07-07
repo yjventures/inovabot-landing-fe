@@ -20,7 +20,6 @@
     }
   },
   "signupVerify": {
-    "title": "Signup Verify | Inova",
     "verifyEmailTitle": "Verify Your Email!",
     "verifyEmailDescription": "We'll verify your email address now!",
     "verifyingEmailTitle": "Verifying Email...",
@@ -29,5 +28,20 @@
     "emailVerifiedDescription": "Email verification successful. Soon you will be redirected to login page.",
     "emailVerificationFailedTitle": "Email verification failed",
     "emailVerificationFailedDescription": "Email verification failed."
+  },
+  "login": {
+    "welcomeBackTitle": "Welcome Back!",
+    "welcomeBackDescription": "Welcome back, please enter your details.",
+    "form": {
+      "email": "Email",
+      "emailAddress": "Email Address",
+      "password": "Password",
+      "rememberMe": "Remember Me",
+      "forgotPassword": "Forgot Password?",
+      "loginButton": "Login",
+      "dontHaveAccount": "Don't have an account?",
+      "signup": "Signup",
+      "loginSuccess": "Logged in successfully!"
+    }
   }
 }

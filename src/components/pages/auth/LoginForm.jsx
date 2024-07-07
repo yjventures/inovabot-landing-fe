@@ -14,7 +14,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export default function LoginForm() {
+export default function LoginForm({ t }) {
   const push = usePush()
   const {
     register,
@@ -40,7 +40,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Logged in successfully!')
+      toast.success(t.loginSuccess)
 
       const {
         user: { accessToken, refreshToken, ...userData }
@@ -68,8 +68,8 @@ export default function LoginForm() {
       <Input
         type='email'
         name='email'
-        placeholder='Email Address'
-        label='Email'
+        placeholder={t.emailAddress}
+        label={t.email}
         register={register}
         errors={errors}
         showLabel
@@ -80,7 +80,7 @@ export default function LoginForm() {
         type='password'
         name='password'
         placeholder='********'
-        label='Password'
+        label={t.password}
         register={register}
         errors={errors}
         showLabel
@@ -92,25 +92,25 @@ export default function LoginForm() {
         <div className='flex items-center gap-x-2'>
           <Checkbox id='remember-me' onCheckedChange={e => setValue('rememberMe', e)} />
           <Label className='text-text' htmlFor='remember-me'>
-            Remember Me
+            {t.rememberMe}
           </Label>
         </div>
         <LLink href='/forgot-password' className='font-medium text-text'>
           <Button variant='link' className='font-medium px-1 text-text-secondary hover:text-sky-600'>
-            Forgot Password?
+            {t.forgotPassword}
           </Button>
         </LLink>
       </div>
 
       <Button variant='black' type='submit' className='w-full mt-5' isLoading={isLoading}>
-        Login
+        {t.loginButton}
       </Button>
 
       <div className='flex flex-wrap items-center justify-center gap-x-1 mt-5'>
-        <p className='text-text-tartiary text-sm'>Don&apos;t have an account?</p>
+        <p className='text-text-tartiary text-sm'>{t.dontHaveAccount}</p>
         <LLink href='/signup' className='font-medium text-text'>
           <Button variant='link' className='font-medium underline px-1 text-text-secondary hover:text-sky-600'>
-            Signup
+            {t.signup}
           </Button>
         </LLink>
       </div>
