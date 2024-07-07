@@ -64,7 +64,7 @@ export default function SignupForm() {
     )
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className='w-full max-w-sm'>
       <div className='flex flex-col min-[500px]:flex-row gap-x-3 mt-4'>
         <Input
           name='firstName'
@@ -127,7 +127,7 @@ export default function SignupForm() {
 
       <div className='flex flex-wrap items-center justify-center gap-x-1 mt-5'>
         <p className='text-text-tartiary text-sm'>Already have an account?</p>
-        <LLink className='font-medium text-text-secondary'>
+        <LLink href='/login' className='font-medium text-text'>
           <Button variant='link' className='font-medium underline px-1 text-text-secondary hover:text-sky-600'>
             Login
           </Button>
