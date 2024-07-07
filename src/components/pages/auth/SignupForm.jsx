@@ -45,7 +45,7 @@ export default function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex gap-x-3 mt-4'>
+      <div className='flex flex-col min-[500px]:flex-row gap-x-3 mt-4'>
         <Input
           name='firstName'
           placeholder='First Name'

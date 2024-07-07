@@ -10,10 +10,10 @@ export const metadata = {
 export default function SignupPage() {
   return (
     <main className='flex h-screen items-center bg-primary-foreground'>
-      <div className='w-1/2 h-screen p-6'>
+      <div className='hidden lg:block w-1/2 h-screen p-6'>
         <Img src={bg} alt='Inova signup' className='w-full h-full object-cover rounded-lg' />
       </div>
-      <div className='w-1/2 flex flex-col items-center justify-center text-center text-balance p-6'>
+      <div className='w-full lg:w-1/2 flex flex-col items-center justify-center text-center text-balance p-6'>
         <Typography variant='h3' className='font-medium'>
           Welcome to Inova!
         </Typography>
