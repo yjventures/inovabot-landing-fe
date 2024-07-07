@@ -88,11 +88,18 @@ export default function LoginForm() {
         labelClassName='text-left'
       />
 
-      <div className='flex items-center gap-x-2'>
-        <Checkbox id='remember-me' onCheckedChange={e => setValue('rememberMe', e)} />
-        <Label className='text-text' htmlFor='remember-me'>
-          Remember Me
-        </Label>
+      <div className='flex flex-wrap items-center justify-between w-full gap-3'>
+        <div className='flex items-center gap-x-2'>
+          <Checkbox id='remember-me' onCheckedChange={e => setValue('rememberMe', e)} />
+          <Label className='text-text' htmlFor='remember-me'>
+            Remember Me
+          </Label>
+        </div>
+        <LLink href='/forgot-password' className='font-medium text-text'>
+          <Button variant='link' className='font-medium px-1 text-text-secondary hover:text-sky-600'>
+            Forgot Password?
+          </Button>
+        </LLink>
       </div>
 
       <Button variant='black' type='submit' className='w-full mt-5' isLoading={isLoading}>
