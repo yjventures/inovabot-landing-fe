@@ -32,9 +32,15 @@ const authDict = {
   ar: () => import('./../../dictionaries/pages/auth/ar.json').then(m => m.default)
 }
 
+const companyInfoDict = {
+  en: () => import('./../../dictionaries/pages/company-info/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/company-info/ar.json').then(m => m.default)
+}
+
 export const getCommonDict = getDict(commonDict)
 export const getHomepageDict = getDict(homepageDict)
 export const getAiChatbotDict = getDict(aiChatbotDict)
 export const getBenifitsDict = getDict(benifitsDict)
 export const getInboundSalesDict = getDict(inboundSalesDict)
 export const getAuthDict = getDict(authDict)
+export const getCompanyInfoDict = getDict(companyInfoDict)

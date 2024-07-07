@@ -1,0 +1,14 @@
+{
+  "companyInfo": {
+    "title": "Add Company Info",
+    "description": "Add Company info to get started. Use correct information to avoid any issues.",
+    "form": {
+      "companyLogo": "Company Logo*",
+      "companyName": "Company Name",
+      "companyWebsite": "Company Website",
+      "companyIndustry": "Industry",
+      "companyDescription": "Company Description",
+      "save": "Save"
+    }
+  }
+}
