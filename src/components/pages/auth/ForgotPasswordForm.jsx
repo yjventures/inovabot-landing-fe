@@ -10,7 +10,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export default function ForgotPasswordForm() {
+export default function ForgotPasswordForm({ t }) {
   const push = usePush()
   const {
     register,
@@ -32,7 +32,7 @@ export default function ForgotPasswordForm() {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Sent Verify OTP Successfully!')
+      toast.success(t.sendOtpSuccess)
       push(`/forgot-password/verify-otp?email=${watch('email')}`)
     }
 
@@ -44,8 +44,8 @@ export default function ForgotPasswordForm() {
       <Input
         type='email'
         name='email'
-        placeholder='Email Address'
-        label='Email'
+        placeholder={t.emailAddress}
+        label={t.email}
         register={register}
         errors={errors}
         showLabel
@@ -53,14 +53,14 @@ export default function ForgotPasswordForm() {
         labelClassName='text-left'
       />
       <Button variant='black' type='submit' className='w-full' isLoading={isLoading}>
-        Send Reset Instuctions
+        {t.sendResetInstructions}
       </Button>
 
       <div className='flex flex-wrap items-center justify-center gap-x-1 mt-5'>
-        <p className='text-text-tartiary text-sm'>Back to login page?</p>
+        <p className='text-text-tartiary text-sm'>{t.backToLoginPrompt}</p>
         <LLink href='/login' className='font-medium text-text'>
           <Button variant='link' className='font-medium underline px-1 text-text-secondary hover:text-sky-600'>
-            Back now
+            {t.backNow}
           </Button>
         </LLink>
       </div>

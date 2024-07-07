@@ -43,5 +43,39 @@
       "signup": "Signup",
       "loginSuccess": "Logged in successfully!"
     }
+  },
+  "forgotPassword": {
+    "title": "Forgot Password | Inova",
+    "heading": "Forgot Password",
+    "description": "Enter the email address you used when joined and we'll send reset instructions to reset your password.",
+    "email": "Email",
+    "emailAddress": "Email Address",
+    "sendResetInstructions": "Send Reset Instructions",
+    "backToLoginPrompt": "Back to login page?",
+    "backNow": "Back now",
+    "sendOtpSuccess": "Sent Verify OTP Successfully!"
+  },
+  "verifyOtp": {
+    "title": "Verify OTP | Inova",
+    "heading": "Verify OTP",
+    "description": "Input the OTP that is sent to your Email",
+    "email": "Email",
+    "verifyButton": "Verify",
+    "otpVerifiedSuccess": "OTP Verified Successfully!",
+    "emailPlaceholder": "Email Address",
+    "editEmail": "Edit Email"
+  },
+
+  "resetPassword": {
+    "title": "Reset Password | Inova",
+    "heading": "Reset Password",
+    "description": "Reset Your Password. Input and confirm your password before proceeding",
+    "passwordPlaceholder": "Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "passwordMismatchError": "Password does not match!",
+    "passwordResetSuccess": "Password reset successfully!",
+    "resetButton": "Reset Password",
+    "signupPrompt": "Don't have an account?",
+    "signupLink": "Signup"
   }
 }

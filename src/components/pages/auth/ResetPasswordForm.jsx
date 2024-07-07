@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export default function ResetPasswordForm() {
+export default function ResetPasswordForm({ t }) {
   const push = usePush()
   const params = useSearchParams()
   const userId = params.has('id') && params.get('id')
@@ -24,13 +24,13 @@ export default function ResetPasswordForm() {
   const [resetPassword, { isLoading, isSuccess, isError, error }] = useResetPasswordMutation()
 
   const onSubmit = data => {
-    if (data.password !== data.confirmPassword) return toast.error('Password does not match!')
+    if (data.password !== data.confirmPassword) return toast.error(t.passwordMismatchError)
     resetPassword({ id: userId, password: data.password })
   }
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Password reset successfully!')
+      toast.success(t.passwordResetSuccess)
       push('/login')
     }
 
@@ -42,7 +42,7 @@ export default function ResetPasswordForm() {
       <Input
         type='password'
         name='password'
-        placeholder='********'
+        placeholder={t.passwordPlaceholder}
         label='Password'
         register={register}
         errors={errors}
@@ -53,7 +53,7 @@ export default function ResetPasswordForm() {
       <Input
         type='password'
         name='confirmPassword'
-        placeholder='********'
+        placeholder={t.confirmPasswordPlaceholder}
         label='Confirm Password'
         register={register}
         errors={errors}
@@ -62,14 +62,14 @@ export default function ResetPasswordForm() {
         labelClassName='text-left'
       />
       <Button variant='black' type='submit' className='w-full' isLoading={isLoading}>
-        Send Reset Instuctions
+        {t.resetButton}
       </Button>
 
       <div className='flex flex-wrap items-center justify-center gap-x-1 mt-5'>
-        <p className='text-text-tartiary text-sm'>Don&apos;t have account?</p>
+        <p className='text-text-tartiary text-sm'>{t.signupPrompt}</p>
         <LLink href='/signup' className='font-medium text-text'>
           <Button variant='link' className='font-medium underline px-1 text-text-secondary hover:text-sky-600'>
-            Signup
+            {t.signupLink}
           </Button>
         </LLink>
       </div>

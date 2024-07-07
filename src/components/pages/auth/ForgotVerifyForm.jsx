@@ -12,17 +12,17 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
-export default function ForgotVerifyForm() {
+export default function ForgotVerifyForm({ t }) {
   const push = usePush()
   const params = useSearchParams()
   const email = params.has('email') && params.get('email')
-  const [otp, setotp] = useState('')
+  const [otp, setOtp] = useState('')
 
   const [verifyForgotOTP, { isSuccess, isError, error, isLoading, data }] = useForgotOTPVerifyMutation()
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('OTP Verified Successfully!')
+      toast.success(t.otpVerifiedSuccess)
       push(`/forgot-password/reset-password?id=${data.user}`)
     }
 
@@ -38,7 +38,7 @@ export default function ForgotVerifyForm() {
         </LLink>
       </div>
 
-      <InputOTP pattern={REGEXP_ONLY_DIGITS} value={otp} onChange={value => setotp(value)} maxLength={4}>
+      <InputOTP pattern={REGEXP_ONLY_DIGITS} value={otp} onChange={value => setOtp(value)} maxLength={4}>
         <InputOTPGroup className='gap-2'>
           <InputOTPSlot index={0} className='!rounded-2xl border border-gray-500 shadow-sm p-7 text-3xl' />
           <InputOTPSlot index={1} className='!rounded-2xl border border-gray-500 shadow-sm p-7 text-3xl' />
@@ -53,7 +53,7 @@ export default function ForgotVerifyForm() {
         isLoading={isLoading}
         onClick={() => verifyForgotOTP({ email, code: otp })}
       >
-        Verify
+        {t.verifyButton}
       </Button>
     </div>
   )
