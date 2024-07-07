@@ -13,7 +13,7 @@ export default async function AddCompanyInfo({ params: { lang } }) {
   const dict = await getCompanyInfoDict(lang)
   const t = dict.companyInfo
   return (
-    <div className='overflow-y-auto h-screen bg-primary-foreground'>
+    <div className='bg-primary-foreground'>
       <div className='container py-20'>
         <LLink href='/'>
           <Img src={logo} alt='Inova' className='w-32 h-auto mb-5' />

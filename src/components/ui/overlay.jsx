@@ -8,14 +8,19 @@ export default function Overlay({ isOpen, animationData, text }) {
   const overlayRef = useRef(null)
 
   useEffect(() => {
-    document.documentElement.classList.add('overflow-y-hidden')
     overlayRef.current = document.getElementById('modal-container')
+
+    if (isOpen) {
+      document.documentElement.classList.add('overflow-y-hidden')
+    } else {
+      document.documentElement.classList.remove('overflow-y-hidden')
+    }
 
     return () => {
       document.documentElement.classList.remove('overflow-y-hidden')
       overlayRef.current = null
     }
-  }, [])
+  }, [isOpen])
 
   return isOpen
     ? createPortal(
