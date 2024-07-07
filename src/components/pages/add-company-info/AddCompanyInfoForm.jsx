@@ -19,8 +19,11 @@ export default function AddCompanyInfoForm({ t }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <DnDUpload label={t.companyLogo} accept='image/*' className='max-w-lg mt-10' cb={e => setValue('logo', e)} />
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='bg-background rounded-2xl p-6 mt-5 inline-flex flex-col w-full max-w-xl'
+    >
+      <DnDUpload label={t.companyLogo} accept='image/*' className='max-w-lg' cb={e => setValue('logo', e)} />
 
       <Input
         name='name'
