@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export default function SignupForm() {
+export default function SignupForm({ t }) {
   const {
     register,
     handleSubmit,
@@ -27,7 +27,7 @@ export default function SignupForm() {
   const [showEmailSendComp, setshowEmailSendComp] = useState(false)
 
   const onSubmit = data => {
-    if (!data.checked) return toast.error('Please agree to the terms and conditions')
+    if (!data.checked) return toast.error(t.agreeToTerms)
 
     const allData = {
       name: data.firstName + ' ' + data.lastName,
@@ -43,7 +43,7 @@ export default function SignupForm() {
     if (isSuccess) {
       reset()
       setshowEmailSendComp(true)
-      toast.success('Check your email to verify your account')
+      toast.success(t.checkEmail)
     }
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isSuccess, isError, error, reset])
@@ -54,11 +54,9 @@ export default function SignupForm() {
         <div className='flex flex-col items-center justify-center'>
           <MailCheck size={72} strokeWidth={1} className='text-emerald-500' />
           <Typography variant='h3' className='font-medium text-center mt-5'>
-            Check Your Inbox
+            {t.title}
           </Typography>
-          <p className='font-medium text-text-tartiary text-lg text-balance mt-5 max-w-md'>
-            We have sent you an email to verify your account. Please check your inbox.
-          </p>
+          <p className='font-medium text-text-tartiary text-lg text-balance mt-5 max-w-md'>{t.description}</p>
         </div>
       </div>
     )
@@ -68,8 +66,8 @@ export default function SignupForm() {
       <div className='flex flex-col min-[500px]:flex-row gap-x-3 mt-4'>
         <Input
           name='firstName'
-          placeholder='First Name'
-          label='First Name'
+          placeholder={t.firstName}
+          label={t.firstName}
           register={register}
           errors={errors}
           showLabel
@@ -78,8 +76,8 @@ export default function SignupForm() {
         />
         <Input
           name='lastName'
-          placeholder='Last Name'
-          label='Last Name'
+          placeholder={t.lastName}
+          label={t.lastName}
           register={register}
           errors={errors}
           showLabel
@@ -91,8 +89,8 @@ export default function SignupForm() {
       <Input
         type='email'
         name='email'
-        placeholder='Email Address'
-        label='Email'
+        placeholder={t.emailAddress}
+        label={t.email}
         register={register}
         errors={errors}
         showLabel
@@ -103,7 +101,7 @@ export default function SignupForm() {
         type='password'
         name='password'
         placeholder='********'
-        label='Password'
+        label={t.password}
         register={register}
         errors={errors}
         showLabel
@@ -114,22 +112,22 @@ export default function SignupForm() {
       <div className='flex items-center gap-x-2'>
         <Checkbox id='terms-check' onCheckedChange={e => setValue('checked', e)} />
         <Label className='text-text-tartiary' htmlFor='terms-check'>
-          I agree to all the{' '}
+          {t.agreeTo}
           <a href='#' className='font-medium text-text-secondary'>
-            Terms & Conditions
+            {t.terms}
           </a>
         </Label>
       </div>
 
       <Button variant='black' type='submit' className='w-full mt-5' isLoading={isLoading}>
-        Register
+        {t.register}
       </Button>
 
       <div className='flex flex-wrap items-center justify-center gap-x-1 mt-5'>
-        <p className='text-text-tartiary text-sm'>Already have an account?</p>
+        <p className='text-text-tartiary text-sm'>{t.alreadyHaveAccount}</p>
         <LLink href='/login' className='font-medium text-text'>
           <Button variant='link' className='font-medium underline px-1 text-text-secondary hover:text-sky-600'>
-            Login
+            {t.login}
           </Button>
         </LLink>
       </div>
