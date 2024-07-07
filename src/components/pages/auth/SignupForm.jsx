@@ -1,5 +1,6 @@
 'use client'
 
+import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 
@@ -15,7 +16,7 @@ export default function SignupForm() {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex gap-x-3'>
+      <div className='flex gap-x-3 mt-4'>
         <Input
           name='firstName'
           placeholder='First Name'
@@ -60,6 +61,10 @@ export default function SignupForm() {
         required
         labelClassName='text-left'
       />
+
+      <div className='flex items-center gap-x-2'>
+        <Checkbox label='I agree to the terms and conditions' />
+      </div>
     </form>
   )
 }

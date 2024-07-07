@@ -17,8 +17,7 @@ export default function SignupPage() {
         <Typography variant='h3' className='font-medium'>
           Welcome to Inova!
         </Typography>
-        <p className='text-text-tartiary'>Register now and start your adventure.</p>
-
+        <p className='text-text-tartiary mt-2 mb-8'>Register now and start your adventure.</p>
         <SignupForm />
       </div>
     </main>
