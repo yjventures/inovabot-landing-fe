@@ -33,7 +33,7 @@ export default function SignupForm({ t }) {
       name: data.firstName + ' ' + data.lastName,
       email: data.email.trim().toLowerCase(),
       password: data.password,
-      type: 'user'
+      type: 'admin'
     }
 
     signup(allData)

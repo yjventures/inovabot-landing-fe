@@ -31,8 +31,7 @@ export default function LoginForm({ t }) {
     const allData = {
       email: data.email.trim().toLowerCase(),
       password: data.password,
-      type: 'email',
-      userType: 'user'
+      type: 'email'
     }
 
     login(allData)
@@ -58,7 +57,9 @@ export default function LoginForm({ t }) {
         setCookie('userData', JSON.stringify(userData))
       }
 
-      push('/')
+      console.log(userData)
+
+      // push('/')
     }
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isSuccess, isError, error, reset])
@@ -117,3 +118,5 @@ export default function LoginForm({ t }) {
     </form>
   )
 }
+
+// http://localhost:5173/authenticate/b8cddc4b7b1b773b3897a22d119277df79221a9c4aa30ea36318a58379128c101431a8d0bddf44912682c4f5935001b8bf468d0c6992b228fbe13f4032bd601f526ac9185a2d2b0e9ebe8282c59ba7bc18073dbe74e641624549b533abd27b7119cfce92a956ec9c6fb155dd69b6b37e9f55ba95a39b107d436cfaa555fa4ecf
