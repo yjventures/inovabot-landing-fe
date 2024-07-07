@@ -1,6 +1,6 @@
 import logo from '@/assets/images/ui/logo-white.png'
-import { Img } from '@/components/ui/Img'
-import LLink from '@/components/ui/LLink'
+import { Img } from '@/components/ui/img'
+import LLink from '@/components/ui/llink'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
 import SignupButtons from './SignupButtons'
