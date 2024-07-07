@@ -18,7 +18,7 @@ export default function Hero({ t }) {
           <TagLine>{t.headerTag}</TagLine>
           <Typography
             variant='h1'
-            className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl max-w-full sm:max-w-[75%]'
+            className='text-balance leading-loose pt-8 pb-9 xl:text-6xl max-w-full sm:max-w-[75%]'
           >
             {t.title}
           </Typography>
@@ -35,7 +35,7 @@ export default function Hero({ t }) {
 
           <div className='space-y-2.5'>
             <p className='text-sm font-medium text-text-tartiary'>{t.brandsTitle}</p>
-            <div className='flex flex-wrap items-center gap-x-5 gap-y-3'>
+            <div className='flex flex-wrap items-center gap-x-5 gap-y-4'>
               <Img src={logo1} sizes='120px' alt='logo1' className='w-[102px] h-auto' />
               <Img src={logo2} sizes='120px' alt='logo2' className='w-[102px] h-auto' />
               <Img src={logo3} sizes='120px' alt='logo3' className='w-[102px] h-auto' />

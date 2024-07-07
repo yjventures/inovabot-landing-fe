@@ -19,6 +19,7 @@ export default async function RootLayout({ children, params: { lang } }) {
         <body className={poppins.className}>
           {children}
           <Toaster position='top-center' />
+          <div id='modal-container' />
         </body>
       </ReduxProvider>
     </html>

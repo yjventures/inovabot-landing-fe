@@ -13,7 +13,7 @@ export default function GetStartedCTA({ t }) {
         <div className='w-full md:w-1/2 order-2 md:order-1 pr-5 md:pr-0'>
           <Typography
             variant='h1'
-            className='text-balance leading-loose pt-8 pb-9 text-3xl md:text-4xl lg:text-6xl max-w-full sm:max-w-[75%]'
+            className='text-balance leading-loose pt-8 pb-9 xl:text-6xl max-w-full sm:max-w-[75%]'
           >
             {t.title}
           </Typography>
