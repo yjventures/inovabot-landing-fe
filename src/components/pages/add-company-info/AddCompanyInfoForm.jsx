@@ -4,9 +4,15 @@ import { Button } from '@/components/ui/button'
 import DnDUpload from '@/components/ui/dnd-upload'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import usePush from '@/hooks/usePush'
+import { useAddCompanyInfoMutation } from '@/redux/features/companiesApi'
+import { rtkErrorMesage } from '@/utils/error/errorMessage'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 export default function AddCompanyInfoForm({ t }) {
+  const push = usePush()
   const {
     register,
     handleSubmit,
@@ -14,9 +20,18 @@ export default function AddCompanyInfoForm({ t }) {
     formState: { errors }
   } = useForm()
 
-  const onSubmit = data => {
-    console.log(data)
-  }
+  const [addInfo, { isSuccess, isLoading, isError, error }] = useAddCompanyInfoMutation()
+
+  const onSubmit = data => addInfo(data)
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(t.success)
+      push('/')
+    }
+
+    if (isError) toast.error(rtkErrorMesage(error))
+  }, [isSuccess, isError, error])
 
   return (
     <form
@@ -47,11 +62,22 @@ export default function AddCompanyInfoForm({ t }) {
         className='max-w-lg'
       />
       <Input
+        type='url'
         name='web_url'
         register={register}
         errors={errors}
         label={t.companyWebsite}
         placeholder={t.companyWebsite}
+        required
+        showLabel
+        className='max-w-lg'
+      />
+      <Textarea
+        name='address'
+        register={register}
+        errors={errors}
+        label={t.companyAddress}
+        placeholder={t.companyAddress}
         required
         showLabel
         className='max-w-lg'
@@ -68,7 +94,7 @@ export default function AddCompanyInfoForm({ t }) {
         rows={5}
       />
 
-      <Button type='submit' variant='black' className='w-full max-w-lg'>
+      <Button type='submit' variant='black' className='w-full max-w-lg' isLoading={isLoading}>
         {t.save}
       </Button>
     </form>

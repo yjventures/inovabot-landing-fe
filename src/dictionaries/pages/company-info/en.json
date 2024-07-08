@@ -7,8 +7,10 @@
       "companyName": "Company Name",
       "companyWebsite": "Company Website",
       "companyIndustry": "Industry",
+      "companyAddress": "Address",
       "companyDescription": "Company Description",
-      "save": "Save"
+      "save": "Save",
+      "success": "Company Info Added Successfully!"
     }
   }
 }

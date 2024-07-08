@@ -9,7 +9,7 @@ import { useRef, useState } from 'react'
 import { Button } from './button'
 import Overlay from './overlay'
 
-const DnDUpload = ({ setUploadURL, icon, label, buttonLabel, className, cb = () => {}, ...rest }) => {
+const DnDUpload = ({ setUploadURL = () => {}, icon, label, buttonLabel, className, cb = () => {}, ...rest }) => {
   const [file, setfile] = useState(null)
 
   const [isUploading, setisUploading] = useState(false)
@@ -42,20 +42,22 @@ const DnDUpload = ({ setUploadURL, icon, label, buttonLabel, className, cb = () 
 
     try {
       setisUploading(true)
-      const response = await axios.post(`${API_URL}/upload`, formData, {
+      const response = await axios.post(`${API_URL}/users/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
 
-      if (response?.data?.status) {
+      if (response?.data?.status === 'success') {
         setisUploading(false)
         setUploadURL(response?.data?.uploadedUrl)
         cb(response?.data?.uploadedUrl)
+        inputBtnRef.current.value = ''
       }
     } catch (error) {
       setisUploading(false)
       console.error('Error uploading file', error)
+      inputBtnRef.current.value = ''
     }
   }
 
