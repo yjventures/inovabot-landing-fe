@@ -18,13 +18,18 @@ const aiChatbotDict = {
 }
 
 const contactSupportDict = {
-  en: () => import('./../../dictionaries/pages/benifits/en.json').then(m => m.default),
-  ar: () => import('./../../dictionaries/pages/benifits/ar.json').then(m => m.default)
+  en: () => import('./../../dictionaries/pages/contact-support/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/contact-support/ar.json').then(m => m.default)
 }
 
 const inboundSalesDict = {
   en: () => import('./../../dictionaries/pages/inbound-sales/en.json').then(m => m.default),
   ar: () => import('./../../dictionaries/pages/inbound-sales/ar.json').then(m => m.default)
+}
+
+const benifitsDict = {
+  en: () => import('./../../dictionaries/pages/benifits/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/benifits/ar.json').then(m => m.default)
 }
 
 const authDict = {
@@ -42,5 +47,6 @@ export const getHomepageDict = getDict(homepageDict)
 export const getAiChatbotDict = getDict(aiChatbotDict)
 export const getContactSupportDict = getDict(contactSupportDict)
 export const getInboundSalesDict = getDict(inboundSalesDict)
+export const getBenifitsDict = getDict(benifitsDict)
 export const getAuthDict = getDict(authDict)
 export const getCompanyInfoDict = getDict(companyInfoDict)

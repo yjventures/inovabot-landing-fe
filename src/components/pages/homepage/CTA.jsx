@@ -6,12 +6,12 @@ import Typography from '@/components/ui/typography'
 
 export default function CTA({ t }) {
   return (
-    <section className='w-full py-32 bg-dark-gray overflow-hidden'>
+    <section className='w-full py-32 bg-primary-foreground overflow-hidden'>
       <div className='container flex flex-col items-center justify-center'>
         <TagLine className='uppercase'>{t.tag}</TagLine>
         <Typography
           variant='h2'
-          className='text-balance text-center text-white pt-10 pb-8 leading-loose text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
+          className='text-balance text-center pt-10 pb-8 leading-loose text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
         >
           {t.title}
         </Typography>
