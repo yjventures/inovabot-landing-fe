@@ -25,7 +25,7 @@ export default function NewsLetter({ t }) {
           <div className='flex flex-col gap-y-2'>
             <div className='flex flex-col sm:flex-row items-center gap-x-3 md:gap-x-5 gap-y-3'>
               <Input placeholder={t.placeholder} className='w-full md:w-96' />
-              <Button className='w-full sm:w-auto'>{t.cta}</Button>
+              <Button className='w-full sm:w-auto mb-1'>{t.cta}</Button>
             </div>
             <div className='flex flex-wrap items-center gap-x-1 text-left self-start text-xs font-medium'>
               <p className='text-text-secondary'>{t.privacy}</p>

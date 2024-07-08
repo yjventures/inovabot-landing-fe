@@ -6,9 +6,9 @@ import { Img } from '@/components/ui/img'
 import Typography from '@/components/ui/typography'
 import { cn } from '@/lib/utils'
 
-export default function GetStartedCTA({ t }) {
+export default function GetStartedCTA({ t, className }) {
   return (
-    <section className='py-10 md:py-20 overflow-hidden'>
+    <section className={cn('py-10 md:py-20 overflow-hidden', className)}>
       <div className='container flex flex-col md:flex-row items-center justify-normal md:justify-between gap-x-5 xl:gap-x-10 gap-y-12'>
         <div className='w-full md:w-1/2 order-2 md:order-1 pr-5 md:pr-0'>
           <Typography
