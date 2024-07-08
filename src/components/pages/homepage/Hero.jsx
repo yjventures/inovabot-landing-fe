@@ -16,17 +16,14 @@ export default function Hero({ t }) {
       <div className='pl-5 sm:pl-8 md:pl-12 lg:pl-20 xl:pl-32 flex flex-col md:flex-row items-center justify-normal md:justify-between gap-x-5 xl:gap-x-10 gap-y-12 min-h-dvh'>
         <div className='w-full md:w-1/2 order-2 md:order-1 pr-5 md:pr-0'>
           <TagLine>{t.headerTag}</TagLine>
-          <Typography
-            variant='h1'
-            className='text-balance leading-loose pt-8 pb-9 xl:text-6xl max-w-full sm:max-w-[75%]'
-          >
+          <Typography variant='h1' className='text-balance leading-loose pt-8 pb-9 xl:text-6xl'>
             {t.title}
           </Typography>
           <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
             {t.description}
           </Typography>
           <div className={cn('flex items-center gap-x-4 pt-6 pb-10', { 'flex-col gap-y-3 items-start': t.cta2 })}>
-            <div className='flex items-center gap-x-4'>
+            <div className='flex flex-wrap items-center gap-x-4'>
               <Button>{t.cta}</Button>
               {t.cta2 ? <Button variant='outline'>{t.cta2}</Button> : null}
             </div>

@@ -32,6 +32,11 @@ const benifitsDict = {
   ar: () => import('./../../dictionaries/pages/benifits/ar.json').then(m => m.default)
 }
 
+const pricingDict = {
+  en: () => import('./../../dictionaries/pages/pricing/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/pricing/ar.json').then(m => m.default)
+}
+
 const authDict = {
   en: () => import('./../../dictionaries/pages/auth/en.json').then(m => m.default),
   ar: () => import('./../../dictionaries/pages/auth/ar.json').then(m => m.default)
@@ -48,5 +53,6 @@ export const getAiChatbotDict = getDict(aiChatbotDict)
 export const getContactSupportDict = getDict(contactSupportDict)
 export const getInboundSalesDict = getDict(inboundSalesDict)
 export const getBenifitsDict = getDict(benifitsDict)
+export const getPricingDict = getDict(pricingDict)
 export const getAuthDict = getDict(authDict)
 export const getCompanyInfoDict = getDict(companyInfoDict)
