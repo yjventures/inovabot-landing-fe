@@ -17,7 +17,7 @@ const aiChatbotDict = {
   ar: () => import('./../../dictionaries/pages/ai-chatbot/ar.json').then(m => m.default)
 }
 
-const benifitsDict = {
+const contactSupportDict = {
   en: () => import('./../../dictionaries/pages/benifits/en.json').then(m => m.default),
   ar: () => import('./../../dictionaries/pages/benifits/ar.json').then(m => m.default)
 }
@@ -40,7 +40,7 @@ const companyInfoDict = {
 export const getCommonDict = getDict(commonDict)
 export const getHomepageDict = getDict(homepageDict)
 export const getAiChatbotDict = getDict(aiChatbotDict)
-export const getBenifitsDict = getDict(benifitsDict)
+export const getContactSupportDict = getDict(contactSupportDict)
 export const getInboundSalesDict = getDict(inboundSalesDict)
 export const getAuthDict = getDict(authDict)
 export const getCompanyInfoDict = getDict(companyInfoDict)

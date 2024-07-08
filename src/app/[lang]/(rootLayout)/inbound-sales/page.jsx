@@ -1,4 +1,4 @@
-import GetStartedCTA from '@/components/pages/benifits/GetStartedCTA'
+import GetStartedCTA from '@/components/pages/contact-support/GetStartedCTA'
 import {
   AskAgent,
   Clients,
