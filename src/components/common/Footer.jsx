@@ -1,4 +1,5 @@
 import logo from '@/assets/images/ui/logo-white.png'
+import { NewsLetter } from '../pages/homepage'
 import { Img } from '../ui/img'
 import LLink from '../ui/llink'
 
@@ -15,6 +16,7 @@ const footerLinks = [
 export default function Footer({ t }) {
   return (
     <footer className='bg-dark-gray py-32'>
+      <NewsLetter t={t.newsLetter} />
       <div className='flex flex-col items-center justify-center gap-y-8'>
         <Img src={logo} alt='Inova' className='w-48 h-auto' />
 

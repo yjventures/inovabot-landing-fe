@@ -7,7 +7,6 @@ import {
   Description2,
   Description3,
   Hero,
-  NewsLetter,
   PricingComparison,
   PricingPlans
 } from '@/components/pages/homepage'
@@ -31,7 +30,6 @@ export default async function InboundSalesPage({ params: { lang } }) {
       <CTA t={homeT.cta} />
       <PricingPlans t={homeT.pricingPlans} />
       <PricingComparison t={homeT.pricingComparison} />
-      <NewsLetter t={homeT.newsLetter} />
     </main>
   )
 }

@@ -9,7 +9,7 @@ import Typography from '@/components/ui/typography'
 
 export default function NewsLetter({ t }) {
   return (
-    <section className='py-32 bg-dark-gray'>
+    <section className='pb-32 pt-10 bg-dark-gray'>
       <div className='container'>
         <div className='flex flex-col items-center text-center justify-center py-16 sm:py-20 md:py-24 xl:py-28 px-8 sm:px-12 md:px-12 lg:px-14 xl:px-16 rounded-2xl bg-white relative overflow-hidden z-10'>
           <Typography

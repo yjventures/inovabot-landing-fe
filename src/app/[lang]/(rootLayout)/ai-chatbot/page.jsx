@@ -4,7 +4,6 @@ import {
   Description2,
   Description3,
   Hero,
-  NewsLetter,
   PricingComparison,
   PricingPlans,
   Testimonials
@@ -29,7 +28,6 @@ export default async function AiChatbotPage({ params: { lang } }) {
       <PricingPlans t={homeT.pricingPlans} />
       <PricingComparison t={homeT.pricingComparison} />
       <Testimonials t={homeT.testimonials} />
-      <NewsLetter t={homeT.newsLetter} />
     </main>
   )
 }

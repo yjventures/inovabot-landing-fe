@@ -9,7 +9,6 @@ import {
   Features,
   Hero,
   Marquee,
-  NewsLetter,
   PricingComparison,
   PricingPlans,
   Testimonials
@@ -37,7 +36,6 @@ export default async function Home({ params: { lang } }) {
       <PricingPlans t={t.pricingPlans} />
       <PricingComparison t={t.pricingComparison} />
       <Testimonials t={t.testimonials} />
-      <NewsLetter t={t.newsLetter} />
     </main>
   )
 }
