@@ -1,7 +1,11 @@
-import BenifitsFeatures from '@/components/pages/contact-support/BenifitsFeatures'
+import ContactSupportFeatures from '@/components/pages/contact-support/ContactSupportFeatures'
 import GetStartedCTA from '@/components/pages/contact-support/GetStartedCTA'
 import { Hero, Testimonials } from '@/components/pages/homepage'
 import { getContactSupportDict, getHomepageDict } from '@/utils/i18n/get-dictionary'
+
+export const metadata = {
+  title: 'Contact Support | Inova'
+}
 
 export default async function ContactSupportPage({ params: { lang } }) {
   const t = await getContactSupportDict(lang)
@@ -9,7 +13,7 @@ export default async function ContactSupportPage({ params: { lang } }) {
   return (
     <main>
       <Hero t={t.hero} />
-      <BenifitsFeatures t={t.features} />
+      <ContactSupportFeatures t={t.features} />
       <GetStartedCTA t={t.getStartedCTA} />
       <Testimonials t={homeT.testimonials} />
     </main>

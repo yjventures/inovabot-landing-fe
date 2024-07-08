@@ -41,35 +41,39 @@ const testimonialsData = [
   }
 ]
 
-export default function Testimonials({ t }) {
+export default function Testimonials({ t, showTitle = true, className }) {
   return (
-    <section className='w-full min-[1400px]:max-w-[1400px] px-0 md:px-8 py-20 mx-auto'>
-      <div className='flex flex-col items-center justify-center text-center text-balance'>
-        <TagLine variant='light' className='uppercase'>
-          {t.tag}
-        </TagLine>
-        <Typography
-          variant='h2'
-          className='text-balance leading-loose pt-6 pb-5 text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
-        >
-          {t.title}
-        </Typography>
-        <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
-          {t.description}
-        </Typography>
-      </div>
+    <section className={className}>
+      <div className='w-full min-[1400px]:max-w-[1400px] px-0 md:px-8 py-20 mx-auto'>
+        {showTitle ? (
+          <div className='flex flex-col items-center justify-center text-center text-balance'>
+            <TagLine variant='light' className='uppercase'>
+              {t.tag}
+            </TagLine>
+            <Typography
+              variant='h2'
+              className='text-balance leading-loose pt-6 pb-5 text-2xl md:text-3xl lg:text-5xl max-w-full sm:max-w-[75%]'
+            >
+              {t.title}
+            </Typography>
+            <Typography variant='description' className='max-w-full sm:max-w-[75%]'>
+              {t.description}
+            </Typography>
+          </div>
+        ) : null}
 
-      <Carousel className='mt-10' opts={{ loop: true }}>
-        <CarouselContent>
-          {testimonialsData?.map(testimonial => (
-            <CarouselItem key={testimonial.id}>
-              <Testimonial testimonial={testimonial} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious variant='ghost' className='ml-14' />
-        <CarouselNext variant='ghost' className='mr-14' />
-      </Carousel>
+        <Carousel className='mt-10' opts={{ loop: true }}>
+          <CarouselContent>
+            {testimonialsData?.map(testimonial => (
+              <CarouselItem key={testimonial.id}>
+                <Testimonial testimonial={testimonial} />
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious variant='ghost' className='ml-14' />
+          <CarouselNext variant='ghost' className='mr-14' />
+        </Carousel>
+      </div>
     </section>
   )
 }
