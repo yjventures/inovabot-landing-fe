@@ -8,7 +8,7 @@ import PricingCard from './PricingCard'
 
 export default function PricingPlans({ t }) {
   const frequencies = [
-    { value: 'monthly', label: t.molnthly, priceSuffix: '/month' },
+    { value: 'monthly', label: t.monthly, priceSuffix: '/month' },
     { value: 'annually', label: t.annually, priceSuffix: '/year' }
   ]
 
