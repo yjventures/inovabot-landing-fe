@@ -15,8 +15,15 @@ const companiesApi = api.injectEndpoints({
       query: () => ({
         url: '/packages/get-all'
       })
+    }),
+    subscribeToPackage: build.mutation({
+      query: payload => ({
+        url: '/subscription/create',
+        method: 'POST',
+        body: payload
+      })
     })
   })
 })
 
-export const { useAddCompanyInfoMutation, useGetAllSubscriptionsQuery } = companiesApi
+export const { useAddCompanyInfoMutation, useGetAllSubscriptionsQuery, useSubscribeToPackageMutation } = companiesApi

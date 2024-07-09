@@ -1,13 +1,18 @@
 import { Button } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
+import { useSubscribeToPackageMutation } from '@/redux/features/companiesApi'
+import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { CheckIcon } from 'lucide-react'
+import { redirect } from 'next/navigation'
+import { useEffect } from 'react'
+import toast from 'react-hot-toast'
 
 function transformFeatures(features) {
   return features.reduce((acc, feature) => {
-    if (feature.type === 'Number') {
-      acc.push(`${feature.feature}: ${feature.value}`)
+    if (feature.type === 'String') {
+      acc.push(`${feature.name}: ${feature.value}`)
     } else if (feature.type === 'Boolean' && feature.value) {
-      acc.push(feature.feature)
+      acc.push(feature.name)
     }
     return acc
   }, [])
@@ -15,6 +20,22 @@ function transformFeatures(features) {
 
 export default function PricingCard({ tier, frequency }) {
   const features = transformFeatures(tier?.features)
+
+  const [subscribe, { isLoading, isSuccess, isError, error, data }] = useSubscribeToPackageMutation()
+
+  const subscribeFn = () => {
+    const packageData = tier.price[frequency.value]
+    subscribe({ price_id: packageData.stripe_id, package_id: packageData._id })
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      redirect(data?.stripeSession)
+    }
+
+    if (isError) toast.error(rtkErrorMesage(error))
+  }, [isSuccess, isError, error])
+
   return (
     <div key={tier?.id} className='rounded-lg p-8 text-center bg-primary-foreground'>
       <Typography variant='h4' id={tier?.id}>
@@ -28,7 +49,9 @@ export default function PricingCard({ tier, frequency }) {
           <span className='text-sm font-semibold leading-6 text-text-secondary'>{frequency.priceSuffix}</span>
         </p>
       </div>
-      <Button className='w-full mt-5'>Get Started Now</Button>
+      <Button className='w-full mt-5' onClick={subscribeFn} isLoading={isLoading}>
+        Get Started Now
+      </Button>
       <ul role='list' className='mt-8 space-y-3 text-sm leading-6 text-text-secondary'>
         {features.map(feature => (
           <li key={feature} className='flex items-start gap-x-3 text-xs text-left'>

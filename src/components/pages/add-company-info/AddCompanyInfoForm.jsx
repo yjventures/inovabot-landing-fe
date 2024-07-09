@@ -27,7 +27,7 @@ export default function AddCompanyInfoForm({ t }) {
   useEffect(() => {
     if (isSuccess) {
       toast.success(t.success)
-      push('/')
+      push('/subscribe')
     }
 
     if (isError) toast.error(rtkErrorMesage(error))

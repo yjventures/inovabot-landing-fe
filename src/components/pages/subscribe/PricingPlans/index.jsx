@@ -32,7 +32,9 @@ export default function PricingPlans() {
       </div>
 
       <div className='isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4'>
-        {isLoading ? <Skeleton className='rounded-lg w-full h-96' /> : null}
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className='rounded-lg w-full h-96' />)
+          : null}
         {isSuccess
           ? data?.packages?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
           : null}
