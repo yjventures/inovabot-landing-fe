@@ -1,14 +1,13 @@
 'use client'
 
-import TagLine from '@/components/common/TagLine'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import Typography from '@/components/ui/typography'
 import { useGetAllSubscriptionsQuery } from '@/redux/features/companiesApi'
 import { useState } from 'react'
-import PricingCard from './PricingCard'
+import PricingCard from '../../homepage/pricingPlans/PricingCard'
 
-export default function PricingPlans({ t }) {
+export default function PricingPlans() {
   const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery()
   const frequencies = [
     { value: 'monthly', priceSuffix: '/month' },
@@ -16,19 +15,8 @@ export default function PricingPlans({ t }) {
   ]
 
   const [frequency, setFrequency] = useState(frequencies[0])
-
   return (
     <div className='pt-20 pb-10 container'>
-      <div className='mx-auto max-w-4xl text-center'>
-        <TagLine variant='light'>{t.tag}</TagLine>
-        <Typography
-          variant='h2'
-          className='text-balance text-center leading-loose py-5 text-2xl md:text-3xl lg:text-5xl'
-        >
-          {t.title}
-        </Typography>
-      </div>
-
       <div className='flex items-center justify-center'>
         <Typography variant='description' className='text-sm sm:text-xl'>
           Billed Monthly

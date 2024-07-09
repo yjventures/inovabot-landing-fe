@@ -2,23 +2,35 @@ import { Button } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
 import { CheckIcon } from 'lucide-react'
 
+function transformFeatures(features) {
+  return features.reduce((acc, feature) => {
+    if (feature.type === 'Number') {
+      acc.push(`${feature.feature}: ${feature.value}`)
+    } else if (feature.type === 'Boolean' && feature.value) {
+      acc.push(feature.feature)
+    }
+    return acc
+  }, [])
+}
+
 export default function PricingCard({ tier, frequency }) {
+  const features = transformFeatures(tier?.features)
   return (
-    <div key={tier.id} className='rounded-lg p-8 text-center bg-primary-foreground'>
-      <Typography variant='h4' id={tier.id}>
-        {tier.name}
+    <div key={tier?.id} className='rounded-lg p-8 text-center bg-primary-foreground'>
+      <Typography variant='h4' id={tier?.id}>
+        {tier?.name}
       </Typography>
-      <p className='mt-4 text-sm leading-6 text-text-tartiary'>{tier.description}</p>
+      <p className='mt-4 text-sm leading-6 text-text-tartiary'>{tier?.description}</p>
       <div className='flex items-center justify-center'>
         <p className='mt-6 flex items-baseline gap-x-1'>
           <span className='mb-auto text-xl font-bold -translate-y-2 text-text'>$</span>
-          <span className='text-5xl font-bold tracking-tight text-text'>{tier.price[frequency.value]}</span>
+          <span className='text-5xl font-bold tracking-tight text-text'>{tier?.price[frequency.value].price}</span>
           <span className='text-sm font-semibold leading-6 text-text-secondary'>{frequency.priceSuffix}</span>
         </p>
       </div>
       <Button className='w-full mt-5'>Get Started Now</Button>
       <ul role='list' className='mt-8 space-y-3 text-sm leading-6 text-text-secondary'>
-        {tier.features.map(feature => (
+        {features.map(feature => (
           <li key={feature} className='flex items-start gap-x-3 text-xs text-left'>
             <div className='bg-primary p-0.5 rounded-full'>
               <CheckIcon className='size-3 flex-none text-white' aria-hidden='true' />
