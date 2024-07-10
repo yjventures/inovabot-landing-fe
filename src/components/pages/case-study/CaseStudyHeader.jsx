@@ -3,7 +3,7 @@ import Typography from '@/components/ui/typography'
 
 export default function CaseStudyHeader({ t }) {
   return (
-    <section className='bg-primary-foreground -mt-20 py-20 md:py-32'>
+    <section className='bg-primary-foreground py-10 md:pt-12 md:pb-32'>
       <div className='container flex flex-col items-center justify-center'>
         <TagLine className='uppercase'>{t.tag}</TagLine>
         <Typography

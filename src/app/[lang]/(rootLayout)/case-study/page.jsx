@@ -1,3 +1,4 @@
+import CaseStudyAbout from '@/components/pages/case-study/CaseStudyAbout'
 import CaseStudyHeader from '@/components/pages/case-study/CaseStudyHeader'
 import { getCaseStudyDict } from '@/utils/i18n/get-dictionary'
 
@@ -10,6 +11,7 @@ export default async function CaseStudyPage({ params: { lang } }) {
   return (
     <main>
       <CaseStudyHeader t={t.header} />
+      <CaseStudyAbout t={t.about} />
     </main>
   )
 }
