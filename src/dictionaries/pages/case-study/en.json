@@ -52,5 +52,11 @@
       { "id": 3, "title": "50%", "description": "increase in customer satisfaction" },
       { "id": 4, "title": "25%", "description": "reduction in customer support costs" }
     ]
+  },
+  "getStartedCTA": {
+    "title": "Summary",
+    "description": "Inova AI Chatbots revolutionized XYZ’s online presence, driving significant improvements in lead generation and conversion rates. The personalized interactions and efficient customer support provided by the chatbot led to higher customer satisfaction and business growth.",
+    "cta": "Sign Up for Free",
+    "cta2": "Contact Us"
   }
 }
