@@ -44,6 +44,8 @@ const Button = React.forwardRef(
       disabled = false,
       isLoading = false,
       asChild = false,
+      icon,
+      iconPosition = 'left',
       ...props
     },
     ref
@@ -57,7 +59,10 @@ const Button = React.forwardRef(
         disabled={disabled || isLoading}
         {...props}
       >
-        {children} {isLoading ? <Spinner className='animate-spin ml-2 size-5' /> : null}
+        {icon && iconPosition === 'left' ? <span className='mr-2 [&>svg]:size-4'>{icon}</span> : null}
+        {children}
+        {icon && iconPosition === 'right' ? <span className='ml-2 [&>svg]:size-4'>{icon}</span> : null}
+        {isLoading ? <Spinner className='animate-spin ml-2 size-5' /> : null}
       </Comp>
     )
   }
@@ -65,4 +70,3 @@ const Button = React.forwardRef(
 Button.displayName = 'Button'
 
 export { Button, buttonVariants }
-
