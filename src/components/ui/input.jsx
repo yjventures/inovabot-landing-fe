@@ -8,6 +8,7 @@ import { Label } from './label'
 const Input = forwardRef(
   (
     {
+      containerClassName,
       className,
       type,
       icon,
@@ -26,7 +27,7 @@ const Input = forwardRef(
     const [showPassword, setshowPassword] = useState(false)
     const inputProps = register ? { ...register(name, { required, ...hookFormConfig }), ...props } : { ...props }
     return (
-      <div className={cn({ 'flex flex-col gap-y-2': label && showLabel })}>
+      <div className={cn(containerClassName, { 'flex flex-col gap-y-2': label && showLabel })}>
         {label && showLabel && (
           <Label className={cn('text-text-tartiary', labelClassName)}>
             {label}
