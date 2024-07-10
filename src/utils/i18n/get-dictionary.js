@@ -37,6 +37,11 @@ const pricingDict = {
   ar: () => import('./../../dictionaries/pages/pricing/ar.json').then(m => m.default)
 }
 
+const caseStudyDict = {
+  en: () => import('./../../dictionaries/pages/case-study/en.json').then(m => m.default),
+  ar: () => import('./../../dictionaries/pages/case-study/ar.json').then(m => m.default)
+}
+
 const authDict = {
   en: () => import('./../../dictionaries/pages/auth/en.json').then(m => m.default),
   ar: () => import('./../../dictionaries/pages/auth/ar.json').then(m => m.default)
@@ -59,6 +64,7 @@ export const getContactSupportDict = getDict(contactSupportDict)
 export const getInboundSalesDict = getDict(inboundSalesDict)
 export const getBenifitsDict = getDict(benifitsDict)
 export const getPricingDict = getDict(pricingDict)
+export const getCaseStudyDict = getDict(caseStudyDict)
 export const getAuthDict = getDict(authDict)
 export const getCompanyInfoDict = getDict(companyInfoDict)
 export const getSubscribeDict = getDict(subscribeDict)
