@@ -21,18 +21,22 @@
     "description": "We Integrated Inova AI chatbot with XYZ’s CRM and marketing platforms, Conducted A/B testing to optimize chatbot interactions & Trained the chatbot using historical customer data.",
     "cards": [
       {
+        "id": 1,
         "title": "Engage visitors 24/7",
         "description": "Stay connected with your team and make quick decisions wherever you are."
       },
       {
+        "id": 2,
         "title": "Automate lead capture with interactive forms",
         "description": "A tool that lets you build a dream website even if you know nothing about web design or programming."
       },
       {
+        "id": 3,
         "title": "Provide instant responses to queries",
         "description": "Get a complete sales dashboard in the cloud. See activity, revenue and social metrics all in one place."
       },
       {
+        "id": 4,
         "title": "Offer personalized product recommendations",
         "description": "The first business platform to bring together all of your products from one place."
       }
