@@ -1,13 +1,40 @@
+/* eslint-disable react/no-children-prop */
 'use client'
 
-import logo from '@/assets/images/ui/logo.png'
-import { Img } from '@/components/ui/img'
-import LLink from '@/components/ui/llink'
 import { API_URL } from '@/configs'
-import { useEffect, useState } from 'react'
+import { XhrSource } from '@/utils/form/eventStream'
+import { useEffect, useMemo, useState } from 'react'
+import Markdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import rehypeRaw from 'rehype-raw'
+import remarkGfm from 'remark-gfm'
+
+const formatTextToMarkdown = text => {
+  // Replace new lines with double new lines to make markdown line breaks
+  let formattedText = text.replace(/\n/g, '\n\n')
+
+  // Escape backticks to prevent code block issues
+  formattedText = formattedText.replace(/`/g, '\\`')
+
+  // Handle indentation for code blocks (assuming the text marks code blocks with ```)
+  formattedText = formattedText.replace(/```/g, '```\n')
+
+  return formattedText
+}
 
 export default function Bot({ id }) {
-  const [data, setdata] = useState('')
+  const [data, setData] = useState('')
+
+  const prompt = useMemo(
+    () => ({
+      thread_id: id,
+      message: 'Write a js function that can remove duplicate values from an array',
+      instructions: 'You are a genius programmer and professor at MIT'
+    }),
+    [id]
+  )
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -17,11 +44,7 @@ export default function Bot({ id }) {
             Accept: 'application/json, text/plain, */*',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({
-            thread_id: id,
-            message: 'Write a js function that can remove duplicate values from an array',
-            instructions: 'You are a genius programmer and professor at MIT'
-          })
+          body: JSON.stringify(prompt)
         })
 
         if (!response.ok) throw new Error('Network response was not ok')
@@ -35,21 +58,13 @@ export default function Bot({ id }) {
           if (result.done) break
           if (result.value) {
             const chunk = decoder.decode(result.value, { stream: true })
-            console.log(chunk)
+            const text = chunk
+              .split('\n')
+              .map(line => line.replace(/^data: /, '').replace(/(^"|"$)/g, ''))
+              .join('')
 
-            // Remove the 'data: ' prefix, quotes, and trim whitespace
-            const lines = chunk.split('\n').map(line =>
-              line
-                .replace(/^data: /, '')
-                .replace(/(^"|"$)/g, '')
-                .trim()
-            )
-
-            lines.forEach(line => {
-              if (line) {
-                setdata(prev => prev + line + ' ') // This will print each cleaned line
-              }
-            })
+            // Incrementally update the data
+            setData(prevData => prevData + text)
           }
         }
       } catch (error) {
@@ -57,39 +72,60 @@ export default function Bot({ id }) {
       }
     }
 
-    fetchData()
-  }, [id])
+    //fetchData()
+  }, [id, prompt])
+
+  useEffect(() => {
+    ;(async () => {
+      const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(prompt)
+      })
+
+      xs.addEventListener('error', e => {
+        //outputEl.textContent += 'ERROR: ' + e.reason
+        console.log(e.reason)
+      })
+
+      xs.addEventListener('close', e => {
+        console.log('DONE')
+        // outputEl.textContent += '\nDONE'
+      })
+
+      xs.addEventListener('message', e => {
+        const msg = JSON.parse(e.data)
+
+        setData(prev => prev + msg)
+        console.log(msg)
+        //outputEl.textContent += msg.content
+      })
+    })()
+  }, [id, prompt])
 
   return (
-    <div>
-      <nav className='fixed left-0 top-0 right-0 w-full h-20'>
-        <LLink href='/' className='mb-5'>
-          <Img src={logo} alt='Inova' className='w-32 h-auto' />
-        </LLink>
-      </nav>
-
-      {/* <Markdown
+    <div className='container py-10'>
+      <Markdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
-          code({ node, inline, className, data, ...props }) {
+          code({ node, inline, className, children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
 
             return !inline && match ? (
               <SyntaxHighlighter style={dracula} PreTag='div' language={match[1]} {...props}>
-                {String(data).replace(/\n$/, '')}
+                {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
               <code className={className} {...props}>
-                {data}
+                {children}
               </code>
             )
           }
         }}
       >
-        {markdown}
-      </Markdown> */}
-      <p>{data}</p>
+        {data}
+      </Markdown>
     </div>
   )
 }
