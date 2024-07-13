@@ -76,7 +76,7 @@ export default function Bot({ id }) {
   }, [id, prompt])
 
   useEffect(() => {
-    ;(async () => {
+    const fetchData = async () => {
       const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -100,12 +100,14 @@ export default function Bot({ id }) {
         console.log(msg)
         //outputEl.textContent += msg.content
       })
-    })()
-  }, [id, prompt])
+    }
+    fetchData()
+  }, [id, prompt, data])
 
   return (
     <div className='container py-10'>
       <Markdown
+        className='prose w-full'
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw]}
         components={{
@@ -117,7 +119,10 @@ export default function Bot({ id }) {
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
-              <code className={className} {...props}>
+              <code
+                className='after:hidden before:hidden bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                {...props}
+              >
                 {children}
               </code>
             )
