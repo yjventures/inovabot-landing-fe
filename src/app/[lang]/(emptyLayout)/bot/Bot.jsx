@@ -4,25 +4,13 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import MarkdownRenderer from '@/components/ui/markdown-renderer'
+import { Skeleton } from '@/components/ui/skeleton'
 import { API_URL } from '@/configs'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { XhrSource } from '@/utils/form/eventStream'
 import { Send } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-
-const formatTextToMarkdown = text => {
-  // Replace new lines with double new lines to make markdown line breaks
-  let formattedText = text.replace(/\n/g, '\n\n')
-
-  // Escape backticks to prevent code block issues
-  formattedText = formattedText.replace(/`/g, '\\`')
-
-  // Handle indentation for code blocks (assuming the text marks code blocks with ```)
-  formattedText = formattedText.replace(/```/g, '```\n')
-
-  return formattedText
-}
 
 export default function Bot({ id }) {
   const [message, setMessage] = useState('')
@@ -94,32 +82,44 @@ export default function Bot({ id }) {
       })
     })
 
-    setMessage('') // Clear the input
+    setMessage('')
   }
 
   return (
     <main className='bg-[#F9F9FC] relative h-screen'>
       <div className='px-5 pt-10 pb-5 h-[calc(100vh-90px)] overflow-y-auto'>
         <div className='max-w-6xl mx-auto'>
-          {tempMessages?.map(msg => (
-            <div
-              key={msg.id}
-              className={cn('flex', {
-                'pl-20 justify-end': msg.role === 'user',
-                'pr-20 justify-start': msg.role === 'assistant'
-              })}
-            >
-              <MarkdownRenderer
-                className={cn('max-w-3xl my-3 p-2 text-sm border rounded-lg', {
-                  'ml-auto bg-white rounded-ee-none': msg.role === 'user',
-                  'mr-auto bg-[#F0F1F3] rounded-es-none': msg.role === 'assistant'
-                })}
-                codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
-              >
-                {msg.content[0].text.value}
-              </MarkdownRenderer>
+          {isLoading ? (
+            <div className='flex flex-col my-3 gap-y-5'>
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className={cn('flex', { 'justify-end': index % 2, 'justify-start': !index % 2 })}>
+                  <Skeleton className='w-2/3 h-40 mb-2' />
+                </div>
+              ))}
             </div>
-          ))}
+          ) : null}
+
+          {isSuccess
+            ? tempMessages?.map(msg => (
+                <div
+                  key={msg.id}
+                  className={cn('flex', {
+                    'pl-20 justify-end': msg.role === 'user',
+                    'pr-20 justify-start': msg.role === 'assistant'
+                  })}
+                >
+                  <MarkdownRenderer
+                    className={cn('max-w-3xl my-3 p-2 text-sm border rounded-lg', {
+                      'ml-auto bg-white rounded-ee-none': msg.role === 'user',
+                      'mr-auto bg-[#F0F1F3] rounded-es-none': msg.role === 'assistant'
+                    })}
+                    codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                  >
+                    {msg.content[0].text.value}
+                  </MarkdownRenderer>
+                </div>
+              ))
+            : null}
           <div ref={endOfMessagesRef} />
         </div>
       </div>
