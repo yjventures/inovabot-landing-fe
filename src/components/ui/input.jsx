@@ -34,7 +34,7 @@ const Input = forwardRef(
             {required ? '*' : null}
           </Label>
         )}
-        <div className='pb-1'>
+        <div className=''>
           <div className='relative'>
             <input
               type={type === 'password' ? (showPassword ? 'text' : 'password') : type}
