@@ -3,17 +3,13 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import MarkdownRenderer from '@/components/ui/markdown-renderer'
 import { API_URL } from '@/configs'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { XhrSource } from '@/utils/form/eventStream'
 import { Send } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import Markdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import rehypeRaw from 'rehype-raw'
-import remarkGfm from 'remark-gfm'
 
 const formatTextToMarkdown = text => {
   // Replace new lines with double new lines to make markdown line breaks
@@ -29,7 +25,6 @@ const formatTextToMarkdown = text => {
 }
 
 export default function Bot({ id }) {
-  const [data, setData] = useState('')
   const [message, setMessage] = useState('')
   const [tempMessages, setTempMessages] = useState([]) // For temporary messages
   const endOfMessagesRef = useRef(null) // Ref for the last message element
@@ -99,8 +94,6 @@ export default function Bot({ id }) {
       })
     })
 
-    // xs.send()
-
     setMessage('') // Clear the input
   }
 
@@ -109,35 +102,22 @@ export default function Bot({ id }) {
       <div className='px-5 pt-10 pb-5 h-[calc(100vh-90px)] overflow-y-auto'>
         <div className='max-w-6xl mx-auto'>
           {tempMessages?.map(msg => (
-            <div key={msg.id} className={cn({ 'ml-20': msg.role === 'user', 'mr-20': msg.role === 'assistant' })}>
-              <Markdown
-                className={cn('w-full max-w-3xl prose my-3 p-2 text-sm border rounded-lg', {
+            <div
+              key={msg.id}
+              className={cn('flex', {
+                'pl-20 justify-end': msg.role === 'user',
+                'pr-20 justify-start': msg.role === 'assistant'
+              })}
+            >
+              <MarkdownRenderer
+                className={cn('max-w-3xl my-3 p-2 text-sm border rounded-lg', {
                   'ml-auto bg-white rounded-ee-none': msg.role === 'user',
                   'mr-auto bg-[#F0F1F3] rounded-es-none': msg.role === 'assistant'
                 })}
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  code({ node, inline, className, children, ...props }) {
-                    const match = /language-(\w+)/.exec(className || '')
-
-                    return !inline && match ? (
-                      <SyntaxHighlighter style={dracula} PreTag='div' language={match[1]} {...props}>
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
-                    ) : (
-                      <code
-                        className='after:hidden before:hidden bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
-                        {...props}
-                      >
-                        {children}
-                      </code>
-                    )
-                  }
-                }}
+                codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
               >
                 {msg.content[0].text.value}
-              </Markdown>
+              </MarkdownRenderer>
             </div>
           ))}
           <div ref={endOfMessagesRef} />
