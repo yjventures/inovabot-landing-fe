@@ -2,8 +2,10 @@
 'use client'
 
 import { API_URL } from '@/configs'
+import { cn } from '@/lib/utils'
+import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { XhrSource } from '@/utils/form/eventStream'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import Markdown from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism'
@@ -26,111 +28,124 @@ const formatTextToMarkdown = text => {
 export default function Bot({ id }) {
   const [data, setData] = useState('')
 
+  const [message, setmessage] = useState('')
+
   const prompt = useMemo(
     () => ({
       thread_id: id,
-      message: 'Write a js function that can remove duplicate values from an array',
+      message,
       instructions: 'You are a genius programmer and professor at MIT'
     }),
-    [id]
+    [id, message]
   )
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${API_URL}/threads/run/${id}`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json, text/plain, */*',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(prompt)
-        })
+  const { data: messagesList, isLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
-        if (!response.ok) throw new Error('Network response was not ok')
+  console.log(messagesList)
 
-        const reader = response.body.getReader()
-        const decoder = new TextDecoder()
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/threads/run/${id}`, {
+  //         method: 'POST',
+  //         headers: {
+  //           Accept: 'application/json, text/plain, */*',
+  //           'Content-Type': 'application/json'
+  //         },
+  //         body: JSON.stringify(prompt)
+  //       })
 
-        let result
-        while (true) {
-          result = await reader.read()
-          if (result.done) break
-          if (result.value) {
-            const chunk = decoder.decode(result.value, { stream: true })
-            const text = chunk
-              .split('\n')
-              .map(line => line.replace(/^data: /, '').replace(/(^"|"$)/g, ''))
-              .join('')
+  //       if (!response.ok) throw new Error('Network response was not ok')
 
-            // Incrementally update the data
-            setData(prevData => prevData + text)
-          }
-        }
-      } catch (error) {
-        console.error('Fetch error: ', error)
-      }
-    }
+  //       const reader = response.body.getReader()
+  //       const decoder = new TextDecoder()
 
-    //fetchData()
-  }, [id, prompt])
+  //       let result
+  //       while (true) {
+  //         result = await reader.read()
+  //         if (result.done) break
+  //         if (result.value) {
+  //           const chunk = decoder.decode(result.value, { stream: true })
+  //           const text = chunk
+  //             .split('\n')
+  //             .map(line => line.replace(/^data: /, '').replace(/(^"|"$)/g, ''))
+  //             .join('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(prompt)
-      })
+  //           // Incrementally update the data
+  //           setData(prevData => prevData + text)
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error('Fetch error: ', error)
+  //     }
+  //   }
 
-      xs.addEventListener('error', e => {
-        //outputEl.textContent += 'ERROR: ' + e.reason
-        console.log(e.reason)
-      })
+  //   //fetchData()
+  // }, [id, prompt])
 
-      xs.addEventListener('close', e => {
-        console.log('DONE')
-        // outputEl.textContent += '\nDONE'
-      })
+  const fetchData = async () => {
+    const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(prompt)
+    })
 
-      xs.addEventListener('message', e => {
-        const msg = JSON.parse(e.data)
+    xs.addEventListener('error', e => {
+      //outputEl.textContent += 'ERROR: ' + e.reason
+      console.log(e.reason)
+    })
 
-        setData(prev => prev + msg)
-        console.log(msg)
-        //outputEl.textContent += msg.content
-      })
-    }
-    fetchData()
-  }, [id, prompt, data])
+    xs.addEventListener('close', e => {
+      console.log('DONE')
+      // outputEl.textContent += '\nDONE'
+    })
+
+    xs.addEventListener('message', e => {
+      const msg = JSON.parse(e.data)
+
+      setData(prev => prev + msg)
+      console.log(msg)
+      //outputEl.textContent += msg.content
+    })
+  }
 
   return (
-    <div className='container py-10'>
-      <Markdown
-        className='prose w-full'
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw]}
-        components={{
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || '')
+    <main className='bg-[#F9F9FC]'>
+      <div className='max-w-6xl mx-auto py-10'>
+        <div>
+          {messagesList?.messages?.map(msg => (
+            <Markdown
+              key={msg.id}
+              className={cn('w-full max-w-3xl prose my-3 p-2 text-sm border rounded-lg', {
+                'ml-auto bg-white rounded-ee-none': msg.role === 'user',
+                'mr-auto bg-[#F0F1F3] rounded-es-none': msg.role === 'assistant'
+              })}
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                code({ node, inline, className, children, ...props }) {
+                  const match = /language-(\w+)/.exec(className || '')
 
-            return !inline && match ? (
-              <SyntaxHighlighter style={dracula} PreTag='div' language={match[1]} {...props}>
-                {String(children).replace(/\n$/, '')}
-              </SyntaxHighlighter>
-            ) : (
-              <code
-                className='after:hidden before:hidden bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
-                {...props}
-              >
-                {children}
-              </code>
-            )
-          }
-        }}
-      >
-        {data}
-      </Markdown>
-    </div>
+                  return !inline && match ? (
+                    <SyntaxHighlighter style={dracula} PreTag='div' language={match[1]} {...props}>
+                      {String(children).replace(/\n$/, '')}
+                    </SyntaxHighlighter>
+                  ) : (
+                    <code
+                      className='after:hidden before:hidden bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                      {...props}
+                    >
+                      {children}
+                    </code>
+                  )
+                }
+              }}
+            >
+              {msg.content[0].text.value}
+            </Markdown>
+          ))}
+        </div>
+      </div>
+    </main>
   )
 }
