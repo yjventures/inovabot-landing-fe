@@ -101,13 +101,13 @@ export default function Bot({ id }) {
   }
 
   return (
-    <main className='relative h-screen'>
+    <main className='relative h-screen px-10'>
       <nav className='fixed top-0 left-0 w-full h-20 z-20'>
         <Img src={logo} alt='logo' className='h-2/3 w-auto' />
       </nav>
       <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
       <div className='px-5 pt-20 pb-5 h-[calc(100vh-90px)] overflow-hidden relative flex gap-x-5'>
-        <div className='w-80 h-auto inline-flex flex-col gap-y-3 px-3 py-4 bg-gray-50 rounded-xl self-start'>
+        <div className='w-80 h-auto inline-flex flex-col gap-y-3 px-3 py-4 mt-20 bg-gray-50 rounded-xl self-start'>
           {faqs.map(faq => (
             <p
               key={faq}
@@ -141,36 +141,27 @@ export default function Bot({ id }) {
                     'pr-20 justify-start': msg.role === 'assistant'
                   })}
                 >
-                  <MarkdownRenderer
+                  <div
                     style={{
-                      fontSize: '50px',
                       backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`
                     }}
-                    className={cn(
-                      'max-w-3xl my-3 p-2 text-sm border rounded-lg',
-                      {
-                        'ml-auto': msg.role === 'user',
-                        'mr-auto': msg.role === 'assistant'
-                      }
-                      // {
-                      //   [msg.role === 'user' ? `bg-['${botData.colors.primary}'] rounded-ee-none` : '']:
-                      //     msg.role === 'user',
-                      //   [msg.role === 'assistant' ? `bg-[${botData.colors.secondary}] rounded-es-none` : '']:
-                      //     msg.role === 'assistant'
-                      // }
-                    )}
-                    codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                    className={cn('max-w-3xl my-3 p-2 text-sm border rounded-lg', {
+                      'ml-auto': msg.role === 'user',
+                      'mr-auto': msg.role === 'assistant'
+                    })}
                   >
-                    {msg.content[0].text.value}
-                  </MarkdownRenderer>
+                    <MarkdownRenderer codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'>
+                      {msg.content[0].text.value}
+                    </MarkdownRenderer>
+                  </div>
                 </div>
               ))
             : null}
           <div ref={endOfMessagesRef} />
         </div>
-        <div className='w-52 h-52 bg-red-400' />
+        <div className='w-80 h-80 mt-20 bg-red-400' />
       </div>
-      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-6xl w-full'>
+      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full'>
         <div className='flex items-center justify-between rounded-lg p-3 gap-x-3'>
           <Input
             type='text'

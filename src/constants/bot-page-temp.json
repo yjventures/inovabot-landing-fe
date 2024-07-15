@@ -2,8 +2,8 @@
   "name": "Testbot",
   "colors": {
     "font": "#ffffff",
-    "primary": "#ff0000",
-    "secondary": "#00ff00"
+    "primary": "#67e8f9",
+    "secondary": "#6ee7b7"
   },
   "background": {
     "light": "/temp/light-bg.jpg",
