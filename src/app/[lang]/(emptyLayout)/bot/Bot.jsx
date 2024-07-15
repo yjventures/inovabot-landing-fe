@@ -6,14 +6,29 @@ import { Input } from '@/components/ui/input'
 import MarkdownRenderer from '@/components/ui/markdown-renderer'
 import { Skeleton } from '@/components/ui/skeleton'
 import { API_URL } from '@/configs'
+import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { XhrSource } from '@/utils/form/eventStream'
 import { Send } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+// import lightBg from './../../../../../public/temp/light-bg.jpg'
+import lightBg from '@/assets/temp/light-bg.jpg'
+import logo from '@/assets/temp/logo.png'
+import { Img } from '@/components/ui/img'
+
+const faqs = [
+  'What is Binary Search?',
+  'What is the time complexity of Binary Search?',
+  'What is the space complexity of Binary Search?',
+  'What is the difference between Linear Search and Binary Search?',
+  'What are the applications of Binary Search?'
+]
 
 export default function Bot({ id }) {
+  console.log(botData)
   const [message, setMessage] = useState('')
+  const [isLoading, setisLoading] = useState('')
   const [tempMessages, setTempMessages] = useState([]) // For temporary messages
   const endOfMessagesRef = useRef(null) // Ref for the last message element
 
@@ -26,7 +41,7 @@ export default function Bot({ id }) {
     [id, message]
   )
 
-  const { data: messagesList, isLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
+  const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
   useEffect(() => {
     if (isSuccess) {
@@ -86,10 +101,28 @@ export default function Bot({ id }) {
   }
 
   return (
-    <main className='bg-[#F9F9FC] relative h-screen'>
-      <div className='px-5 pt-10 pb-5 h-[calc(100vh-90px)] overflow-y-auto'>
-        <div className='max-w-6xl mx-auto'>
-          {isLoading ? (
+    <main className='relative h-screen'>
+      <nav className='fixed top-0 left-0 w-full h-20 z-20'>
+        <Img src={logo} alt='logo' className='h-2/3 w-auto' />
+      </nav>
+      <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
+      <div className='px-5 pt-20 pb-5 h-[calc(100vh-90px)] overflow-hidden relative flex gap-x-5'>
+        <div className='w-80 h-auto inline-flex flex-col gap-y-3 px-3 py-4 bg-gray-50 rounded-xl self-start'>
+          {faqs.map(faq => (
+            <p
+              key={faq}
+              className='font-medium cursor-pointer'
+              onClick={() => {
+                setMessage(faq)
+                fetchData()
+              }}
+            >
+              {faq}
+            </p>
+          ))}
+        </div>
+        <div className='max-w-7xl mx-auto overflow-y-auto h-full'>
+          {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className={cn('flex', { 'justify-end': index % 2, 'justify-start': !index % 2 })}>
@@ -109,10 +142,23 @@ export default function Bot({ id }) {
                   })}
                 >
                   <MarkdownRenderer
-                    className={cn('max-w-3xl my-3 p-2 text-sm border rounded-lg', {
-                      'ml-auto bg-white rounded-ee-none': msg.role === 'user',
-                      'mr-auto bg-[#F0F1F3] rounded-es-none': msg.role === 'assistant'
-                    })}
+                    style={{
+                      fontSize: '50px',
+                      backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`
+                    }}
+                    className={cn(
+                      'max-w-3xl my-3 p-2 text-sm border rounded-lg',
+                      {
+                        'ml-auto': msg.role === 'user',
+                        'mr-auto': msg.role === 'assistant'
+                      }
+                      // {
+                      //   [msg.role === 'user' ? `bg-['${botData.colors.primary}'] rounded-ee-none` : '']:
+                      //     msg.role === 'user',
+                      //   [msg.role === 'assistant' ? `bg-[${botData.colors.secondary}] rounded-es-none` : '']:
+                      //     msg.role === 'assistant'
+                      // }
+                    )}
                     codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
                   >
                     {msg.content[0].text.value}
@@ -122,6 +168,7 @@ export default function Bot({ id }) {
             : null}
           <div ref={endOfMessagesRef} />
         </div>
+        <div className='w-52 h-52 bg-red-400' />
       </div>
       <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-6xl w-full'>
         <div className='flex items-center justify-between rounded-lg p-3 gap-x-3'>

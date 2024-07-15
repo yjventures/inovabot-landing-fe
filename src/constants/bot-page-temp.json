@@ -1,17 +1,18 @@
 {
   "name": "Testbot",
   "colors": {
-    "font": "#fff",
-    "primary": "#f00",
-    "background": {
-      "light": "/temp/light-bg.jpg",
-      "dark": "/temp/dark-bg.jpg"
-    },
-    "avatar": "/temp/avatar.png",
-    "bot": "/temp/bot.png",
-    "logo": {
-      "light": "/temp/logo.png",
-      "dark": "/temp/logo.png"
-    }
+    "font": "#ffffff",
+    "primary": "#ff0000",
+    "secondary": "#00ff00"
+  },
+  "background": {
+    "light": "/temp/light-bg.jpg",
+    "dark": "/temp/dark-bg.jpg"
+  },
+  "avatar": "/temp/avatar.png",
+  "bot": "/temp/bot.png",
+  "logo": {
+    "light": "/temp/logo.png",
+    "dark": "/temp/logo.png"
   }
 }
