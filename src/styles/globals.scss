@@ -97,3 +97,10 @@ input::-ms-reveal,
 input::-ms-clear {
   display: none;
 }
+
+.markdown {
+  & > *,
+  strong {
+    color: var(--bot-font-color);
+  }
+}
