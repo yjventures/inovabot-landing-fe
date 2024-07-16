@@ -100,7 +100,8 @@ input::-ms-clear {
 
 .markdown {
   & > *,
-  strong {
+  strong,
+  li::marker {
     color: var(--bot-font-color);
   }
 }

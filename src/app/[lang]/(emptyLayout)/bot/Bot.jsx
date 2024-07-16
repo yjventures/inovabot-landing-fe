@@ -16,6 +16,7 @@ import botImg from '@/assets/temp/bot.png'
 import logo from '@/assets/temp/logo.png'
 import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
+import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
 import { AlignRight } from 'lucide-react'
 
@@ -64,6 +65,7 @@ export default function Bot({ id, setnavbarOpen }) {
 
   const fetchData = async () => {
     // Show the user's message immediately
+    setisLoading(true)
     const newMessage = {
       id: `temp-${Date.now()}`,
       role: 'user',
@@ -83,6 +85,7 @@ export default function Bot({ id, setnavbarOpen }) {
     })
 
     xs.addEventListener('error', e => {
+      setisLoading(false)
       console.log(e.reason)
     })
 
@@ -91,6 +94,7 @@ export default function Bot({ id, setnavbarOpen }) {
     })
 
     xs.addEventListener('message', e => {
+      setisLoading(false)
       const msg = JSON.parse(e.data)
       setTempMessages(prev => {
         const updatedMessages = [...prev]
@@ -113,6 +117,19 @@ export default function Bot({ id, setnavbarOpen }) {
 
   return (
     <main className='relative h-screen'>
+      {isLoading ? (
+        <div
+          className='fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2'
+          style={{
+            backgroundColor: botData.colors.primary,
+            color: botData.colors.font,
+            borderColor: botData.colors.font
+          }}
+        >
+          <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
+          <Spinner className='animate-spin size-9' />
+        </div>
+      ) : null}
       <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
         <Img src={logo} alt='logo' className='h-1/2 w-auto' />
         <AlignRight
@@ -148,7 +165,7 @@ export default function Bot({ id, setnavbarOpen }) {
             <div className='flex flex-col my-3 gap-y-5'>
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className={cn('flex', { 'justify-end': index % 2, 'justify-start': !index % 2 })}>
-                  <Skeleton className='w-2/3 h-40 mb-2' />
+                  <Skeleton className='w-2/3 h-40 mb-2 bg-gray-100' />
                 </div>
               ))}
             </div>

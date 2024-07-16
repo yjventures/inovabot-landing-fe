@@ -4,11 +4,11 @@ import { useState } from 'react'
 import Bot from './Bot'
 import BotMobileNav from './BotMobileNav'
 
-export default function BotContainer() {
+export default function BotContainer({ botId }) {
   const [navbarOpen, setnavbarOpen] = useState(false)
   return (
     <>
-      <Bot id='668fadec9577e0dfdeaf9430' setnavbarOpen={setnavbarOpen} />
+      <Bot id={botId} setnavbarOpen={setnavbarOpen} />
       <BotMobileNav navbarOpen={navbarOpen} setnavbarOpen={setnavbarOpen} />
     </>
   )
