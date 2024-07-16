@@ -18,7 +18,7 @@ import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
-import { AlignRight } from 'lucide-react'
+import { AlignRight, Mic } from 'lucide-react'
 
 export const faqs = [
   'What is Binary Search?',
@@ -138,7 +138,7 @@ export default function Bot({ id, setnavbarOpen }) {
         />
       </nav>
       <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
-      <div className='px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
+      <div className='px-0 xl:px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
         <div
           className='w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2'
           style={{
@@ -160,7 +160,7 @@ export default function Bot({ id, setnavbarOpen }) {
             </p>
           ))}
         </div>
-        <div className='max-w-7xl mx-auto overflow-y-auto h-full'>
+        <div className='max-w-7xl mx-auto overflow-y-auto'>
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
               {Array.from({ length: 6 }).map((_, index) => (
@@ -175,9 +175,9 @@ export default function Bot({ id, setnavbarOpen }) {
             ? tempMessages?.map(msg => (
                 <div
                   key={msg.id}
-                  className={cn('flex gap-x-2 px-3', {
-                    'pl-20 justify-end': msg.role === 'user',
-                    'pr-20 justify-start': msg.role === 'assistant'
+                  className={cn('flex gap-x-2 px-3 max-w-3xl', {
+                    'pl-24 justify-end': msg.role === 'user',
+                    'pr-24 justify-start': msg.role === 'assistant'
                   })}
                 >
                   {msg.role === 'assistant' && (
@@ -188,7 +188,7 @@ export default function Bot({ id, setnavbarOpen }) {
                       backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
                       color: botData.colors.font
                     }}
-                    className={cn('max-w-3xl my-3 p-2 text-sm rounded-lg', {
+                    className={cn('w-full my-3 p-2 text-sm rounded-lg', {
                       'ml-auto border-2': msg.role === 'user',
                       'mr-auto': msg.role === 'assistant'
                     })}
@@ -214,8 +214,8 @@ export default function Bot({ id, setnavbarOpen }) {
         </div>
         <Img src={rigmtImg} alt='right image' className='w-80 hidden xl:block h-auto self-start mt-20' />
       </div>
-      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full'>
-        <div className='flex items-center justify-between rounded-xl gap-x-3 bg-white'>
+      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-2'>
+        <div className='flex items-center justify-between rounded-xl gap-x-3 bg-white w-full'>
           <Input
             type='text'
             containerClassName='w-full max-w-full h-14'
@@ -241,6 +241,8 @@ export default function Bot({ id, setnavbarOpen }) {
             </g>
           </svg>
         </div>
+
+        <Mic className='size-8 cursor-pointer mt-2' style={{ color: botData.colors.font }} />
       </div>
     </main>
   )
