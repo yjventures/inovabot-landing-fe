@@ -1,9 +1,9 @@
-import Bot from './Bot'
+import BotContainer from './BotContainer'
 
 export const metadata = {
   title: 'BotPage | Inova'
 }
 
 export default function BotPage() {
-  return <Bot id='668fadec9577e0dfdeaf9430' />
+  return <BotContainer />
 }

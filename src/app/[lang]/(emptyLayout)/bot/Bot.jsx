@@ -17,8 +17,9 @@ import logo from '@/assets/temp/logo.png'
 import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
 import { Img } from '@/components/ui/img'
+import { AlignRight } from 'lucide-react'
 
-const faqs = [
+export const faqs = [
   'What is Binary Search?',
   'What is the time complexity of Binary Search?',
   'What is the space complexity of Binary Search?',
@@ -30,7 +31,7 @@ const faqs = [
   'What are the properties of Binary Search Tree?'
 ]
 
-export default function Bot({ id }) {
+export default function Bot({ id, setnavbarOpen }) {
   const [message, setMessage] = useState('')
   const [isLoading, setisLoading] = useState('')
   const [tempMessages, setTempMessages] = useState([]) // For temporary messages
@@ -111,14 +112,18 @@ export default function Bot({ id }) {
   }, [])
 
   return (
-    <main className='relative h-screen px-10'>
-      <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center'>
+    <main className='relative h-screen'>
+      <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
         <Img src={logo} alt='logo' className='h-1/2 w-auto' />
+        <AlignRight
+          className='size-10 text-white cursor-pointer inline-block xl:hidden'
+          onClick={() => setnavbarOpen(prev => !prev)}
+        />
       </nav>
       <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
-      <div className='px-5 pt-32 pb-5 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-5'>
+      <div className='px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
         <div
-          className='w-80 h-96 overflow-y-auto inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2'
+          className='w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2'
           style={{
             backgroundColor: botData.colors.primary,
             color: botData.colors.font,
@@ -190,7 +195,7 @@ export default function Bot({ id }) {
             : null}
           <div ref={endOfMessagesRef} />
         </div>
-        <Img src={rigmtImg} alt='right image' className='w-80 h-auto self-start mt-20' />
+        <Img src={rigmtImg} alt='right image' className='w-80 hidden xl:block h-auto self-start mt-20' />
       </div>
       <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full'>
         <div className='flex items-center justify-between rounded-xl gap-x-3 bg-white'>
