@@ -19,6 +19,7 @@ import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
 import { AlignRight, Mic } from 'lucide-react'
+import AudioRecorder from './AudioRecorder'
 
 export const faqs = [
   'What is Binary Search?',
@@ -241,8 +242,8 @@ export default function Bot({ id, setnavbarOpen }) {
             </g>
           </svg>
         </div>
-
         <Mic className='size-8 cursor-pointer mt-2' style={{ color: botData.colors.font }} />
+        <AudioRecorder />
       </div>
     </main>
   )
