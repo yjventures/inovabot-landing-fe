@@ -1,4 +1,5 @@
-import { Button } from '@/components/ui/button'
+import botData from '@/constants/bot-page-temp.json'
+import { Mic, StopCircle } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const AudioRecorder = () => {
@@ -17,7 +18,7 @@ const AudioRecorder = () => {
         const source = audioContextRef.current.createMediaStreamSource(stream)
         analyserRef.current = audioContextRef.current.createAnalyser()
         source.connect(analyserRef.current)
-        drawVisualizer()
+        // drawVisualizer()
 
         mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
         mediaRecorderRef.current.ondataavailable = event => {
@@ -94,18 +95,31 @@ const AudioRecorder = () => {
   }
 
   return (
-    <div>
-      <Button onClick={handleStartRecording} disabled={isRecording}>
-        Start Recording
-      </Button>
-      <Button onClick={handleStopRecording} disabled={!isRecording}>
-        Stop Recording
-      </Button>
-      <canvas ref={canvasRef} width='300' height='150'></canvas>
+    <div className='flex items-center gap-x-3'>
+      {isRecording ? (
+        <StopCircle
+          className='size-8 cursor-pointer mt-2'
+          style={{ color: botData.colors.font }}
+          variant='icon'
+          onClick={handleStopRecording}
+          disabled={!isRecording}
+        />
+      ) : (
+        <Mic
+          className='size-8 cursor-pointer mt-2'
+          style={{ color: botData.colors.font }}
+          variant='icon'
+          onClick={handleStartRecording}
+          disabled={isRecording}
+        />
+      )}
+
+      {/* <canvas ref={canvasRef} width='300' height='150'></canvas>
       {audioURL && <audio controls src={audioURL} />}
       <Button onClick={handleSaveAudio} disabled={!audioURL}>
         Save Audio
-      </Button>
+      </Button> */}
+      {audioURL && <audio controls src={audioURL} />}
     </div>
   )
 }
