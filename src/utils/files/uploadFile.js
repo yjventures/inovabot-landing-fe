@@ -7,7 +7,7 @@ export const uploadFile = async file => {
 
   try {
     //toast.success('Uploading file, please wait...')
-    const response = await axios.post(`${API_URL}/upload`, formData, {
+    const response = await axios.post(`${API_URL}/users/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

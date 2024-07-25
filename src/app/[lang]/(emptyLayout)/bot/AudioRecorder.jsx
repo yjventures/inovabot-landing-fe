@@ -1,10 +1,13 @@
 import botData from '@/constants/bot-page-temp.json'
+import { uploadFile } from '@/utils/files/uploadFile'
 import { Mic, Square } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import toast from 'react-hot-toast'
 
 const AudioRecorder = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [audioURL, setAudioURL] = useState('')
+  const [audioBlob, setaudioBlob] = useState(null)
   const mediaRecorderRef = useRef(null)
   const audioChunksRef = useRef([])
   const canvasRef = useRef(null)
@@ -13,25 +16,33 @@ const AudioRecorder = () => {
 
   useEffect(() => {
     if (isRecording) {
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
-        const source = audioContextRef.current.createMediaStreamSource(stream)
-        analyserRef.current = audioContextRef.current.createAnalyser()
-        source.connect(analyserRef.current)
-        // drawVisualizer()
+      navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then(stream => {
+          audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
+          const source = audioContextRef.current.createMediaStreamSource(stream)
+          analyserRef.current = audioContextRef.current.createAnalyser()
+          source.connect(analyserRef.current)
+          // drawVisualizer()
 
-        mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
-        mediaRecorderRef.current.ondataavailable = event => {
-          audioChunksRef.current.push(event.data)
-        }
-        mediaRecorderRef.current.onstop = () => {
-          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
-          const audioURL = URL.createObjectURL(audioBlob)
-          setAudioURL(audioURL)
-          audioChunksRef.current = []
-        }
-        mediaRecorderRef.current.start()
-      })
+          mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
+          mediaRecorderRef.current.ondataavailable = event => {
+            audioChunksRef.current.push(event.data)
+          }
+          mediaRecorderRef.current.onstop = () => {
+            const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+            setaudioBlob(blob)
+            const audioURL = URL.createObjectURL(blob)
+            setAudioURL(audioURL)
+            audioChunksRef.current = []
+          }
+          mediaRecorderRef.current.start()
+        })
+        .catch(err => {
+          console.error(err?.message)
+          toast.error('Mic not found or not permitted!')
+          setIsRecording(false)
+        })
     } else if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop()
     }
@@ -77,20 +88,36 @@ const AudioRecorder = () => {
 
   const handleStopRecording = () => {
     setIsRecording(false)
+    handleSaveAudio()
   }
 
-  const handleSaveAudio = () => {
-    if (audioChunksRef.current.length > 0) {
-      const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
-      const url = window.URL.createObjectURL(audioBlob)
-      const a = document.createElement('a')
-      a.style.display = 'none'
-      a.href = url
-      a.download = 'recording.webm'
-      document.body.appendChild(a)
-      a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+  // const handleSaveAudio = () => {
+  //   if (audioChunksRef.current.length > 0) {
+  //     const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+  //     const url = window.URL.createObjectURL(audioBlob)
+  //     const a = document.createElement('a')
+  //     a.style.display = 'none'
+  //     a.href = url
+  //     a.download = 'recording.webm'
+  //     document.body.appendChild(a)
+  //     a.click()
+  //     window.URL.revokeObjectURL(url)
+  //     document.body.removeChild(a)
+  //   }
+  // }
+
+  const handleSaveAudio = async () => {
+    if (audioBlob) {
+      const audioFile = new File([audioBlob], 'recording.webm', { type: 'audio/webm' })
+      try {
+        const uploadedUrl = await uploadFile(audioFile)
+        if (uploadedUrl) {
+          // Handle successful upload, e.g., show a message or update state
+          console.log('File uploaded successfully:', uploadedUrl)
+        }
+      } catch (error) {
+        console.error('Error uploading file', error)
+      }
     }
   }
 
@@ -123,7 +150,6 @@ const AudioRecorder = () => {
       <Button onClick={handleSaveAudio} disabled={!audioURL}>
         Save Audio
       </Button> */}
-      {audioURL && <audio controls src={audioURL} />}
     </div>
   )
 }
