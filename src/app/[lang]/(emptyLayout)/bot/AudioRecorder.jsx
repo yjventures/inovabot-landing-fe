@@ -1,5 +1,5 @@
 import botData from '@/constants/bot-page-temp.json'
-import { Mic, StopCircle } from 'lucide-react'
+import { Mic, Square } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const AudioRecorder = () => {
@@ -97,16 +97,20 @@ const AudioRecorder = () => {
   return (
     <div className='flex items-center gap-x-3'>
       {isRecording ? (
-        <StopCircle
-          className='size-8 cursor-pointer mt-2'
-          style={{ color: botData.colors.font }}
-          variant='icon'
-          onClick={handleStopRecording}
-          disabled={!isRecording}
-        />
+        <div onClick={handleStopRecording} className='relative cursor-pointer'>
+          <Square
+            className='size-10 cursor-pointer border-[3px] p-2 rounded-full text-red-500 border-red-500'
+            strokeWidth={2.7}
+            //style={{ color: botData.colors.font }}
+            variant='icon'
+            disabled={!isRecording}
+          />
+          <div className='absolute top-0 left-0 w-full h-full rounded-full animate-ping border-2 border-red-500 p-2 z-20' />
+        </div>
       ) : (
         <Mic
-          className='size-8 cursor-pointer mt-2'
+          className='size-10 cursor-pointer border-[3px] p-2 rounded-full'
+          strokeWidth={2.7}
           style={{ color: botData.colors.font }}
           variant='icon'
           onClick={handleStartRecording}

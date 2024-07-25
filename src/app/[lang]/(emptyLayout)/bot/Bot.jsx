@@ -215,7 +215,7 @@ export default function Bot({ id, setnavbarOpen }) {
         </div>
         <Img src={rigmtImg} alt='right image' className='w-80 hidden xl:block h-auto self-start mt-20' />
       </div>
-      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-2'>
+      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-3'>
         <div className='flex items-center justify-between rounded-xl gap-x-3 bg-white w-full'>
           <Input
             type='text'
