@@ -20,7 +20,11 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true
       try {
         const refreshToken = getCookie('refreshToken')
-        const response = await axios.post(`${API_URL}/user/access-token`, { refreshToken: `Bearer ${refreshToken}` })
+        const response = await axios.post(`${API_URL}/auth/login`, {
+          type: 'refresh',
+          refreshToken: `Bearer ${refreshToken}`
+        })
+        console.log(response?.data)
         const { accessToken } = response?.data
         setCookie('accessToken', accessToken, {
           maxAge: calculateTokenExpiration(accessToken)

@@ -20,6 +20,7 @@ import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
 import { AlignRight } from 'lucide-react'
 import AudioRecorder from './AudioRecorder'
+import FileUploader from './FileUploader'
 
 export const faqs = [
   'What is Binary Search?',
@@ -64,13 +65,13 @@ export default function Bot({ id, setnavbarOpen }) {
     scrollToBottom()
   }, [tempMessages])
 
-  const fetchData = async () => {
+  const fetchData = async msg => {
     // Show the user's message immediately
     setisLoading(true)
     const newMessage = {
       id: `temp-${Date.now()}`,
       role: 'user',
-      content: [{ text: { value: message } }]
+      content: [{ text: { value: message | msg } }]
     }
     const newAssistantMessage = {
       id: `temp-${Date.now() + 1}`,
@@ -154,7 +155,7 @@ export default function Bot({ id, setnavbarOpen }) {
               className='font-medium cursor-pointer'
               onClick={() => {
                 setMessage(faq)
-                fetchData()
+                fetchData(faq)
               }}
             >
               {faq}
@@ -243,6 +244,7 @@ export default function Bot({ id, setnavbarOpen }) {
           </svg>
         </div>
         <AudioRecorder />
+        <FileUploader id={id} />
       </div>
     </main>
   )
