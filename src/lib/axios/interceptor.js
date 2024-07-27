@@ -22,10 +22,9 @@ axiosInstance.interceptors.response.use(
         const refreshToken = getCookie('refreshToken')
         const response = await axios.post(`${API_URL}/auth/login`, {
           type: 'refresh',
-          refreshToken: `Bearer ${refreshToken}`
+          refreshToken
         })
-        console.log(response?.data)
-        const { accessToken } = response?.data
+        const accessToken = response?.data?.user?.accessToken
         setCookie('accessToken', accessToken, {
           maxAge: calculateTokenExpiration(accessToken)
         })

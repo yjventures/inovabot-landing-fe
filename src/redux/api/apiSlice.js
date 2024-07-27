@@ -20,12 +20,10 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions)
 
   if (result?.error?.status === 401) {
-    const refreshResult = await axios.post(`${API_URL}/user/access-token`, {
-      refreshToken: `Bearer ${refreshToken}`
-    })
+    const refreshResult = await axios.post(`${API_URL}/auth/login`, { refreshToken })
 
-    if (refreshResult?.data?.accessToken) {
-      const newAccessToken = refreshResult?.data?.accessToken
+    if (refreshResult?.data) {
+      const newAccessToken = refreshResult?.data?.user?.accessToken
       const accessTokenExpiration = calculateTokenExpiration(newAccessToken)
       setCookie('accessToken', newAccessToken, {
         maxAge: accessTokenExpiration
