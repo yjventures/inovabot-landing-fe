@@ -11,14 +11,12 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
   const { refetch } = useGetThreadMessagesQuery(id)
 
   const [isRecording, setIsRecording] = useState(false)
-  const [audioBlob, setaudioBlob] = useState(null)
   const mediaRecorderRef = useRef(null)
   const audioChunksRef = useRef([])
   const audioContextRef = useRef(null)
   const analyserRef = useRef(null)
 
   const handleStartRecording = async () => {
-    // FIXME: Audio gets from the second time, means one time later
     setIsRecording(true)
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -31,9 +29,9 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
       mediaRecorderRef.current.ondataavailable = event => {
         audioChunksRef.current.push(event.data)
       }
-      mediaRecorderRef.current.onstop = () => {
+      mediaRecorderRef.current.onstop = async () => {
         const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
-        setaudioBlob(blob)
+        await handleSaveAudio(blob)
         audioChunksRef.current = []
       }
       mediaRecorderRef.current.start()
@@ -41,33 +39,7 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
       console.error(err?.message)
       toast.error('Mic not found or not permitted!')
       setIsRecording(false)
-    } finally {
-      setIsRecording(false)
     }
-    // navigator.mediaDevices
-    //   .getUserMedia({ audio: true })
-    //   .then(stream => {
-    //     audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)()
-    //     const source = audioContextRef.current.createMediaStreamSource(stream)
-    //     analyserRef.current = audioContextRef.current.createAnalyser()
-    //     source.connect(analyserRef.current)
-
-    //     mediaRecorderRef.current = new MediaRecorder(stream, { mimeType: 'audio/webm' })
-    //     mediaRecorderRef.current.ondataavailable = event => {
-    //       audioChunksRef.current.push(event.data)
-    //     }
-    //     mediaRecorderRef.current.onstop = () => {
-    //       const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
-    //       setaudioBlob(blob)
-    //       audioChunksRef.current = []
-    //     }
-    //     mediaRecorderRef.current.start()
-    //   })
-    //   .catch(err => {
-    //     console.error(err?.message)
-    //     toast.error('Mic not found or not permitted!')
-    //     setIsRecording(false)
-    //   })
   }
 
   const handleStopRecording = () => {
@@ -75,15 +47,12 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop()
     }
-    handleSaveAudio()
   }
 
-  const handleSaveAudio = async () => {
+  const handleSaveAudio = async blob => {
     setisLoading(true)
-    console.log('INIT')
-    if (audioBlob) {
-      console.log('HAS AUDIO')
-      const audioFile = new File([audioBlob], 'recording.webm', { type: 'audio/webm' })
+    if (blob) {
+      const audioFile = new File([blob], 'recording.webm', { type: 'audio/webm' })
       const formData = new FormData()
       formData.append('file', audioFile)
 
@@ -96,7 +65,6 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
 
         if (response?.status === 200) {
           const speechToText = response?.data?.transcript?.text
-          console.log(speechToText)
           setMessage(speechToText)
           fetchData({
             msg: speechToText,
@@ -112,6 +80,7 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
         console.error('Error uploading file', error)
       }
     }
+    setisLoading(false)
   }
 
   return (
