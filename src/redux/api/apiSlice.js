@@ -13,6 +13,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   args.headers = {
     ...args.headers,
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${getToken()}`
   }
 
