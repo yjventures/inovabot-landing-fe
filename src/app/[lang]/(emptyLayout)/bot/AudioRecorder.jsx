@@ -108,31 +108,20 @@ const AudioRecorder = () => {
   // }
 
   const handleSaveAudio = async () => {
-    console.log('INIT')
     if (audioBlob) {
-      console.log('HAS AUDIO')
       const audioFile = new File([audioBlob], 'recording.webm', { type: 'audio/webm' })
-      // try {
-      //   const uploadedUrl = await uploadFile(audioFile)
-      //   if (uploadedUrl) {
-      //     // Handle successful upload, e.g., show a message or update state
-      //     console.log('File uploaded successfully:', uploadedUrl)
-      //   }
-      // } catch (error) {
-      //   console.error('Error uploading file', error)
-      // }
       const formData = new FormData()
       formData.append('file', audioFile)
 
       try {
-        const response = await axiosInstance.post(`${API_URL}/audio/transcript`, formData, {
+        const response = await axiosInstance.post(`${API_URL}/audios/transcript`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
 
         if (response?.data) {
-          console.log(response)
+          console.log(response?.data?.transcript?.text)
         }
       } catch (error) {
         console.error('Error uploading file', error)

@@ -4,12 +4,10 @@
 import { Input } from '@/components/ui/input'
 import MarkdownRenderer from '@/components/ui/markdown-renderer'
 import { Skeleton } from '@/components/ui/skeleton'
-import { API_URL } from '@/configs'
 import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
-import { XhrSource } from '@/utils/form/eventStream'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 // import lightBg from './../../../../../public/temp/light-bg.jpg'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
@@ -20,34 +18,21 @@ import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
 import { AlignRight } from 'lucide-react'
 import AudioRecorder from './AudioRecorder'
+import { faqs, fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
 
-export const faqs = [
-  'What is Binary Search?',
-  'What is the time complexity of Binary Search?',
-  'What is the space complexity of Binary Search?',
-  'What is the difference between Linear Search and Binary Search?',
-  'What are the applications of Binary Search?',
-  'What is the Binary Search Algorithm?',
-  'What is the Binary Search Tree?',
-  'What is the Binary Search Tree Data Structure?',
-  'What are the properties of Binary Search Tree?'
-]
-
-export default function Bot({ id, setnavbarOpen }) {
-  const [message, setMessage] = useState('')
-  const [isLoading, setisLoading] = useState('')
-  const [tempMessages, setTempMessages] = useState([]) // For temporary messages
+export default function Bot({
+  id,
+  setnavbarOpen,
+  message,
+  setMessage,
+  tempMessages,
+  setTempMessages,
+  isLoading,
+  setisLoading
+}) {
+  // For temporary messages
   const endOfMessagesRef = useRef(null) // Ref for the last message element
-
-  const prompt = useMemo(
-    () => ({
-      thread_id: id,
-      message,
-      instructions: 'You are a genius programmer and professor at MIT'
-    }),
-    [id, message]
-  )
 
   const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
@@ -64,52 +49,6 @@ export default function Bot({ id, setnavbarOpen }) {
   useEffect(() => {
     scrollToBottom()
   }, [tempMessages])
-
-  const fetchData = async msg => {
-    // Show the user's message immediately
-    setisLoading(true)
-    const newMessage = {
-      id: `temp-${Date.now()}`,
-      role: 'user',
-      content: [{ text: { value: message | msg } }]
-    }
-    const newAssistantMessage = {
-      id: `temp-${Date.now() + 1}`,
-      role: 'assistant',
-      content: [{ text: { value: '' } }]
-    }
-    setTempMessages([...tempMessages, newMessage, newAssistantMessage])
-
-    const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(prompt)
-    })
-
-    xs.addEventListener('error', e => {
-      setisLoading(false)
-      console.log(e.reason)
-    })
-
-    xs.addEventListener('close', async () => {
-      await refetch()
-    })
-
-    xs.addEventListener('message', e => {
-      setisLoading(false)
-      const msg = JSON.parse(e.data)
-      setTempMessages(prev => {
-        const updatedMessages = [...prev]
-        const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
-        if (lastMessageIndex !== -1) {
-          updatedMessages[lastMessageIndex].content[0].text.value += msg
-        }
-        return updatedMessages
-      })
-    })
-
-    setMessage('')
-  }
 
   useEffect(() => {
     document.documentElement.style.setProperty('--bot-primary-color', botData.colors.primary)
@@ -155,7 +94,7 @@ export default function Bot({ id, setnavbarOpen }) {
               className='font-medium cursor-pointer'
               onClick={() => {
                 setMessage(faq)
-                fetchData(faq)
+                fetchData({ msg: faq, setisLoading, setTempMessages, tempMessages, id, cb: refetch, setMessage })
               }}
             >
               {faq}
@@ -231,7 +170,9 @@ export default function Bot({ id, setnavbarOpen }) {
             viewBox='0 0 64 64'
             id='send'
             className='size-8 cursor-pointer text-violet-800 mr-2 fill-current'
-            onClick={fetchData}
+            onClick={() =>
+              fetchData({ msg: message, setisLoading, setTempMessages, tempMessages, id, cb: refetch, setMessage })
+            }
           >
             <defs>
               <clipPath id='a'>

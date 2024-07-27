@@ -4,7 +4,7 @@ import { Img } from '@/components/ui/img'
 import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { X } from 'lucide-react'
-import { faqs } from './Bot'
+import { faqs } from './BotContainer'
 
 export default function BotMobileNav({ navbarOpen, setnavbarOpen }) {
   return (
