@@ -31,16 +31,18 @@ export default function FileUploader({ id, cb }) {
 
         if (response.status === 200) {
           toast.success('File uploaded successfully!')
-          // cb(response.data.uploadedUrl)
         }
-        //cb(response?.data?.uploadedUrl)
-        // FIXME: fix the inputref reset thing, value is undefined here
-        //inputRef.current.value = ''
+        if (inputRef.current) {
+          inputRef.current.value = ''
+        }
       }
     } catch (error) {
       setisUploading(false)
+      toast.error('Error uploading Document!')
       console.error('Error uploading file', error)
-      // inputRef.current.value = ''
+      if (inputRef.current) {
+        inputRef.current.value = ''
+      }
     }
   }
 

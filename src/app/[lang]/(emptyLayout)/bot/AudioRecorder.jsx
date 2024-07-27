@@ -7,7 +7,16 @@ import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { fetchData } from './BotContainer'
 
-const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages, isLoading, setisLoading }) => {
+const AudioRecorder = ({
+  id,
+  message,
+  setMessage,
+  tempMessages,
+  setTempMessages,
+  isLoading,
+  setisLoading,
+  setaudioURL
+}) => {
   const { refetch } = useGetThreadMessagesQuery(id)
 
   const [isRecording, setIsRecording] = useState(false)

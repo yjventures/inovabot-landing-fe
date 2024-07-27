@@ -33,7 +33,6 @@ export default function Bot({
   audioURL,
   setaudioURL
 }) {
-  const botContainerRef = useRef(null)
   const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
 
@@ -66,19 +65,6 @@ export default function Bot({
     document.documentElement.style.setProperty('--bot-secondary-color', botData.colors.secondary)
     document.documentElement.style.setProperty('--bot-font-color', botData.colors.font)
   }, [])
-
-  const [hideScrollbar, sethideScrollbar] = useState(false)
-
-  const handleScroll = () => {
-    // let timer = null
-    // sethideScrollbar(false)
-    // if (timer !== null) {
-    //   clearTimeout(timer)
-    // }
-    // timer = setTimeout(function () {
-    //   sethideScrollbar(true)
-    // }, 2000)
-  }
 
   const playAudio = () => {
     if (audioRef.current) {
@@ -154,13 +140,7 @@ export default function Bot({
             </p>
           ))}
         </div>
-        <div
-          className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar', {
-            'hidden-scrollbar': hideScrollbar,
-            'custom-scrollbar': !hideScrollbar
-          })}
-          onScroll={handleScroll}
-        >
+        <div className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar')}>
           {/*BUG: while loading, skeleton doesn't show*/}
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
@@ -275,6 +255,7 @@ export default function Bot({
           setTempMessages={setTempMessages}
           isLoading={isLoading}
           setisLoading={setisLoading}
+          setaudioURL={setaudioURL}
         />
         <FileUploader id={id} />
       </div>
