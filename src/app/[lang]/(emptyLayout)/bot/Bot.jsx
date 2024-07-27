@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // import lightBg from './../../../../../public/temp/light-bg.jpg'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
@@ -31,7 +31,7 @@ export default function Bot({
   isLoading,
   setisLoading
 }) {
-  // For temporary messages
+  const botContainerRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
 
   const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
@@ -55,6 +55,19 @@ export default function Bot({
     document.documentElement.style.setProperty('--bot-secondary-color', botData.colors.secondary)
     document.documentElement.style.setProperty('--bot-font-color', botData.colors.font)
   }, [])
+
+  const [hideScrollbar, sethideScrollbar] = useState(false)
+
+  const handleScroll = () => {
+    let timer = null
+    sethideScrollbar(false)
+    if (timer !== null) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(function () {
+      sethideScrollbar(true)
+    }, 2000)
+  }
 
   return (
     <main className='relative h-screen'>
@@ -81,7 +94,9 @@ export default function Bot({
       <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
       <div className='px-0 xl:px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
         <div
-          className='w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2'
+          className={cn(
+            'w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2 custom-scrollbar'
+          )}
           style={{
             backgroundColor: botData.colors.primary,
             color: botData.colors.font,
@@ -101,7 +116,13 @@ export default function Bot({
             </p>
           ))}
         </div>
-        <div className='max-w-7xl mx-auto overflow-y-auto'>
+        <div
+          className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar', {
+            'hidden-scrollbar': hideScrollbar,
+            'custom-scrollbar': !hideScrollbar
+          })}
+          onScroll={handleScroll}
+        >
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
               {Array.from({ length: 6 }).map((_, index) => (
@@ -184,7 +205,15 @@ export default function Bot({
             </g>
           </svg>
         </div>
-        <AudioRecorder />
+        <AudioRecorder
+          id={id}
+          message={message}
+          setMessage={setMessage}
+          tempMessages={tempMessages}
+          setTempMessages={setTempMessages}
+          isLoading={isLoading}
+          setisLoading={setisLoading}
+        />
         <FileUploader id={id} />
       </div>
     </main>
