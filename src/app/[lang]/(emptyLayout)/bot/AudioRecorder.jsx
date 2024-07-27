@@ -73,7 +73,8 @@ const AudioRecorder = ({ id, message, setMessage, tempMessages, setTempMessages,
             tempMessages,
             id,
             cb: refetch,
-            setMessage
+            setMessage,
+            setaudioURL
           })
         }
       } catch (error) {

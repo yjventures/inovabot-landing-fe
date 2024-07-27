@@ -16,7 +16,8 @@ export default function BotMobileNav({
   tempMessages,
   setTempMessages,
   isLoading,
-  setisLoading
+  setisLoading,
+  setaudioURL
 }) {
   const { refetch } = useGetThreadMessagesQuery(id)
   return (
@@ -62,7 +63,8 @@ export default function BotMobileNav({
                     tempMessages,
                     id,
                     cb: refetch,
-                    setMessage
+                    setMessage,
+                    setaudioURL
                   })
                   setnavbarOpen(false)
                 }}

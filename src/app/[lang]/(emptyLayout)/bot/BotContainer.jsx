@@ -19,7 +19,16 @@ export const faqs = [
   'What are the properties of Binary Search Tree?'
 ]
 
-export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessages, setMessage, id, cb }) => {
+export const fetchData = async ({
+  msg,
+  setisLoading,
+  setTempMessages,
+  tempMessages,
+  setMessage,
+  id,
+  cb,
+  setaudioURL
+}) => {
   const prompt = {
     thread_id: id,
     message: msg,
@@ -28,6 +37,7 @@ export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessag
 
   // Show the user's message immediately
   setisLoading(true)
+  setaudioURL(null)
   const newMessage = {
     id: `temp-${Date.now()}`,
     role: 'user',
@@ -55,10 +65,15 @@ export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessag
 
   xs.addEventListener('close', async () => {
     await cb()
-    console.log(msgRes)
 
-    const res = await axiosInstance.post(`${API_URL}/audios/text-to-speech`, { message: msgRes })
-    console.log(res)
+    const res = await axiosInstance.post(
+      `${API_URL}/audios/text-to-speech`,
+      { message: msgRes },
+      { responseType: 'blob' }
+    )
+
+    const url = URL.createObjectURL(res.data)
+    setaudioURL(url)
   })
 
   xs.addEventListener('message', e => {
@@ -85,6 +100,7 @@ export default function BotContainer({ threadId }) {
   const [message, setMessage] = useState('')
   const [isLoading, setisLoading] = useState('')
   const [tempMessages, setTempMessages] = useState([])
+  const [audioURL, setaudioURL] = useState(null)
 
   return (
     <>
@@ -97,6 +113,8 @@ export default function BotContainer({ threadId }) {
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
+        audioURL={audioURL}
+        setaudioURL={setaudioURL}
       />
       <BotMobileNav
         id={threadId}
@@ -108,6 +126,7 @@ export default function BotContainer({ threadId }) {
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
+        setaudioURL={setaudioURL}
       />
     </>
   )

@@ -16,7 +16,7 @@ import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
-import { AlignRight, PlayCircle } from 'lucide-react'
+import { AlignRight, PlayCircle, StopCircle } from 'lucide-react'
 import AudioRecorder from './AudioRecorder'
 import { faqs, fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
@@ -29,10 +29,15 @@ export default function Bot({
   tempMessages,
   setTempMessages,
   isLoading,
-  setisLoading
+  setisLoading,
+  audioURL,
+  setaudioURL
 }) {
   const botContainerRef = useRef(null)
+  const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
+
+  const [isPlaying, setisPlaying] = useState(false)
 
   const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
@@ -49,6 +54,12 @@ export default function Bot({
   useEffect(() => {
     scrollToBottom()
   }, [tempMessages])
+
+  useEffect(() => {
+    if (audioURL) {
+      scrollToBottom()
+    }
+  }, [audioURL])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--bot-primary-color', botData.colors.primary)
@@ -69,7 +80,20 @@ export default function Bot({
     // }, 2000)
   }
 
-  const playAudio = () => {}
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.play()
+      setisPlaying(true)
+    }
+  }
+
+  const stopAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      setisPlaying(false)
+    }
+  }
 
   return (
     <main className='relative h-screen'>
@@ -111,7 +135,19 @@ export default function Bot({
               className='font-medium cursor-pointer'
               onClick={() => {
                 setMessage(faq)
-                fetchData({ msg: faq, setisLoading, setTempMessages, tempMessages, id, cb: refetch, setMessage })
+                fetchData({
+                  msg: faq,
+                  setisLoading,
+                  setTempMessages,
+                  tempMessages,
+                  id,
+                  cb: () => {
+                    refetch()
+                    setisPlaying(false)
+                  },
+                  setMessage,
+                  setaudioURL
+                })
               }}
             >
               {faq}
@@ -146,7 +182,7 @@ export default function Bot({
                   })}
                 >
                   {msg.role === 'assistant' && (
-                    <Img src={botImg} alt='Bot' className='size-10 aspect-square object-cover mt-4 rounded-full' />
+                    <Img src={botImg} alt='Bot' className='size-10 aspect-square object-cover mt-1 rounded-full' />
                   )}
                   <div className='flex flex-col'>
                     <div
@@ -154,9 +190,9 @@ export default function Bot({
                         backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
                         color: botData.colors.font
                       }}
-                      className={cn('w-full my-3 p-2 text-sm rounded-lg', {
-                        'ml-auto border-2 order-2 sm:order-1': msg.role === 'user',
-                        'mr-auto': msg.role === 'assistant'
+                      className={cn('w-full my-1 text-sm rounded-lg', {
+                        'ml-auto border-2 order-2 sm:order-1 p-2': msg.role === 'user',
+                        'mr-auto px-2': msg.role === 'assistant'
                       })}
                     >
                       <MarkdownRenderer
@@ -167,15 +203,23 @@ export default function Bot({
                       </MarkdownRenderer>
                     </div>
 
-                    {msg.role === 'assistant' && i + 1 === tempMessages?.length ? (
-                      <PlayCircle className='size-10 text-emerald-500 cursor-pointer' onClick={playAudio} />
+                    {msg.role === 'assistant' && i + 1 === tempMessages?.length && audioURL !== null ? (
+                      <>
+                        {isPlaying ? (
+                          <StopCircle className='size-10 text-red-500 cursor-pointer' onClick={stopAudio} />
+                        ) : (
+                          <PlayCircle className='size-10 text-green-500 cursor-pointer' onClick={playAudio} />
+                        )}
+
+                        <audio ref={audioRef} src={audioURL} controls className='hidden' onEnded={stopAudio} />
+                      </>
                     ) : null}
                   </div>
                   {msg.role === 'user' && (
                     <Img
                       src={avatarImg}
                       alt='Avatar'
-                      className='size-10 aspect-square object-cover mt-3 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
+                      className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
                     />
                   )}
                 </div>
@@ -201,7 +245,16 @@ export default function Bot({
             id='send'
             className='size-8 cursor-pointer text-violet-800 mr-2 fill-current'
             onClick={() =>
-              fetchData({ msg: message, setisLoading, setTempMessages, tempMessages, id, cb: refetch, setMessage })
+              fetchData({
+                msg: message,
+                setisLoading,
+                setTempMessages,
+                tempMessages,
+                id,
+                cb: refetch,
+                setMessage,
+                setaudioURL
+              })
             }
           >
             <defs>
