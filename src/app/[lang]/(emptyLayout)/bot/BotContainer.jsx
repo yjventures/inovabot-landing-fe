@@ -1,6 +1,7 @@
 'use client'
 
 import { API_URL } from '@/configs'
+import { axiosInstance } from '@/lib/axios/interceptor'
 import { XhrSource } from '@/utils/form/eventStream'
 import { useState } from 'react'
 import Bot from './Bot'
@@ -39,6 +40,8 @@ export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessag
   }
   setTempMessages([...tempMessages, newMessage, newAssistantMessage])
 
+  let msgRes = ''
+
   const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -52,6 +55,10 @@ export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessag
 
   xs.addEventListener('close', async () => {
     await cb()
+    console.log(msgRes)
+
+    const res = await axiosInstance.post(`${API_URL}/audios/text-to-speech`, { message: msgRes })
+    console.log(res)
   })
 
   xs.addEventListener('message', e => {
@@ -62,6 +69,7 @@ export const fetchData = async ({ msg, setisLoading, setTempMessages, tempMessag
       const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
       if (lastMessageIndex !== -1) {
         updatedMessages[lastMessageIndex].content[0].text.value += msg
+        msgRes += msg
       }
       return updatedMessages
     })

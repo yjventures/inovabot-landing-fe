@@ -16,7 +16,7 @@ import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
-import { AlignRight } from 'lucide-react'
+import { AlignRight, PlayCircle } from 'lucide-react'
 import AudioRecorder from './AudioRecorder'
 import { faqs, fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
@@ -68,6 +68,8 @@ export default function Bot({
     //   sethideScrollbar(true)
     // }, 2000)
   }
+
+  const playAudio = () => {}
 
   return (
     <main className='relative h-screen'>
@@ -135,7 +137,7 @@ export default function Bot({
           ) : null}
 
           {isSuccess
-            ? tempMessages?.map(msg => (
+            ? tempMessages?.map((msg, i) => (
                 <div
                   key={msg.id}
                   className={cn('flex flex-col sm:flex-row gap-x-2 px-3 max-w-3xl', {
@@ -146,22 +148,28 @@ export default function Bot({
                   {msg.role === 'assistant' && (
                     <Img src={botImg} alt='Bot' className='size-10 aspect-square object-cover mt-4 rounded-full' />
                   )}
-                  <div
-                    style={{
-                      backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
-                      color: botData.colors.font
-                    }}
-                    className={cn('w-full my-3 p-2 text-sm rounded-lg', {
-                      'ml-auto border-2 order-2 sm:order-1': msg.role === 'user',
-                      'mr-auto': msg.role === 'assistant'
-                    })}
-                  >
-                    <MarkdownRenderer
-                      className='markdown text-sm'
-                      codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                  <div className='flex flex-col'>
+                    <div
+                      style={{
+                        backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
+                        color: botData.colors.font
+                      }}
+                      className={cn('w-full my-3 p-2 text-sm rounded-lg', {
+                        'ml-auto border-2 order-2 sm:order-1': msg.role === 'user',
+                        'mr-auto': msg.role === 'assistant'
+                      })}
                     >
-                      {msg.content[0].text.value}
-                    </MarkdownRenderer>
+                      <MarkdownRenderer
+                        className='markdown text-sm'
+                        codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                      >
+                        {msg.content[0].text.value}
+                      </MarkdownRenderer>
+                    </div>
+
+                    {msg.role === 'assistant' && i + 1 === tempMessages?.length ? (
+                      <PlayCircle className='size-10 text-emerald-500 cursor-pointer' onClick={playAudio} />
+                    ) : null}
                   </div>
                   {msg.role === 'user' && (
                     <Img
