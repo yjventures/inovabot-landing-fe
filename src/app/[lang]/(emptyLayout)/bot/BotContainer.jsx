@@ -90,7 +90,17 @@ export default function BotContainer({ threadId }) {
         isLoading={isLoading}
         setisLoading={setisLoading}
       />
-      <BotMobileNav navbarOpen={navbarOpen} setnavbarOpen={setnavbarOpen} />
+      <BotMobileNav
+        id={threadId}
+        navbarOpen={navbarOpen}
+        setnavbarOpen={setnavbarOpen}
+        message={message}
+        setMessage={setMessage}
+        tempMessages={tempMessages}
+        setTempMessages={setTempMessages}
+        isLoading={isLoading}
+        setisLoading={setisLoading}
+      />
     </>
   )
 }

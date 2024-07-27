@@ -40,7 +40,7 @@ export default function Bot({
     if (isSuccess) {
       setTempMessages(messagesList?.messages || [])
     }
-  }, [messagesList, isSuccess])
+  }, [messagesList, isSuccess, setTempMessages])
 
   const scrollToBottom = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })

@@ -3,10 +3,22 @@ import rigmtImg from '@/assets/temp/right-img.png'
 import { Img } from '@/components/ui/img'
 import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
+import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { X } from 'lucide-react'
-import { faqs } from './BotContainer'
+import { faqs, fetchData } from './BotContainer'
 
-export default function BotMobileNav({ navbarOpen, setnavbarOpen }) {
+export default function BotMobileNav({
+  navbarOpen,
+  setnavbarOpen,
+  id,
+  message,
+  setMessage,
+  tempMessages,
+  setTempMessages,
+  isLoading,
+  setisLoading
+}) {
+  const { refetch } = useGetThreadMessagesQuery(id)
   return (
     <nav
       className={cn(
@@ -43,6 +55,16 @@ export default function BotMobileNav({ navbarOpen, setnavbarOpen }) {
                 className='font-medium cursor-pointer border-b px-3 py-2'
                 onClick={() => {
                   setMessage(faq)
+                  fetchData({
+                    msg: faq,
+                    setisLoading,
+                    setTempMessages,
+                    tempMessages,
+                    id,
+                    cb: refetch,
+                    setMessage
+                  })
+                  setnavbarOpen(false)
                 }}
               >
                 {faq}
