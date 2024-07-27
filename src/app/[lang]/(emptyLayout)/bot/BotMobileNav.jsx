@@ -22,7 +22,7 @@ export default function BotMobileNav({
   return (
     <nav
       className={cn(
-        'fixed top-0 right-0 bg-dark-gray w-[330px] h-screen flex flex-col items-center justify-between transition-all duration-500 z-50',
+        'fixed top-0 right-0 bg-dark-gray w-[330px] h-svh flex flex-col items-center justify-between transition-all duration-500 z-50',
         {
           '-right-[330px]': !navbarOpen
         }
@@ -72,7 +72,7 @@ export default function BotMobileNav({
             ))}
           </div>
 
-          <Img src={rigmtImg} alt='right image' className='w-full h-auto px-5' />
+          <Img src={rigmtImg} alt='right image' className='w-full h-auto px-5 mb-10' />
         </div>
       </div>
     </nav>
