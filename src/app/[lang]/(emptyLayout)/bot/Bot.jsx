@@ -59,14 +59,14 @@ export default function Bot({
   const [hideScrollbar, sethideScrollbar] = useState(false)
 
   const handleScroll = () => {
-    let timer = null
-    sethideScrollbar(false)
-    if (timer !== null) {
-      clearTimeout(timer)
-    }
-    timer = setTimeout(function () {
-      sethideScrollbar(true)
-    }, 2000)
+    // let timer = null
+    // sethideScrollbar(false)
+    // if (timer !== null) {
+    //   clearTimeout(timer)
+    // }
+    // timer = setTimeout(function () {
+    //   sethideScrollbar(true)
+    // }, 2000)
   }
 
   return (
@@ -137,7 +137,7 @@ export default function Bot({
             ? tempMessages?.map(msg => (
                 <div
                   key={msg.id}
-                  className={cn('flex gap-x-2 px-3 max-w-3xl', {
+                  className={cn('flex flex-col sm:flex-row gap-x-2 px-3 max-w-3xl', {
                     'pl-24 justify-end': msg.role === 'user',
                     'pr-24 justify-start': msg.role === 'assistant'
                   })}
@@ -151,7 +151,7 @@ export default function Bot({
                       color: botData.colors.font
                     }}
                     className={cn('w-full my-3 p-2 text-sm rounded-lg', {
-                      'ml-auto border-2': msg.role === 'user',
+                      'ml-auto border-2 order-2 sm:order-1': msg.role === 'user',
                       'mr-auto': msg.role === 'assistant'
                     })}
                   >
@@ -166,7 +166,7 @@ export default function Bot({
                     <Img
                       src={avatarImg}
                       alt='Avatar'
-                      className='size-10 aspect-square object-cover mt-4 rounded-full'
+                      className='size-10 aspect-square object-cover mt-3 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
                     />
                   )}
                 </div>
