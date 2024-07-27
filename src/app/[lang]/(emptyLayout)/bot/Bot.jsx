@@ -123,11 +123,12 @@ export default function Bot({
           })}
           onScroll={handleScroll}
         >
+          {/*BUG: while loading, skeleton doesn't show*/}
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className={cn('flex', { 'justify-end': index % 2, 'justify-start': !index % 2 })}>
-                  <Skeleton className='w-2/3 h-40 mb-2 bg-gray-100' />
+                  <Skeleton className='w-2/3 h-40 mb-2' />
                 </div>
               ))}
             </div>

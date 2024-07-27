@@ -19,7 +19,7 @@ const Textarea = forwardRef(
             {required ? '*' : null}
           </Label>
         )}
-        <div className='pb-1'>
+        <div>
           <div className='relative'>
             <textarea
               className={cn(
