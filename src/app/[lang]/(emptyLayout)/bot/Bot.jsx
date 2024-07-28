@@ -16,7 +16,8 @@ import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
 import { Img } from '@/components/ui/img'
 import { Textarea } from '@/components/ui/textarea'
-import { AlignRight, PlayCircle, StopCircle } from 'lucide-react'
+import { AlignRight, Copy, PlayCircle, StopCircle } from 'lucide-react'
+import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
 import { faqs, fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
@@ -114,6 +115,11 @@ export default function Bot({
     })
   }
 
+  const copyToClipBoard = text => {
+    navigator.clipboard.writeText(text)
+    toast.success('Copied to clipboard!')
+  }
+
   return (
     <main className='relative h-screen'>
       {isLoading ? (
@@ -179,22 +185,32 @@ export default function Bot({
                     <Img src={botImg} alt='Bot' className='size-10 aspect-square object-cover mt-1 rounded-full' />
                   )}
                   <div className='flex flex-col'>
-                    <div
-                      style={{
-                        backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
-                        color: botData.colors.font
-                      }}
-                      className={cn('w-full my-1 text-sm rounded-lg', {
-                        'ml-auto border-2 order-2 sm:order-1 p-2': msg.role === 'user',
-                        'mr-auto px-2': msg.role === 'assistant'
-                      })}
-                    >
-                      <MarkdownRenderer
-                        className='markdown text-sm'
-                        codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                    <div className='group'>
+                      <div
+                        style={{
+                          backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
+                          color: botData.colors.font
+                        }}
+                        className={cn('w-full my-1 text-sm rounded-lg', {
+                          'ml-auto border-2 order-2 sm:order-1 p-2': msg.role === 'user',
+                          'mr-auto px-2': msg.role === 'assistant'
+                        })}
                       >
-                        {msg.content[0].text.value}
-                      </MarkdownRenderer>
+                        <MarkdownRenderer
+                          className='markdown text-sm'
+                          codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                        >
+                          {msg.content[0].text.value}
+                        </MarkdownRenderer>
+                      </div>
+
+                      {msg.role === 'assistant' && (
+                        <Copy
+                          className='cursor-pointer size-5 opacity-0 group-hover:opacity-100 transition-opacity ml-2'
+                          style={{ color: botData.colors.font }}
+                          onClick={() => copyToClipBoard(msg.content[0].text.value)}
+                        />
+                      )}
                     </div>
 
                     {msg.role === 'assistant' && i + 1 === tempMessages?.length && audioURL !== null ? (
@@ -253,17 +269,19 @@ export default function Bot({
             </svg>
           </button>
         </form>
-        <AudioRecorder
-          id={id}
-          message={message}
-          setMessage={setMessage}
-          tempMessages={tempMessages}
-          setTempMessages={setTempMessages}
-          isLoading={isLoading}
-          setisLoading={setisLoading}
-          setaudioURL={setaudioURL}
-        />
-        <FileUploader id={id} />
+        <div className='hidden md:flex items-center gap-x-2'>
+          <AudioRecorder
+            id={id}
+            message={message}
+            setMessage={setMessage}
+            tempMessages={tempMessages}
+            setTempMessages={setTempMessages}
+            isLoading={isLoading}
+            setisLoading={setisLoading}
+            setaudioURL={setaudioURL}
+          />
+          <FileUploader id={id} />
+        </div>
       </div>
     </main>
   )
