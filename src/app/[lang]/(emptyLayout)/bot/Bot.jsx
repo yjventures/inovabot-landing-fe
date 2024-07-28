@@ -14,9 +14,16 @@ import logo from '@/assets/temp/logo.png'
 import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
 import Spinner from '@/components/icons/Spinner'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { Img } from '@/components/ui/img'
 import { Textarea } from '@/components/ui/textarea'
-import { AlignRight, Copy, PlayCircle, StopCircle } from 'lucide-react'
+import { AlignRight, Copy, PlayCircle, Plus, StopCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
 import { faqs, fetchData } from './BotContainer'
@@ -282,6 +289,37 @@ export default function Bot({
           />
           <FileUploader id={id} />
         </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger className='inline-block md:hidden'>
+            <div
+              className='border-2 p-2.5 rounded-lg'
+              style={{
+                color: botData.colors.font,
+                borderColor: botData.colors.font
+              }}
+            >
+              <Plus className='size-7' />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='bg-transparent min-w-16'>
+            <DropdownMenuLabel>
+              <AudioRecorder
+                id={id}
+                message={message}
+                setMessage={setMessage}
+                tempMessages={tempMessages}
+                setTempMessages={setTempMessages}
+                isLoading={isLoading}
+                setisLoading={setisLoading}
+                setaudioURL={setaudioURL}
+              />
+            </DropdownMenuLabel>
+            <DropdownMenuItem>
+              <FileUploader id={id} />
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </main>
   )
