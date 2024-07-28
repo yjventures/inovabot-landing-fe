@@ -1,8 +1,5 @@
-'use client'
-
-import { forwardRef } from 'react'
-
 import { cn } from '@/lib/utils'
+import { forwardRef, useEffect, useRef } from 'react'
 import { Label } from './label'
 
 const Textarea = forwardRef(
@@ -23,7 +20,18 @@ const Textarea = forwardRef(
     },
     ref
   ) => {
+    const textareaRef = useRef(null)
+
+    useEffect(() => {
+      const textarea = textareaRef.current
+      if (textarea) {
+        textarea.style.height = 'auto'
+        textarea.style.height = `${textarea.scrollHeight}px`
+      }
+    }, [textareaRef?.current?.value])
+
     const textareaProps = register ? { ...register(name, { required, ...hookFormConfig }), ...props } : { ...props }
+
     return (
       <div className={cn(containerClassName, { 'flex flex-col gap-y-2': label && showLabel })}>
         {label && showLabel && (
@@ -35,11 +43,11 @@ const Textarea = forwardRef(
         <div className='relative'>
           <textarea
             className={cn(
-              'flex min-h-[80px] w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
+              'flex align-middle min-h-[80px] max-h-72 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50',
               { 'pl-10': icon },
               className
             )}
-            ref={ref}
+            ref={ref || textareaRef}
             {...textareaProps}
           />
           {icon && (

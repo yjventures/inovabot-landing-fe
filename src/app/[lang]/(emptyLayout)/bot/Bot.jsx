@@ -228,10 +228,12 @@ export default function Bot({
           <Textarea
             type='text'
             containerClassName='w-full max-w-full min-h-14'
-            className='w-full max-w-full min-h-14 border-none focus-visible:ring-0'
+            className='w-full max-w-full min-h-14 border-none focus-visible:ring-0 resize-none'
             placeholder='Type a message...'
             value={message}
             onChange={e => setMessage(e.target.value)}
+            rows={1}
+            onKeyDown={e => (e.key === 'Enter' && !e.shiftKey ? handleSubmit(e) : null)}
           />
           <button type='submit'>
             <svg
