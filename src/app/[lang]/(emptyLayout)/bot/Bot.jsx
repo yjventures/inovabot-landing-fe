@@ -103,7 +103,8 @@ export default function Bot({
         setisPlaying(false)
       },
       setMessage,
-      setaudioURL
+      setaudioURL,
+      controller: abortControllerRef
     })
   }
 
@@ -152,7 +153,7 @@ export default function Bot({
         >
           <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
-          <StopCircleIcon className='size-9' onClick={handleStop} />
+          <StopCircleIcon className='size-9 cursor-pointer' onClick={handleStop} />
         </div>
       ) : null}
       <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
