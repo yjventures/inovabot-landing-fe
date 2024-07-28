@@ -27,7 +27,8 @@ export const fetchData = async ({
   setMessage,
   id,
   cb,
-  setaudioURL
+  setaudioURL,
+  controller = null
 }) => {
   const prompt = {
     thread_id: id,
@@ -35,9 +36,6 @@ export const fetchData = async ({
     instructions: 'You are a genius programmer and professor at MIT'
   }
 
-  // Show the user's message immediately
-  setisLoading(true)
-  setaudioURL(null)
   const newMessage = {
     id: `temp-${Date.now()}`,
     role: 'user',
@@ -49,46 +47,54 @@ export const fetchData = async ({
     content: [{ text: { value: '' } }]
   }
   setTempMessages([...tempMessages, newMessage, newAssistantMessage])
+  setisLoading(true)
+  setaudioURL(null)
 
   let msgRes = ''
 
-  const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(prompt)
-  })
-
-  xs.addEventListener('error', e => {
-    setisLoading(false)
-    console.log(e.reason)
-  })
-
-  xs.addEventListener('close', async () => {
-    await cb()
-
-    const res = await axiosInstance.post(
-      `${API_URL}/audios/text-to-speech`,
-      { message: msgRes },
-      { responseType: 'blob' }
-    )
-
-    const url = URL.createObjectURL(res.data)
-    setaudioURL(url)
-  })
-
-  xs.addEventListener('message', e => {
-    setisLoading(false)
-    const msg = JSON.parse(e.data)
-    setTempMessages(prev => {
-      const updatedMessages = [...prev]
-      const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
-      if (lastMessageIndex !== -1) {
-        updatedMessages[lastMessageIndex].content[0].text.value += msg
-        msgRes += msg
-      }
-      return updatedMessages
+  try {
+    const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(prompt)
     })
-  })
+
+    xs.addEventListener('error', e => {
+      setisLoading(false)
+      console.error(e.reason)
+    })
+
+    xs.addEventListener('close', async () => {
+      await cb()
+
+      const res = await axiosInstance.post(
+        `${API_URL}/audios/text-to-speech`,
+        { message: msgRes },
+        { responseType: 'blob' }
+      )
+
+      const url = URL.createObjectURL(res.data)
+      setaudioURL(url)
+    })
+
+    xs.addEventListener('message', e => {
+      setisLoading(false)
+      const msg = JSON.parse(e.data)
+      setTempMessages(prev => {
+        const updatedMessages = [...prev]
+        const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
+        if (lastMessageIndex !== -1) {
+          updatedMessages[lastMessageIndex].content[0].text.value += msg
+          msgRes += msg
+        }
+        return updatedMessages
+      })
+    })
+
+    controller.current = xs
+  } catch (error) {
+    console.error('Fetch error:', error)
+  }
 
   setMessage('')
 }

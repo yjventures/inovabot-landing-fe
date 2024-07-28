@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Img } from '@/components/ui/img'
 import { Textarea } from '@/components/ui/textarea'
-import { AlignRight, Copy, PlayCircle, Plus, StopCircle } from 'lucide-react'
+import { AlignRight, Copy, PlayCircle, Plus, StopCircle, StopCircleIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
 import { faqs, fetchData } from './BotContainer'
@@ -43,6 +43,7 @@ export default function Bot({
 }) {
   const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
+  const abortControllerRef = useRef(null)
 
   const [isPlaying, setisPlaying] = useState(false)
 
@@ -110,6 +111,10 @@ export default function Bot({
     e.preventDefault()
     if (message === '') return
 
+    if (abortControllerRef.current) {
+      abortControllerRef.current.close() // Abort previous request if any
+    }
+
     fetchData({
       msg: message,
       setisLoading,
@@ -118,8 +123,15 @@ export default function Bot({
       id,
       cb: refetch,
       setMessage,
-      setaudioURL
+      setaudioURL,
+      controller: abortControllerRef
     })
+  }
+
+  const handleStop = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.close() // Abort current fetch
+    }
   }
 
   const copyToClipBoard = text => {
@@ -140,6 +152,7 @@ export default function Bot({
         >
           <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
+          <StopCircleIcon className='size-9' onClick={handleStop} />
         </div>
       ) : null}
       <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
@@ -184,8 +197,8 @@ export default function Bot({
                 <div
                   key={msg.id}
                   className={cn('flex flex-col sm:flex-row gap-x-2 px-3 max-w-3xl', {
-                    'pl-24 justify-end': msg.role === 'user',
-                    'pr-24 justify-start': msg.role === 'assistant'
+                    'pl-14 sm:pl-16 md:pl-24 justify-end': msg.role === 'user',
+                    'pr-14 sm:pr-16 md:pr-24 justify-start': msg.role === 'assistant'
                   })}
                 >
                   {msg.role === 'assistant' && (
