@@ -5,7 +5,7 @@ export const metadata = {
 }
 
 // const threadId = '668fadec9577e0dfdeaf9430'
-const threadId = '66a4c43398f8967482e2b197'
+const threadId = '66ba01c42d3e851899ba3767'
 
 export default function BotPage() {
   return <BotContainer threadId={threadId} />

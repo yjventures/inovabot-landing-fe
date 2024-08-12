@@ -91,7 +91,8 @@ export default function Bot({
     }
   }
 
-  const handleFAQTrigger = () => {
+  const handleFAQTrigger = faq => {
+    console.log(faq)
     setMessage(faq)
     fetchData({
       msg: faq,
@@ -177,7 +178,7 @@ export default function Bot({
           }}
         >
           {faqs.map(faq => (
-            <p key={faq} className='font-medium cursor-pointer' onClick={handleFAQTrigger}>
+            <p key={faq} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
               {faq}
             </p>
           ))}
