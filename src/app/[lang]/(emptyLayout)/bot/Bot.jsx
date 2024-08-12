@@ -44,6 +44,7 @@ export default function Bot({
   const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
   const abortControllerRef = useRef(null)
+  const chatContainerRef = useRef(null)
 
   const [isPlaying, setisPlaying] = useState(false)
 
@@ -181,7 +182,7 @@ export default function Bot({
             </p>
           ))}
         </div>
-        <div className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar')}>
+        <div className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {/*BUG: while loading, skeleton doesn't show*/}
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
