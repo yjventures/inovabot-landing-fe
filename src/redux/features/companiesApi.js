@@ -16,6 +16,11 @@ const companiesApi = api.injectEndpoints({
         url: '/packages/get-all'
       })
     }),
+    getPackgae: build.query({
+      query: id => ({
+        url: `/`
+      })
+    }),
     subscribeToPackage: build.mutation({
       query: payload => ({
         url: '/subscription/create',

@@ -57,13 +57,19 @@ export default function LoginForm({ t }) {
         setCookie('userData', JSON.stringify(userData))
       }
 
-      const { has_company, company_id } = { ...userData }
+      const { has_company, company_id, active_subscription } = { ...userData }
 
-      if (has_company && !company_id) {
-        push('/add-company-info')
-      } else {
-        push('/')
+      if (active_subscription) {
+        push(`/subscribe?package_id=${active_subscription}`)
       }
+
+      console.log(userData)
+
+      // if (has_company && !company_id) {
+      //   push('/add-company-info')
+      // } else {
+      //   push('/')
+      // }
     }
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isSuccess, isError, error, reset])

@@ -4,10 +4,14 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Switch } from '@/components/ui/switch'
 import Typography from '@/components/ui/typography'
 import { useGetAllSubscriptionsQuery } from '@/redux/features/companiesApi'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import PricingCard from '../../homepage/pricingPlans/PricingCard'
 
 export default function PricingPlans() {
+  const params = useSearchParams()
+  const hasPackageId = params.has('package_id')
+  const packageId = hasPackageId && params.get('package_id')
   const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery()
   const frequencies = [
     { value: 'monthly', priceSuffix: '/month' },
@@ -15,6 +19,11 @@ export default function PricingPlans() {
   ]
 
   const [frequency, setFrequency] = useState(frequencies[0])
+
+  const selectedPackage = data?.data?.find(tier => tier._id === packageId)
+
+  console.log(selectedPackage)
+
   return (
     <div className='pt-20 pb-10 container'>
       <div className='flex items-center justify-center'>
@@ -35,9 +44,13 @@ export default function PricingPlans() {
         {isLoading
           ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className='rounded-lg w-full h-96' />)
           : null}
-        {isSuccess
-          ? data?.packages?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
-          : null}
+        {isSuccess ? (
+          hasPackageId && selectedPackage ? (
+            <PricingCard tier={selectedPackage} frequency={frequency} />
+          ) : (
+            data?.data?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
+          )
+        ) : null}
       </div>
     </div>
   )
