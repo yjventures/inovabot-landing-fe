@@ -2,8 +2,13 @@
 
 import { API_URL } from '@/configs'
 import { axiosInstance } from '@/lib/axios/interceptor'
+import { useCreateThreadMutation, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
+import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { XhrSource } from '@/utils/form/eventStream'
-import { useState } from 'react'
+import { getCookie, setCookie } from 'cookies-next'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
 import Bot from './Bot'
 import BotMobileNav from './BotMobileNav'
 
@@ -99,7 +104,32 @@ export const fetchData = async ({
   setMessage('')
 }
 
-export default function BotContainer({ threadId }) {
+export default function BotContainer() {
+  const [bot_id, setbot_id] = useState(undefined)
+  const [thread_id, setthread_id] = useState(undefined)
+
+  const { slug } = useParams()
+  const { data, isSuccess } = useGetBotUsingSlugQuery(slug)
+
+  const [createThread, { isSuccess: isThreadSuccess, isError, error, data: threadData }] = useCreateThreadMutation()
+
+  // Managing local bot data if exists
+  useEffect(() => {
+    if (isSuccess) setbot_id(data?.data?._id)
+  }, [isSuccess, data])
+
+  const localBotData = getCookie('botData')
+
+  useEffect(() => {
+    if (localBotData && bot_id) {
+      const botDataParsed = JSON.parse(localBotData)
+      const localBotId = botDataParsed.bot_id
+
+      if (localBotId === bot_id) setthread_id(botDataParsed.thread_id)
+      else createThread({ bot_id, thread_id: 'new' })
+    } else if (!localBotData && bot_id) createThread({ bot_id, thread_id: 'new' })
+  }, [localBotData, bot_id, createThread])
+
   const [navbarOpen, setnavbarOpen] = useState(false)
 
   // Bot States
@@ -108,10 +138,21 @@ export default function BotContainer({ threadId }) {
   const [tempMessages, setTempMessages] = useState([])
   const [audioURL, setaudioURL] = useState(null)
 
+  useEffect(() => {
+    if (isThreadSuccess && bot_id) {
+      const newThreadId = threadData?.thread?._id
+      setthread_id(newThreadId)
+      setCookie('botData', JSON.stringify({ bot_id, thread_id: newThreadId }))
+    }
+
+    if (isError) toast.error(rtkErrorMesage(error))
+  }, [isThreadSuccess, isError, error, threadData, bot_id])
+
   return (
     <>
       <Bot
-        id={threadId}
+        id={thread_id}
+        botData={data?.data}
         setnavbarOpen={setnavbarOpen}
         message={message}
         setMessage={setMessage}
@@ -123,7 +164,8 @@ export default function BotContainer({ threadId }) {
         setaudioURL={setaudioURL}
       />
       <BotMobileNav
-        id={threadId}
+        id={thread_id}
+        botData={data?.data}
         navbarOpen={navbarOpen}
         setnavbarOpen={setnavbarOpen}
         message={message}

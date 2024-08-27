@@ -1,4 +1,4 @@
-import BotContainer from './BotContainer'
+import BotContainer from '../BotContainer'
 
 export const metadata = {
   title: 'BotPage | Inova'
@@ -8,5 +8,5 @@ export const metadata = {
 const threadId = '66ba01c42d3e851899ba3767'
 
 export default function BotPage() {
-  return <BotContainer threadId={threadId} />
+  return <BotContainer />
 }
