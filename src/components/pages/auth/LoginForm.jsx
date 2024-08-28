@@ -10,11 +10,15 @@ import { useLoginMutation } from '@/redux/features/authApi'
 import { calculateTokenExpiration } from '@/utils/auth/calculateTokenExpiration'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { setCookie } from 'cookies-next'
+import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 export default function LoginForm({ t }) {
+  const params = useSearchParams()
+  const email = params.get('email')
+
   const push = usePush()
   const {
     register,
@@ -24,6 +28,10 @@ export default function LoginForm({ t }) {
     reset,
     formState: { errors }
   } = useForm()
+
+  useEffect(() => {
+    if (params.has('email')) setValue('email', email)
+  }, [email, params, setValue])
 
   const [login, { isLoading, isSuccess, isError, error, data }] = useLoginMutation()
 
@@ -72,7 +80,7 @@ export default function LoginForm({ t }) {
       // }
     }
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error, reset])
+  }, [isSuccess, isError, error, reset, data, push, t, watch])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='w-full max-w-sm'>
