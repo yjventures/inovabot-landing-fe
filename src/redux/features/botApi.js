@@ -18,8 +18,13 @@ const botApi = api.injectEndpoints({
         method: 'POST',
         body: payload
       })
+    }),
+    getBotFAQ: build.query({
+      query: bot_id => ({
+        url: `/faqs/get-all/${bot_id}`
+      })
     })
   })
 })
 
-export const { useGetThreadMessagesQuery, useGetBotUsingSlugQuery, useCreateThreadMutation } = botApi
+export const { useGetThreadMessagesQuery, useGetBotUsingSlugQuery, useCreateThreadMutation, useGetBotFAQQuery } = botApi
