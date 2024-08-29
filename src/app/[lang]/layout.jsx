@@ -1,4 +1,5 @@
 import ReduxProvider from '@/lib/redux/redux-provider'
+import { ThemeProvider } from '@/lib/theme/ThemeProvider'
 import '@/styles/globals.scss'
 import { getCommonDict } from '@/utils/i18n/get-dictionary'
 import { Poppins } from 'next/font/google'
@@ -16,11 +17,13 @@ export default async function RootLayout({ children, params: { lang } }) {
   return (
     <html lang='en'>
       <ReduxProvider>
-        <body className={poppins.className}>
-          <Toaster position='top-center' />
-          <main>{children}</main>
-          <div id='modal-container' />
-        </body>
+        <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
+          <body className={poppins.className}>
+            <Toaster position='top-center' />
+            <main>{children}</main>
+            <div id='modal-container' />
+          </body>
+        </ThemeProvider>
       </ReduxProvider>
     </html>
   )

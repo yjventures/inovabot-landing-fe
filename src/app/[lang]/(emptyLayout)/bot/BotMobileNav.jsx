@@ -5,7 +5,7 @@ import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { X } from 'lucide-react'
-import { faqs, fetchData } from './BotContainer'
+import { fetchData } from './BotContainer'
 
 export default function BotMobileNav({
   navbarOpen,
@@ -17,7 +17,9 @@ export default function BotMobileNav({
   setTempMessages,
   isLoading,
   setisLoading,
-  setaudioURL
+  setaudioURL,
+  faqs,
+  isFaqLoading
 }) {
   const { refetch } = useGetThreadMessagesQuery(id)
   return (
@@ -50,26 +52,27 @@ export default function BotMobileNav({
               borderColor: botData.colors.font
             }}
           >
-            {faqs.map(faq => (
+            {faqs?.data?.map(faq => (
               <p
-                key={faq}
+                key={faq?._id}
                 className='font-medium cursor-pointer border-b px-3 py-2'
                 onClick={() => {
-                  setMessage(faq)
+                  setMessage(faq?.question)
                   fetchData({
-                    msg: faq,
+                    msg: faq?.question,
                     setisLoading,
                     setTempMessages,
                     tempMessages,
                     id,
                     cb: refetch,
                     setMessage,
-                    setaudioURL
+                    setaudioURL,
+                    instructions: faq?.objective
                   })
                   setnavbarOpen(false)
                 }}
               >
-                {faq}
+                {faq?.question}
               </p>
             ))}
           </div>

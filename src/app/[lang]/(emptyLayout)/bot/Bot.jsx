@@ -13,6 +13,7 @@ import botImg from '@/assets/temp/bot.png'
 import logo from '@/assets/temp/logo.png'
 import rigmtImg from '@/assets/temp/right-img.png'
 import lightBg from '@/assets/temp/violet-bg.jpg'
+import ThemeSwitcher from '@/components/common/ThemeSwitcher'
 import Spinner from '@/components/icons/Spinner'
 import {
   DropdownMenu,
@@ -26,7 +27,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { AlignRight, Copy, PlayCircle, Plus, StopCircle, StopCircleIcon } from 'lucide-react'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
-import { faqs, fetchData } from './BotContainer'
+import { fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
 
 export default function Bot({
@@ -39,7 +40,8 @@ export default function Bot({
   isLoading,
   setisLoading,
   audioURL,
-  setaudioURL
+  setaudioURL,
+  faqs
 }) {
   const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
@@ -70,12 +72,6 @@ export default function Bot({
     }
   }, [audioURL])
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--bot-primary-color', botData.colors.primary)
-    document.documentElement.style.setProperty('--bot-secondary-color', botData.colors.secondary)
-    document.documentElement.style.setProperty('--bot-font-color', botData.colors.font)
-  }, [])
-
   const playAudio = () => {
     if (audioRef.current) {
       audioRef.current.play()
@@ -92,10 +88,9 @@ export default function Bot({
   }
 
   const handleFAQTrigger = faq => {
-    console.log(faq)
-    setMessage(faq)
+    setMessage(faq?.question)
     fetchData({
-      msg: faq,
+      msg: faq?.question,
       setisLoading,
       setTempMessages,
       tempMessages,
@@ -106,7 +101,8 @@ export default function Bot({
       },
       setMessage,
       setaudioURL,
-      controller: abortControllerRef
+      controller: abortControllerRef,
+      instructions: faq?.objective
     })
   }
 
@@ -164,6 +160,7 @@ export default function Bot({
           className='size-10 text-white cursor-pointer inline-block xl:hidden'
           onClick={() => setnavbarOpen(prev => !prev)}
         />
+        <ThemeSwitcher />
       </nav>
       <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
       <div className='px-0 xl:px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
@@ -177,9 +174,9 @@ export default function Bot({
             borderColor: botData.colors.font
           }}
         >
-          {faqs.map(faq => (
-            <p key={faq} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
-              {faq}
+          {faqs?.data?.map(faq => (
+            <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
+              {faq?.question}
             </p>
           ))}
         </div>

@@ -2,27 +2,16 @@
 
 import { API_URL } from '@/configs'
 import { axiosInstance } from '@/lib/axios/interceptor'
-import { useCreateThreadMutation, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
+import { useCreateThreadMutation, useGetBotFAQQuery, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { XhrSource } from '@/utils/form/eventStream'
 import { getCookie, setCookie } from 'cookies-next'
+import { useTheme } from 'next-themes'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import Bot from './Bot'
 import BotMobileNav from './BotMobileNav'
-
-export const faqs = [
-  'What is Binary Search?',
-  'What is the time complexity of Binary Search?',
-  'What is the space complexity of Binary Search?',
-  'What is the difference between Linear Search and Binary Search?',
-  'What are the applications of Binary Search?',
-  'What is the Binary Search Algorithm?',
-  'What is the Binary Search Tree?',
-  'What is the Binary Search Tree Data Structure?',
-  'What are the properties of Binary Search Tree?'
-]
 
 export const fetchData = async ({
   msg,
@@ -33,12 +22,13 @@ export const fetchData = async ({
   id,
   cb,
   setaudioURL,
-  controller = null
+  controller = null,
+  instructions
 }) => {
   const prompt = {
     thread_id: id,
     message: msg,
-    instructions: 'You are a genius programmer and professor at MIT'
+    instructions: instructions || 'You are already instructed, give answer as the previous commands'
   }
 
   const newMessage = {
@@ -113,10 +103,26 @@ export default function BotContainer() {
 
   const [createThread, { isSuccess: isThreadSuccess, isError, error, data: threadData }] = useCreateThreadMutation()
 
+  const { theme } = useTheme()
+
   // Managing local bot data if exists
   useEffect(() => {
     if (isSuccess) setbot_id(data?.data?._id)
-  }, [isSuccess, data])
+
+    console.log(data?.data)
+
+    if (theme === 'light') {
+      document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color)
+      document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color)
+      document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color)
+    } else if (theme === 'dark') {
+      document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color_dark)
+      document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color_dark)
+      document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color_dark)
+    }
+  }, [isSuccess, data, theme])
+
+  const { data: faqs, isLoading: isFaqLoading } = useGetBotFAQQuery(bot_id)
 
   const localBotData = getCookie('botData')
 
@@ -162,6 +168,8 @@ export default function BotContainer() {
         setisLoading={setisLoading}
         audioURL={audioURL}
         setaudioURL={setaudioURL}
+        faqs={faqs}
+        isFaqLoading={isFaqLoading}
       />
       <BotMobileNav
         id={thread_id}
@@ -175,6 +183,8 @@ export default function BotContainer() {
         isLoading={isLoading}
         setisLoading={setisLoading}
         setaudioURL={setaudioURL}
+        faqs={faqs}
+        isFaqLoading={isFaqLoading}
       />
     </>
   )

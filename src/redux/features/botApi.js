@@ -21,7 +21,7 @@ const botApi = api.injectEndpoints({
     }),
     getBotFAQ: build.query({
       query: bot_id => ({
-        url: `/faqs/get-all/${bot_id}`
+        url: `/faqs/get-all?bot_id=${bot_id}`
       })
     })
   })

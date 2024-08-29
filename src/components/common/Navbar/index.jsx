@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react'
 import { Img } from '../../ui/img'
 import LLink from '../../ui/llink'
 import MobileNavbar from './MobileNavbar'
-import SignupButtons from './SignupButtons'
+import SignupButtons from '@/components/common/Navbar/SignupButtons'
+//import SignupButtons from './SignupButtons'
 
 export default function Navbar({ t }) {
   const [navbarOpen, setnavbarOpen] = useState(false)
