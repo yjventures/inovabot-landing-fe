@@ -1,7 +1,8 @@
 import { API_URL } from '@/configs'
-import botData from '@/constants/bot-page-temp.json'
 import { axiosInstance } from '@/lib/axios/interceptor'
+import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
+import styles from '@/styles/botStyles.module.scss'
 import { Mic, Square } from 'lucide-react'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -107,9 +108,12 @@ const AudioRecorder = ({
         </div>
       ) : (
         <Mic
-          className='size-10 cursor-pointer border-[3px] p-2 rounded-full'
+          className={cn(
+            'size-12 cursor-pointer border-[3px] p-2 rounded-full',
+            styles.borderPrimary,
+            styles.textPrimary
+          )}
           strokeWidth={2.7}
-          style={{ color: botData.colors.font }}
           variant='icon'
           onClick={handleStartRecording}
           disabled={isRecording}

@@ -3,16 +3,13 @@
 
 import MarkdownRenderer from '@/components/ui/markdown-renderer'
 import { Skeleton } from '@/components/ui/skeleton'
-import botData from '@/constants/bot-page-temp.json'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import { useEffect, useRef, useState } from 'react'
 // import lightBg from './../../../../../public/temp/light-bg.jpg'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
-import logo from '@/assets/temp/logo.png'
 import rigmtImg from '@/assets/temp/right-img.png'
-import lightBg from '@/assets/temp/violet-bg.jpg'
 import ThemeSwitcher from '@/components/common/ThemeSwitcher'
 import Spinner from '@/components/icons/Spinner'
 import {
@@ -24,7 +21,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Img } from '@/components/ui/img'
 import { Textarea } from '@/components/ui/textarea'
+import styles from '@/styles/botStyles.module.scss'
 import { AlignRight, Copy, PlayCircle, Plus, StopCircle, StopCircleIcon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
 import { fetchData } from './BotContainer'
@@ -41,7 +40,8 @@ export default function Bot({
   setisLoading,
   audioURL,
   setaudioURL,
-  faqs
+  faqs,
+  botData
 }) {
   const audioRef = useRef(null)
   const endOfMessagesRef = useRef(null) // Ref for the last message element
@@ -138,41 +138,41 @@ export default function Bot({
     toast.success('Copied to clipboard!')
   }
 
+  console.log(botData)
+
+  const { theme } = useTheme()
+
   return (
-    <main className='relative h-screen'>
+    <main
+      className='relative h-screen bg-cover bg-center'
+      style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
+    >
       {isLoading ? (
-        <div
-          className='fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2'
-          style={{
-            backgroundColor: botData.colors.primary,
-            color: botData.colors.font,
-            borderColor: botData.colors.font
-          }}
-        >
+        <div className='fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2'>
           <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
           <StopCircleIcon className='size-9 cursor-pointer' onClick={handleStop} />
         </div>
       ) : null}
       <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
-        <Img src={logo} alt='logo' className='h-1/2 w-auto' />
+        <Img
+          src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
+          alt='logo'
+          className='h-1/2 w-auto'
+        />
         <AlignRight
           className='size-10 text-white cursor-pointer inline-block xl:hidden'
           onClick={() => setnavbarOpen(prev => !prev)}
         />
         <ThemeSwitcher />
       </nav>
-      <Img src={lightBg} alt='Light background' className='fixed w-full h-screen inset-0 object-cover' />
       <div className='px-0 xl:px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
         <div
           className={cn(
-            'w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 mt-20 rounded-xl self-start border-2 custom-scrollbar'
+            'w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
+            styles.rightMsg,
+            styles.border
           )}
-          style={{
-            backgroundColor: botData.colors.primary,
-            color: botData.colors.font,
-            borderColor: botData.colors.font
-          }}
         >
           {faqs?.data?.map(faq => (
             <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
@@ -202,19 +202,23 @@ export default function Bot({
                   })}
                 >
                   {msg.role === 'assistant' && (
-                    <Img src={botImg} alt='Bot' className='size-10 aspect-square object-cover mt-1 rounded-full' />
+                    <Img
+                      src={botData.bot_logo || botImg}
+                      alt='Bot'
+                      className='size-10 aspect-square object-cover mt-1 rounded-full'
+                    />
                   )}
                   <div className='flex flex-col'>
                     <div className='group'>
                       <div
-                        style={{
-                          backgroundColor: `${msg.role === 'user' ? botData.colors.primary : botData.colors.secondary}`,
-                          color: botData.colors.font
-                        }}
-                        className={cn('w-full my-1 text-sm rounded-lg', {
-                          'ml-auto border-2 order-2 sm:order-1 p-2': msg.role === 'user',
-                          'mr-auto px-2': msg.role === 'assistant'
-                        })}
+                        className={cn(
+                          'w-full my-1 text-sm rounded-lg',
+                          {
+                            'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
+                            'mr-auto p-2': msg.role === 'assistant'
+                          },
+                          msg.role === 'user' ? styles.rightMsg : styles.leftMsg
+                        )}
                       >
                         <MarkdownRenderer
                           className='markdown text-sm'
@@ -226,8 +230,10 @@ export default function Bot({
 
                       {msg.role === 'assistant' && (
                         <Copy
-                          className='cursor-pointer size-5 opacity-0 group-hover:opacity-100 transition-opacity ml-2'
-                          style={{ color: botData.colors.font }}
+                          className={cn(
+                            'cursor-pointer size-5 opacity-0 group-hover:opacity-100 transition-opacity ml-2',
+                            styles.text
+                          )}
                           onClick={() => copyToClipBoard(msg.content[0].text.value)}
                         />
                       )}
@@ -247,7 +253,7 @@ export default function Bot({
                   </div>
                   {msg.role === 'user' && (
                     <Img
-                      src={avatarImg}
+                      src={botData.user_logo || avatarImg}
                       alt='Avatar'
                       className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
                     />
@@ -260,7 +266,10 @@ export default function Bot({
         <Img src={rigmtImg} alt='right image' className='w-80 hidden xl:block h-auto self-start mt-20' />
       </div>
       <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-3'>
-        <form onSubmit={handleSubmit} className='flex items-center justify-between rounded-xl gap-x-3 bg-white w-full'>
+        <form
+          onSubmit={handleSubmit}
+          className='flex items-center justify-between rounded-xl gap-x-3 w-full bg-background'
+        >
           <Textarea
             type='text'
             containerClassName='w-full max-w-full min-h-14'
@@ -276,7 +285,7 @@ export default function Bot({
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 64 64'
               id='send'
-              className='size-8 cursor-pointer text-violet-800 mr-2 fill-current'
+              className={cn('size-8 cursor-pointer mr-2 fill-current', styles.textPrimary)}
             >
               <defs>
                 <clipPath id='a'>
@@ -305,13 +314,7 @@ export default function Bot({
 
         <DropdownMenu>
           <DropdownMenuTrigger className='inline-block md:hidden'>
-            <div
-              className='border-2 p-2.5 rounded-lg'
-              style={{
-                color: botData.colors.font,
-                borderColor: botData.colors.font
-              }}
-            >
+            <div className='border-2 p-2.5 rounded-lg'>
               <Plus className='size-7' />
             </div>
           </DropdownMenuTrigger>
