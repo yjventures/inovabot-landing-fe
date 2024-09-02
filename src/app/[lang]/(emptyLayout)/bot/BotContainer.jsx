@@ -105,20 +105,20 @@ export default function BotContainer() {
 
   const { theme } = useTheme()
 
-  // Managing local bot data if exists
   useEffect(() => {
-    if (isSuccess) setbot_id(data?.data?._id)
+    if (isSuccess) {
+      console.log(data?.data?._id)
+      setbot_id(data?.data?._id)
 
-    console.log(data?.data)
-
-    if (theme === 'light') {
-      document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color)
-      document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color)
-      document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color)
-    } else if (theme === 'dark') {
-      document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color_dark)
-      document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color_dark)
-      document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color_dark)
+      if (theme === 'light') {
+        document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color)
+        document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color)
+        document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color)
+      } else if (theme === 'dark') {
+        document.documentElement.style.setProperty('--bot-primary-color', data?.data?.primary_color_dark)
+        document.documentElement.style.setProperty('--bot-secondary-color', data?.data?.secondary_color_dark)
+        document.documentElement.style.setProperty('--bot-font-color', data?.data?.font_color_dark)
+      }
     }
   }, [isSuccess, data, theme])
 

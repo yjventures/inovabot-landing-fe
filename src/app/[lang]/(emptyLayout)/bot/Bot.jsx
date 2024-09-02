@@ -1,15 +1,8 @@
 /* eslint-disable react/no-children-prop */
 'use client'
 
-import MarkdownRenderer from '@/components/ui/markdown-renderer'
-import { Skeleton } from '@/components/ui/skeleton'
-import { cn } from '@/lib/utils'
-import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
-import { useEffect, useRef, useState } from 'react'
-// import lightBg from './../../../../../public/temp/light-bg.jpg'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
-import rigmtImg from '@/assets/temp/right-img.png'
 import ThemeSwitcher from '@/components/common/ThemeSwitcher'
 import Spinner from '@/components/icons/Spinner'
 import {
@@ -20,10 +13,15 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Img } from '@/components/ui/img'
+import MarkdownRenderer from '@/components/ui/markdown-renderer'
+import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
+import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { AlignRight, Copy, PlayCircle, Plus, StopCircle, StopCircleIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
 import { fetchData } from './BotContainer'
@@ -138,8 +136,6 @@ export default function Bot({
     toast.success('Copied to clipboard!')
   }
 
-  console.log(botData)
-
   const { theme } = useTheme()
 
   return (
@@ -148,28 +144,40 @@ export default function Bot({
       style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
     >
       {isLoading ? (
-        <div className='fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2'>
+        <div
+          className={cn(
+            'fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2',
+            styles.rightMsg
+          )}
+        >
           <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
           <StopCircleIcon className='size-9 cursor-pointer' onClick={handleStop} />
         </div>
       ) : null}
-      <nav className='fixed top-0 left-0 w-full h-32 z-20 container flex items-center justify-between'>
-        <Img
-          src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
-          alt='logo'
-          className='h-1/2 w-auto'
-        />
-        <AlignRight
-          className='size-10 text-white cursor-pointer inline-block xl:hidden'
-          onClick={() => setnavbarOpen(prev => !prev)}
-        />
-        <ThemeSwitcher />
+      <nav className='fixed top-0 left-0 w-full h-24 z-20'>
+        <div className='container flex items-center justify-between h-full'>
+          <Img
+            src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
+            alt='logo'
+            className='h-1/2 w-auto'
+          />
+          <div className='flex items-center gap-x-2'>
+            <div className={cn('size-10 flex items-center justify-center rounded-full', styles.rightMsg)}>
+              <ThemeSwitcher />
+            </div>
+            <AlignRight
+              strokeWidth={1.5}
+              className={cn('size-10 cursor-pointer inline-block lg:hidden', styles.textPrimary)}
+              onClick={() => setnavbarOpen(prev => !prev)}
+            />
+          </div>
+        </div>
       </nav>
-      <div className='px-0 xl:px-5 pt-32 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
+      <div className='px-0 xl:px-5 pt-24 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
         <div
           className={cn(
-            'w-72 h-96 overflow-y-auto hidden xl:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
+            'w-72 max-h-full min-h-96 overflow-y-auto hidden lg:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
             styles.rightMsg,
             styles.border
           )}
@@ -180,7 +188,7 @@ export default function Bot({
             </p>
           ))}
         </div>
-        <div className={cn('max-w-7xl mx-auto overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
+        <div className={cn('w-full lg:w-[calc(100%-288px)] overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {/*BUG: while loading, skeleton doesn't show*/}
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5'>
@@ -196,7 +204,7 @@ export default function Bot({
             ? tempMessages?.map((msg, i) => (
                 <div
                   key={msg.id}
-                  className={cn('flex flex-col sm:flex-row gap-x-2 px-3 max-w-3xl', {
+                  className={cn('flex flex-col sm:flex-row gap-x-2 px-3', {
                     'pl-14 sm:pl-16 md:pl-24 justify-end': msg.role === 'user',
                     'pr-14 sm:pr-16 md:pr-24 justify-start': msg.role === 'assistant'
                   })}
@@ -263,7 +271,6 @@ export default function Bot({
             : null}
           <div ref={endOfMessagesRef} />
         </div>
-        <Img src={rigmtImg} alt='right image' className='w-80 hidden xl:block h-auto self-start mt-20' />
       </div>
       <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-3'>
         <form
@@ -314,11 +321,11 @@ export default function Bot({
 
         <DropdownMenu>
           <DropdownMenuTrigger className='inline-block md:hidden'>
-            <div className='border-2 p-2.5 rounded-lg'>
-              <Plus className='size-7' />
+            <div className={cn('border-2 p-2.5 rounded-lg', styles.borderPrimary)}>
+              <Plus className={cn('size-7', styles.textPrimary)} />
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className='bg-transparent min-w-16'>
+          <DropdownMenuContent className={cn('bg-transparent min-w-16 border-2', styles.borderPrimary)}>
             <DropdownMenuLabel>
               <AudioRecorder
                 id={id}
