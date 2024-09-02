@@ -1,6 +1,8 @@
 /* eslint-disable react/no-children-prop */
 'use client'
 
+import logoWhite from '@/assets/images/ui/logo-white.png'
+import logo from '@/assets/images/ui/logo.png'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
 import ThemeSwitcher from '@/components/common/ThemeSwitcher'
@@ -174,7 +176,7 @@ export default function Bot({
           </div>
         </div>
       </nav>
-      <div className='px-0 xl:px-5 pt-24 pb-2 h-[calc(100vh-76px)] overflow-hidden relative flex gap-x-3'>
+      <div className='px-0 xl:px-5 pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
         <div
           className={cn(
             'w-72 max-h-full min-h-96 overflow-y-auto hidden lg:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
@@ -229,7 +231,7 @@ export default function Bot({
                         )}
                       >
                         <MarkdownRenderer
-                          className='markdown text-sm'
+                          className='markdown text-sm max-w-4xl'
                           codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
                         >
                           {msg.content[0].text.value}
@@ -272,7 +274,7 @@ export default function Bot({
           <div ref={endOfMessagesRef} />
         </div>
       </div>
-      <div className='fixed bottom-5 left-1/2 -translate-x-1/2 max-w-4xl w-full px-5 flex items-center gap-x-3'>
+      <div className='fixed bottom-12 left-1/2 -translate-x-1/2 max-w-5xl w-full px-5 flex items-center gap-x-3'>
         <form
           onSubmit={handleSubmit}
           className='flex items-center justify-between rounded-xl gap-x-3 w-full bg-background'
@@ -281,7 +283,7 @@ export default function Bot({
             type='text'
             containerClassName='w-full max-w-full min-h-14'
             className='w-full max-w-full min-h-14 border-none focus-visible:ring-0 resize-none'
-            placeholder='Type a message...'
+            placeholder='Ask anything...'
             value={message}
             onChange={e => setMessage(e.target.value)}
             rows={1}
@@ -343,6 +345,11 @@ export default function Bot({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+      </div>
+
+      <div className='fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-5xl flex items-center justify-center px-5 gap-x-3'>
+        <p className='text-xl font-medium'>Powered By</p>
+        <Img src={theme === 'dark' && logoWhite ? logoWhite : logo} alt='logo' className='h-8 w-auto' />
       </div>
     </main>
   )
