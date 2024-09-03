@@ -19,8 +19,11 @@ export default function SignupForm({ t }) {
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors }
   } = useForm()
+
+  const passwordVal = watch('password')
 
   const [signup, { isLoading, isSuccess, isError, error }] = useSignupMutation()
 
@@ -28,6 +31,7 @@ export default function SignupForm({ t }) {
 
   const onSubmit = data => {
     if (!data.checked) return toast.error(t.agreeToTerms)
+    if (passwordVal.length < 8) return toast.error('Password must be of 8 characters long!')
 
     const allData = {
       name: data.firstName + ' ' + data.lastName,
@@ -46,7 +50,7 @@ export default function SignupForm({ t }) {
       toast.success(t.checkEmail)
     }
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error, reset])
+  }, [isSuccess, isError, error, reset, t])
 
   if (showEmailSendComp)
     return (
@@ -109,11 +113,17 @@ export default function SignupForm({ t }) {
         labelClassName='text-left'
       />
 
+      {passwordVal && passwordVal.length < 8 ? (
+        <p className='text-xs font-medium text-destructive self-start text-left mb-5'>
+          Password must contain at least 8 characters
+        </p>
+      ) : null}
+
       <div className='flex items-center gap-x-2'>
         <Checkbox id='terms-check' onCheckedChange={e => setValue('checked', e)} />
         <Label className='text-text-tartiary' htmlFor='terms-check'>
           {t.agreeTo}
-          <a href='#' className='font-medium text-text-secondary'>
+          <a href='#' className='font-medium text-text-secondary ml-2'>
             {t.terms}
           </a>
         </Label>

@@ -4,6 +4,7 @@
     "description": "Add Company info to get started. Use correct information to avoid any issues.",
     "form": {
       "companyLogo": "Company Logo*",
+      "companyLogoDark": "Company Logo (Dark Mode)",
       "companyName": "Company Name",
       "companyWebsite": "Company Website",
       "companyIndustry": "Industry",

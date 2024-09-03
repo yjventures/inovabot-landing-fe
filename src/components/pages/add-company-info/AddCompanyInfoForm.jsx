@@ -1,5 +1,6 @@
 'use client'
 
+import ImagePreviewer from '@/components/common/ImagePreviewer'
 import { Button } from '@/components/ui/button'
 import DnDUpload from '@/components/ui/dnd-upload'
 import { Input } from '@/components/ui/input'
@@ -17,8 +18,12 @@ export default function AddCompanyInfoForm({ t }) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors }
   } = useForm()
+
+  const logoVal = watch('logo')
+  const darkLogoVal = watch('logo_dark')
 
   const [addInfo, { isSuccess, isLoading, isError, error }] = useAddCompanyInfoMutation()
 
@@ -31,14 +36,31 @@ export default function AddCompanyInfoForm({ t }) {
     }
 
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error])
+  }, [isSuccess, isError, error, t, push])
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className='bg-background rounded-2xl p-6 mt-5 inline-flex flex-col w-full max-w-xl'
     >
-      <DnDUpload label={t.companyLogo} accept='image/*' className='max-w-lg' cb={e => setValue('logo', e)} />
+      <div className='space-y-5'>
+        {logoVal ? (
+          <ImagePreviewer imgSrc={logoVal} onClick={() => setValue('logo', '')} aspect='square' />
+        ) : (
+          <DnDUpload label={t.companyLogo} accept='image/*' className='max-w-lg' cb={e => setValue('logo', e)} />
+        )}
+
+        {darkLogoVal ? (
+          <ImagePreviewer imgSrc={darkLogoVal} onClick={() => setValue('logo_dark', '')} aspect='square' />
+        ) : (
+          <DnDUpload
+            label={t.companyLogoDark}
+            accept='image/*'
+            className='max-w-lg'
+            cb={e => setValue('logo_dark', e)}
+          />
+        )}
+      </div>
 
       <Input
         name='name'
@@ -50,16 +72,6 @@ export default function AddCompanyInfoForm({ t }) {
         showLabel
         className='max-w-lg'
         labelClassName='mt-6'
-      />
-      <Input
-        name='industry'
-        register={register}
-        errors={errors}
-        label={t.companyIndustry}
-        placeholder={t.companyIndustry}
-        required
-        showLabel
-        className='max-w-lg'
       />
       <Input
         type='url'

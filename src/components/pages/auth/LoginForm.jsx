@@ -8,9 +8,10 @@ import LLink from '@/components/ui/llink'
 import usePush from '@/hooks/usePush'
 import { useLoginMutation } from '@/redux/features/authApi'
 import { calculateTokenExpiration } from '@/utils/auth/calculateTokenExpiration'
+import { getDashboardUrl } from '@/utils/auth/getDashboardUrl'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { setCookie } from 'cookies-next'
-import { useSearchParams } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
@@ -69,15 +70,11 @@ export default function LoginForm({ t }) {
 
       if (active_subscription) {
         push(`/subscribe?package_id=${active_subscription}`)
+      } else if (has_company && !company_id) {
+        push('/add-company-info')
+      } else {
+        redirect(getDashboardUrl())
       }
-
-      console.log(userData)
-
-      // if (has_company && !company_id) {
-      //   push('/add-company-info')
-      // } else {
-      //   push('/')
-      // }
     }
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isSuccess, isError, error, reset, data, push, t, watch])
