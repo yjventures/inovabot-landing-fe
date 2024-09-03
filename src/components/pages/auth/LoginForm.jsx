@@ -73,7 +73,7 @@ export default function LoginForm({ t }) {
       } else if (has_company && !company_id) {
         push('/add-company-info')
       } else {
-        redirect(`${getDashboardUrl()}?token=${accessToken}`)
+        redirect(getDashboardUrl())
       }
     }
     if (isError) toast.error(rtkErrorMesage(error))

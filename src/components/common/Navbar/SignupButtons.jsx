@@ -11,14 +11,13 @@ import { useDispatch } from 'react-redux'
 
 export default function SignupButtons({ t, className }) {
   const refreshToken = getCookie('refreshToken')
-  const accessToken = getCookie('accessToken')
   const dispatch = useDispatch()
   const { refresh } = useRouter()
   return (
     <div className={cn('flex flex-col items-center justify-center lg:flex-row gap-y-3 gap-x-6', className)}>
       {refreshToken ? (
         <div className='flex items-center gap-x-3'>
-          <a href={`${getDashboardUrl()}?token=${accessToken}`}>
+          <a href={getDashboardUrl()}>
             <Button variant='success'>{t.dashboard}</Button>
           </a>
           <Button onClick={() => logoutActions(dispatch, refresh)}>Logout</Button>
