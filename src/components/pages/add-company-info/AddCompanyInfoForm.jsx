@@ -63,6 +63,18 @@ export default function AddCompanyInfoForm({ t }) {
       </div>
 
       <Input
+        name='email'
+        register={register}
+        errors={errors}
+        type='email'
+        label={t.email}
+        placeholder={t.email}
+        required
+        showLabel
+        className='max-w-lg'
+        labelClassName='mt-6'
+      />
+      <Input
         name='name'
         register={register}
         errors={errors}
@@ -71,7 +83,6 @@ export default function AddCompanyInfoForm({ t }) {
         required
         showLabel
         className='max-w-lg'
-        labelClassName='mt-6'
       />
       <Input
         type='url'

@@ -6,6 +6,7 @@
       "companyLogo": "Company Logo*",
       "companyLogoDark": "Company Logo (Dark Mode)",
       "companyName": "Company Name",
+      "email": "Primary Contact Email",
       "companyWebsite": "Company Website",
       "companyIndustry": "Industry",
       "companyAddress": "Address",

@@ -25,16 +25,13 @@ export default function PricingCard({ tier, frequency }) {
 
   const subscribeFn = () => {
     const packageData = tier.price[frequency.value]
-    subscribe({ price_id: packageData.stripe_id, package_id: packageData._id })
+    subscribe({ price_id: packageData.stripe_id, package_id: tier._id })
   }
 
   useEffect(() => {
-    if (isSuccess) {
-      redirect(data?.stripeSession)
-    }
-
+    if (isSuccess) redirect(data?.stripeSession)
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error])
+  }, [isSuccess, isError, error, data])
 
   return (
     <div key={tier?.id} className='rounded-lg p-8 text-center bg-primary-foreground'>

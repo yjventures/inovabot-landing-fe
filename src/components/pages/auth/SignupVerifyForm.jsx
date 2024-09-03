@@ -4,6 +4,7 @@ import Typography from '@/components/ui/typography'
 import usePush from '@/hooks/usePush'
 import { useSignupVerifyMutation } from '@/redux/features/authApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
+import { setCookie } from 'cookies-next'
 import { MailCheck, MailSearch, MailX } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
@@ -14,7 +15,7 @@ export default function SignupVerifyForm({ t }) {
   const params = useSearchParams()
   const code = params.has('code') && params.get('code')
 
-  const [verifyEmail, { isLoading, isSuccess, isError, error }] = useSignupVerifyMutation()
+  const [verifyEmail, { isLoading, isSuccess, isError, error, data }] = useSignupVerifyMutation()
 
   useEffect(() => {
     if (code) {
@@ -26,13 +27,26 @@ export default function SignupVerifyForm({ t }) {
     if (isSuccess) {
       toast.success(t.emailVerifiedDescription)
 
-      setTimeout(() => {
-        push('/login')
-      }, 2000)
-    }
+      const {
+        user: { accessToken, refreshToken, ...userData }
+      } = data
 
+      setCookie('refreshToken', refreshToken)
+      setCookie('accessToken', accessToken)
+      setCookie('userData', JSON.stringify(userData))
+
+      const { has_company, company_id, active_subscription } = { ...userData }
+
+      if (active_subscription) {
+        push(`/subscribe?package_id=${active_subscription}`)
+      } else if (has_company && !company_id) {
+        push('/add-company-info')
+      } else {
+        redirect(`${getDashboardUrl()}?token=${accessToken}`)
+      }
+    }
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error])
+  }, [isSuccess, isError, error, data, push, t])
 
   return (
     <div className='flex items-center justify-center'>
