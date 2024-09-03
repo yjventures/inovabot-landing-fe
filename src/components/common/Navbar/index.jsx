@@ -1,13 +1,14 @@
 'use client'
 
 import logo from '@/assets/images/ui/logo.png'
+import SignupButtons from '@/components/common/Navbar/SignupButtons'
 import { cn } from '@/lib/utils'
 import { AlignRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Img } from '../../ui/img'
 import LLink from '../../ui/llink'
+import ThemeSwitcher from '../ThemeSwitcher'
 import MobileNavbar from './MobileNavbar'
-import SignupButtons from '@/components/common/Navbar/SignupButtons'
 //import SignupButtons from './SignupButtons'
 
 export default function Navbar({ t }) {
@@ -44,6 +45,8 @@ export default function Navbar({ t }) {
 
           <div className='flex items-center gap-x-3'>
             <SignupButtons t={t} className='hidden lg:flex' />
+
+            <ThemeSwitcher />
 
             <AlignRight
               className='inline-block lg:hidden w-6 h-6 text-text-white cursor-pointer'

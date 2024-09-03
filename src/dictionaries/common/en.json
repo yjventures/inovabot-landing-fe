@@ -2,6 +2,7 @@
   "header": {
     "login": "Login",
     "signup": "Sign Up",
+    "dashboard": "Dashboard",
     "navLinks": [
       { "id": 1, "title": "Product", "href": "/products" },
       { "id": 2, "title": "Features", "href": "/features" },
