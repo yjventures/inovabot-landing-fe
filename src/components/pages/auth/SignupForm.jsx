@@ -34,10 +34,9 @@ export default function SignupForm({ t }) {
     if (passwordVal.length < 8) return toast.error('Password must be of 8 characters long!')
 
     const allData = {
-      name: data.firstName + ' ' + data.lastName,
+      name: `${data.firstName} ${data.lastName}`,
       email: data.email.trim().toLowerCase(),
-      password: data.password,
-      type: 'admin'
+      password: data.password
     }
 
     signup(allData)
