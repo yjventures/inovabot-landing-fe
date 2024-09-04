@@ -70,7 +70,7 @@ export default function LoginForm({ t }) {
 
       if (active_subscription) {
         push(`/subscribe?package_id=${active_subscription}`)
-      } else if (has_company && !company_id) {
+      } else if (!has_company && !company_id) {
         push('/add-company-info')
       } else {
         redirect(getDashboardUrl())

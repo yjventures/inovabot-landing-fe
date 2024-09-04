@@ -6,7 +6,7 @@ import { useSignupVerifyMutation } from '@/redux/features/authApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { setCookie } from 'cookies-next'
 import { MailCheck, MailSearch, MailX } from 'lucide-react'
-import { useSearchParams } from 'next/navigation'
+import { redirect, useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
@@ -39,7 +39,7 @@ export default function SignupVerifyForm({ t }) {
 
       if (active_subscription) {
         push(`/subscribe?package_id=${active_subscription}`)
-      } else if (has_company && !company_id) {
+      } else if (!has_company && !company_id) {
         push('/add-company-info')
       } else {
         redirect(getDashboardUrl())

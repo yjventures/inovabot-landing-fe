@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Img } from '@/components/ui/img'
-import MarkdownRenderer from '@/components/ui/markdown-renderer'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
@@ -230,12 +229,16 @@ export default function Bot({
                           msg.role === 'user' ? styles.rightMsg : styles.leftMsg
                         )}
                       >
-                        <MarkdownRenderer
+                        {/* <MarkdownRenderer
                           className='markdown text-sm max-w-4xl'
                           codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
                         >
                           {msg.content[0].text.value}
-                        </MarkdownRenderer>
+                        </MarkdownRenderer> */}
+                        <div
+                          dangerouslySetInnerHTML={{ __html: msg.content[0].text.value }}
+                          className={styles.text}
+                        ></div>
                       </div>
 
                       {msg.role === 'assistant' && (
