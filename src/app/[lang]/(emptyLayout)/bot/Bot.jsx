@@ -236,7 +236,7 @@ export default function Bot({
                           {msg.content[0].text.value}
                         </MarkdownRenderer> */}
                         <div
-                          dangerouslySetInnerHTML={{ __html: msg.content[0].text.value }}
+                          dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
                           className={cn(styles.text, 'prose')}
                         ></div>
                       </div>
@@ -247,7 +247,7 @@ export default function Bot({
                             'cursor-pointer size-5 opacity-0 group-hover:opacity-100 transition-opacity ml-2',
                             styles.text
                           )}
-                          onClick={() => copyToClipBoard(msg.content[0].text.value)}
+                          onClick={() => copyToClipBoard(msg?.content?.[0]?.text?.value)}
                         />
                       )}
                     </div>

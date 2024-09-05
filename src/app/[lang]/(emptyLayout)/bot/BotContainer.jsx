@@ -27,8 +27,8 @@ export const fetchData = async ({
 }) => {
   const prompt = {
     thread_id: id,
-    message: msg,
-    instructions: instructions || 'You are already instructed, give answer as the previous commands'
+    message: msg
+    // instructions: ''
   }
 
   const newMessage = {
