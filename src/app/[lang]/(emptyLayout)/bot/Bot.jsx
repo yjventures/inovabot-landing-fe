@@ -237,7 +237,7 @@ export default function Bot({
                         </MarkdownRenderer> */}
                         <div
                           dangerouslySetInnerHTML={{ __html: msg.content[0].text.value }}
-                          className={styles.text}
+                          className={cn(styles.text, 'prose')}
                         ></div>
                       </div>
 
