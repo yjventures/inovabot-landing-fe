@@ -25,7 +25,7 @@ export default function PricingCard({ tier, frequency }) {
 
   const subscribeFn = () => {
     const packageData = tier.price[frequency.value]
-    subscribe({ price_id: packageData.stripe_id, package_id: tier._id })
+    subscribe({ price_id: packageData.stripe_id, package_id: tier._id, recurring_type: frequency.value })
   }
 
   useEffect(() => {
