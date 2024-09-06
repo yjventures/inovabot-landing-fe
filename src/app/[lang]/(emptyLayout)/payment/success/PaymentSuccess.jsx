@@ -1,9 +1,22 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import LLink from '@/components/ui/llink'
 import Typography from '@/components/ui/typography'
+import { logoutActions } from '@/utils/auth/logoutActions'
 import { Check, Home, LayoutGrid } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 
 export default function PaymentSuccess() {
+  const dispatch = useDispatch()
+  const { refresh } = useRouter()
+
+  useEffect(() => {
+    logoutActions(dispatch, refresh)
+  }, [dispatch, refresh])
+
   // useEffect(() => {
   //   const userData = getCookie('userData')
   //   const user = userData && JSON.parse(userData)
@@ -28,7 +41,7 @@ export default function PaymentSuccess() {
             <LLink href='/'>
               <Button icon={<Home />}>Back to Home</Button>
             </LLink>
-            <LLink href='/'>
+            <LLink href='/login'>
               <Button variant='success' icon={<LayoutGrid />}>
                 Go to Dashboard
               </Button>

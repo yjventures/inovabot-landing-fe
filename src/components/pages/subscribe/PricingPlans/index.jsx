@@ -12,7 +12,12 @@ export default function PricingPlans() {
   const params = useSearchParams()
   const hasPackageId = params.has('package_id')
   const packageId = hasPackageId && params.get('package_id')
-  const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery()
+  const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery({
+    page: 1,
+    limit: 100,
+    sortBy: 'createdAt',
+    sortOrder: 'asc'
+  })
   const frequencies = [
     { value: 'monthly', priceSuffix: '/month' },
     { value: 'yearly', priceSuffix: '/year' }

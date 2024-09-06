@@ -9,7 +9,6 @@ import {
   Features,
   Hero,
   Marquee,
-  PricingComparison,
   PricingPlans,
   Testimonials
 } from '@/components/pages/homepage'
@@ -34,7 +33,7 @@ export default async function Home({ params: { lang } }) {
       <Description3 t={t.description3} />
       <CTA2 t={t.cta2} />
       <PricingPlans t={t.pricingPlans} />
-      <PricingComparison t={t.pricingComparison} />
+      {/* <PricingComparison t={t.pricingComparison} /> */}
       <Testimonials t={t.testimonials} />
     </main>
   )

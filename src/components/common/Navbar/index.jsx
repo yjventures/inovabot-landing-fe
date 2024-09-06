@@ -35,13 +35,13 @@ export default function Navbar({ t }) {
           <LLink href='/'>
             <Img src={logo} alt='Inova' className='w-auto h-1/2' />
           </LLink>
-          <ul className='hidden lg:flex gap-x-5 text-text-secondary font-medium'>
+          {/* <ul className='hidden lg:flex gap-x-5 text-text-secondary font-medium'>
             {t.navLinks?.map(link => (
               <li key={link.id}>
                 <LLink href={link.href}>{link.title}</LLink>
               </li>
             ))}
-          </ul>
+          </ul> */}
 
           <div className='flex items-center gap-x-3'>
             <SignupButtons t={t} className='hidden lg:flex' />

@@ -9,7 +9,12 @@ import { useState } from 'react'
 import PricingCard from './PricingCard'
 
 export default function PricingPlans({ t }) {
-  const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery()
+  const { isLoading, isSuccess, data } = useGetAllSubscriptionsQuery({
+    page: 1,
+    limit: 100,
+    sortBy: 'createdAt',
+    sortOrder: 'asc'
+  })
   const frequencies = [
     { value: 'monthly', priceSuffix: '/month' },
     { value: 'yearly', priceSuffix: '/year' }
@@ -47,9 +52,7 @@ export default function PricingPlans({ t }) {
         {isLoading
           ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className='rounded-lg w-full h-96' />)
           : null}
-        {isSuccess
-          ? data?.packages?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
-          : null}
+        {isSuccess ? data?.data?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />) : null}
       </div>
     </div>
   )

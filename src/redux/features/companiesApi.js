@@ -12,8 +12,9 @@ const companiesApi = api.injectEndpoints({
       })
     }),
     getAllSubscriptions: build.query({
-      query: () => ({
-        url: '/packages/get-all'
+      query: params => ({
+        url: '/packages/get-all',
+        params
       })
     }),
     getPackgae: build.query({
