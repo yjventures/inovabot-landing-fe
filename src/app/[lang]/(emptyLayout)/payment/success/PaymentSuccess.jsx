@@ -17,13 +17,6 @@ export default function PaymentSuccess() {
     logoutActions(dispatch, refresh)
   }, [dispatch, refresh])
 
-  // useEffect(() => {
-  //   const userData = getCookie('userData')
-  //   const user = userData && JSON.parse(userData)
-  //   const updatedUser = { ...user, active_subscription: null }
-  //   setCookie('userData', updatedUser)
-  // }, [])
-
   return (
     <div className='bg-primary-foreground h-screen flex items-center justify-center px-5'>
       <div className='bg-background py-5 sm:py-6 px-5 sm:px-8 rounded-xl shadow-lg flex flex-col items-center justify-center'>
