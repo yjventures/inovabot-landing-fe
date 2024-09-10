@@ -1,6 +1,5 @@
 import logo from '@/assets/images/ui/logo.png'
 import PricingPlans from '@/components/pages/subscribe/PricingPlans'
-import { Button } from '@/components/ui/button'
 import { Img } from '@/components/ui/img'
 import LLink from '@/components/ui/llink'
 import Typography from '@/components/ui/typography'
@@ -26,11 +25,11 @@ export default async function Subscribe({ params: { lang } }) {
         {t.title}
       </Typography>
       <p className='text-text-tartiary text-center max-w-full font-medium text-lg'>{t.description}</p>
-      <div className='flex items-center justify-center mt-5'>
+      {/* <div className='flex items-center justify-center mt-5'>
         <LLink href='/pricing'>
           <Button size='lg'>{t.comparePlans}</Button>
         </LLink>
-      </div>
+      </div> */}
 
       <PricingPlans />
     </main>
