@@ -35,7 +35,7 @@ export default function SignupVerifyForm({ t }) {
       setCookie('accessToken', accessToken)
       setCookie('userData', JSON.stringify(userData))
 
-      const { has_company, company_id, active_subscription } = { ...userData }
+      const { has_company, company_id, active_subscription, type } = { ...userData }
 
       if (type === 'company-admin' && active_subscription) {
         push(`/subscribe?package_id=${active_subscription}`)
