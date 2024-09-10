@@ -1,21 +1,25 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import LLink from '@/components/ui/llink'
 import Typography from '@/components/ui/typography'
+import usePush from '@/hooks/usePush'
 import { logoutActions } from '@/utils/auth/logoutActions'
-import { Check, Home, LayoutGrid } from 'lucide-react'
+import { Check, Loader } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 export default function PaymentSuccess() {
+  const push = usePush()
   const dispatch = useDispatch()
   const { refresh } = useRouter()
 
   useEffect(() => {
     logoutActions(dispatch, refresh)
-  }, [dispatch, refresh])
+
+    setTimeout(() => {
+      push('/login')
+    }, 3500)
+  }, [dispatch, refresh, push])
 
   return (
     <div className='bg-primary-foreground h-screen flex items-center justify-center px-5'>
@@ -29,17 +33,9 @@ export default function PaymentSuccess() {
             Payment Successful!
           </Typography>
           <p className='text-text-secondary font-medium my-2'>Thank you for completing your secure online payment.</p>
-          <p className='text-text-tartiary font-medium text-lg'>Continue your journey creating a bot!</p>
-          <div className='py-5 text-center flex flex-wrap items-center justify-center gap-x-6 gap-y-3'>
-            <LLink href='/'>
-              <Button icon={<Home />}>Back to Home</Button>
-            </LLink>
-            <LLink href='/login'>
-              <Button variant='success' icon={<LayoutGrid />}>
-                Go to Dashboard
-              </Button>
-            </LLink>
-          </div>
+          <p className='text-text-tartiary font-medium text-lg flex justify-center items-center gap-x-3 text-center text-balance'>
+            Redirecting to the login page soon <Loader className='size-5 animate-spin ' />
+          </p>
         </div>
       </div>
     </div>
