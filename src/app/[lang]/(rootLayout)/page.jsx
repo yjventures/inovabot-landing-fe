@@ -12,6 +12,7 @@ import {
   PricingPlans,
   Testimonials
 } from '@/components/pages/homepage'
+import RedirectToDashboard from '@/components/pages/homepage/RedirectToDashboard'
 import { getHomepageDict } from '@/utils/i18n/get-dictionary'
 
 export const metadata = {
@@ -22,6 +23,7 @@ export default async function Home({ params: { lang } }) {
   const t = await getHomepageDict(lang)
   return (
     <main>
+      <RedirectToDashboard />
       <AskAgent t={t.askAgent} />
       <Hero t={t.hero} />
       <Clients t={t.clients} />

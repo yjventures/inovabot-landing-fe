@@ -9,7 +9,7 @@ export default function PricingComparison({ t }) {
         {/* lg+ */}
         {/*FIXME: Fix the scroll padding issue here for scrolling the comparison table*/}
         <div className='border pt-20 rounded-sm overflow-hidden'>
-          <table className='w-full table-fixed border-collapse text-left scroll-pt-20'>
+          <table className='w-full table-fixed border-collapse text-left scroll-pt-20 top-20'>
             <caption className='sr-only'>Pricing plan comparison</caption>
             <colgroup>
               {Array.from({ length: t.tiers.length + 1 }).map((_, i) => (
