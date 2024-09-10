@@ -42,15 +42,25 @@ export default function AddCompanyInfoForm({ t }) {
     <form onSubmit={handleSubmit(onSubmit)} className='bg-background rounded-2xl p-6 mt-5 flex flex-col w-full'>
       <div className='gap-y-5 flex flex-col md:flex-row gap-x-6'>
         {logoVal ? (
-          <ImagePreviewer imgSrc={logoVal} onClick={() => setValue('logo', '')} aspect='square' />
+          <ImagePreviewer imgSrc={logoVal} onClick={() => setValue('logo', '')} aspect='square' className='max-w-sm' />
         ) : (
-          <DnDUpload label={t.companyLogo} accept='image/*' className='w-full' cb={e => setValue('logo', e)} />
+          <DnDUpload label={t.companyLogo} accept='image/*' className='w-full max-w-sm' cb={e => setValue('logo', e)} />
         )}
 
         {darkLogoVal ? (
-          <ImagePreviewer imgSrc={darkLogoVal} onClick={() => setValue('logo_dark', '')} aspect='square' />
+          <ImagePreviewer
+            imgSrc={darkLogoVal}
+            onClick={() => setValue('logo_dark', '')}
+            aspect='square'
+            className='max-w-sm'
+          />
         ) : (
-          <DnDUpload label={t.companyLogoDark} accept='image/*' className='w-full' cb={e => setValue('logo_dark', e)} />
+          <DnDUpload
+            label={t.companyLogoDark}
+            accept='image/*'
+            className='w-full max-w-sm'
+            cb={e => setValue('logo_dark', e)}
+          />
         )}
       </div>
 
