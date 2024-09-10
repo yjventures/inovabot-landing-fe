@@ -117,7 +117,7 @@ export default function AddCompanyInfoForm({ t }) {
         />
       </div>
 
-      <Button type='submit' variant='black' className='w-full max-w-lg' isLoading={isLoading}>
+      <Button type='submit' variant='black' className='w-full max-w-sm' isLoading={isLoading}>
         {t.save}
       </Button>
     </form>
