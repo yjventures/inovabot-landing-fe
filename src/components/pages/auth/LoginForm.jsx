@@ -68,9 +68,9 @@ export default function LoginForm({ t }) {
 
       const { has_company, company_id, active_subscription, type } = { ...userData }
 
-      if (type === 'company_admin' && active_subscription) {
+      if (type === 'company-admin' && active_subscription) {
         push(`/subscribe?package_id=${active_subscription}`)
-      } else if (type === 'company_admin' && !has_company && !company_id) {
+      } else if (type === 'company-admin' && !has_company && !company_id) {
         push('/add-company-info')
       } else {
         redirect(getDashboardUrl())
