@@ -6,7 +6,7 @@ import styles from '@/styles/botStyles.module.scss'
 import { Mic, Square } from 'lucide-react'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { fetchData } from './BotContainer'
+import { runBotThread } from './bot.helpers'
 
 const AudioRecorder = ({
   id,
@@ -76,7 +76,7 @@ const AudioRecorder = ({
         if (response?.status === 200) {
           const speechToText = response?.data?.transcript?.text
           setMessage(speechToText)
-          fetchData({
+          runBotThread({
             msg: speechToText,
             setisLoading,
             setTempMessages,

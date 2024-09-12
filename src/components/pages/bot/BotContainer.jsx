@@ -25,10 +25,10 @@ import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import AudioRecorder from './AudioRecorder'
-import { fetchData } from './BotContainer'
 import FileUploader from './FileUploader'
+import { runBotThread } from './bot.helpers'
 
-export default function Bot({
+export default function BotContainer({
   id,
   setnavbarOpen,
   message,
@@ -40,10 +40,13 @@ export default function Bot({
   audioURL,
   setaudioURL,
   faqs,
-  botData
+  botData,
+  current_run,
+  setcurrent_run
 }) {
+  // Refs
   const audioRef = useRef(null)
-  const endOfMessagesRef = useRef(null) // Ref for the last message element
+  const endOfMessagesRef = useRef(null)
   const abortControllerRef = useRef(null)
   const chatContainerRef = useRef(null)
 
@@ -88,7 +91,7 @@ export default function Bot({
 
   const handleFAQTrigger = faq => {
     setMessage(faq?.question)
-    fetchData({
+    runBotThread({
       msg: faq?.question,
       setisLoading,
       setTempMessages,
@@ -113,7 +116,7 @@ export default function Bot({
       abortControllerRef.current.close() // Abort previous request if any
     }
 
-    fetchData({
+    runBotThread({
       msg: message,
       setisLoading,
       setTempMessages,
@@ -141,7 +144,7 @@ export default function Bot({
 
   return (
     <main
-      className='relative h-screen bg-cover bg-center'
+      className='relative h-screen bg-cover bg-center px-5'
       style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
     >
       {isLoading ? (
@@ -175,7 +178,7 @@ export default function Bot({
           </div>
         </div>
       </nav>
-      <div className='px-0 xl:px-5 pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
+      <div className='pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
         <div
           className={cn(
             'w-72 max-h-full min-h-96 overflow-y-auto hidden lg:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',

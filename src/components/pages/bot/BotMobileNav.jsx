@@ -7,7 +7,7 @@ import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { X } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { fetchData } from './BotContainer'
+import { runBotThread } from './bot.helpers'
 
 export default function BotMobileNav({
   navbarOpen,
@@ -54,7 +54,7 @@ export default function BotMobileNav({
                 className='font-medium cursor-pointer border-b px-3 py-2'
                 onClick={() => {
                   setMessage(faq?.question)
-                  fetchData({
+                  runBotThread({
                     msg: faq?.question,
                     setisLoading,
                     setTempMessages,

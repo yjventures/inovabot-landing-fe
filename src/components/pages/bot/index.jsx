@@ -1,100 +1,16 @@
 'use client'
 
-import { API_URL } from '@/configs'
-import { axiosInstance } from '@/lib/axios/interceptor'
 import { useCreateThreadMutation, useGetBotFAQQuery, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
-import { XhrSource } from '@/utils/form/eventStream'
 import { getCookie, setCookie } from 'cookies-next'
 import { useTheme } from 'next-themes'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import Bot from './Bot'
+import BotContainer from './BotContainer'
 import BotMobileNav from './BotMobileNav'
 
-export const fetchData = async ({
-  msg,
-  setisLoading,
-  setTempMessages,
-  tempMessages,
-  setMessage,
-  id,
-  cb,
-  setaudioURL,
-  controller = null,
-  instructions
-}) => {
-  const prompt = {
-    thread_id: id,
-    message: msg
-    // instructions: ''
-  }
-
-  const newMessage = {
-    id: `temp-${Date.now()}`,
-    role: 'user',
-    content: [{ text: { value: msg } }]
-  }
-  const newAssistantMessage = {
-    id: `temp-${Date.now() + 1}`,
-    role: 'assistant',
-    content: [{ text: { value: '' } }]
-  }
-  setTempMessages([...tempMessages, newMessage, newAssistantMessage])
-  setisLoading(true)
-  setaudioURL(null)
-
-  let msgRes = ''
-
-  try {
-    const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(prompt)
-    })
-
-    xs.addEventListener('error', e => {
-      setisLoading(false)
-      console.error(e.reason)
-    })
-
-    xs.addEventListener('close', async () => {
-      await cb()
-
-      const res = await axiosInstance.post(
-        `${API_URL}/audios/text-to-speech`,
-        { message: msgRes },
-        { responseType: 'blob' }
-      )
-
-      const url = URL.createObjectURL(res.data)
-      setaudioURL(url)
-    })
-
-    xs.addEventListener('message', e => {
-      setisLoading(false)
-      const msg = JSON.parse(e.data)
-      setTempMessages(prev => {
-        const updatedMessages = [...prev]
-        const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
-        if (lastMessageIndex !== -1) {
-          updatedMessages[lastMessageIndex].content[0].text.value += msg
-          msgRes += msg
-        }
-        return updatedMessages
-      })
-    })
-
-    controller.current = xs
-  } catch (error) {
-    console.error('Fetch error:', error)
-  }
-
-  setMessage('')
-}
-
-export default function BotContainer() {
+export default function BotPageComponent() {
   const [bot_id, setbot_id] = useState(undefined)
   const [thread_id, setthread_id] = useState(undefined)
 
@@ -103,11 +19,10 @@ export default function BotContainer() {
 
   const [createThread, { isSuccess: isThreadSuccess, isError, error, data: threadData }] = useCreateThreadMutation()
 
+  // Setting the bot variables only for bot page
   const { theme } = useTheme()
-
   useEffect(() => {
     if (isSuccess) {
-      console.log(data?.data?._id)
       setbot_id(data?.data?._id)
 
       if (theme === 'light') {
@@ -143,6 +58,7 @@ export default function BotContainer() {
   const [isLoading, setisLoading] = useState('')
   const [tempMessages, setTempMessages] = useState([])
   const [audioURL, setaudioURL] = useState(null)
+  const [current_run, setcurrent_run] = useState(undefined)
 
   useEffect(() => {
     if (isThreadSuccess && bot_id) {
@@ -155,8 +71,8 @@ export default function BotContainer() {
   }, [isThreadSuccess, isError, error, threadData, bot_id])
 
   return (
-    <>
-      <Bot
+    <div>
+      <BotContainer
         id={thread_id}
         botData={data?.data}
         setnavbarOpen={setnavbarOpen}
@@ -170,6 +86,8 @@ export default function BotContainer() {
         setaudioURL={setaudioURL}
         faqs={faqs}
         isFaqLoading={isFaqLoading}
+        current_run={current_run}
+        setcurrent_run={setcurrent_run}
       />
       <BotMobileNav
         id={thread_id}
@@ -185,7 +103,8 @@ export default function BotContainer() {
         setaudioURL={setaudioURL}
         faqs={faqs}
         isFaqLoading={isFaqLoading}
+        setcurrent_run={setcurrent_run}
       />
-    </>
+    </div>
   )
 }
