@@ -45,7 +45,7 @@ export default function BotForm({
     <div className='fixed bottom-12 left-1/2 -translate-x-1/2 max-w-5xl w-full px-5 flex items-center gap-x-3'>
       <form
         onSubmit={handleSubmit}
-        className='flex items-center justify-between rounded-xl gap-x-3 w-full bg-background'
+        className='flex items-center justify-between rounded-xl gap-x-3 w-full bg-background shadow-md'
       >
         <Textarea
           type='text'

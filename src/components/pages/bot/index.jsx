@@ -77,7 +77,7 @@ export default function BotPageComponent() {
         <Typography variant='h3' className='font-normal italic'>
           Loading Bot
         </Typography>
-        <Loader className='size-10 animate-spin' />
+        <Loader className='size-9 animate-spin' />
       </div>
     )
   }

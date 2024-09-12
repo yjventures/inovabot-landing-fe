@@ -25,7 +25,7 @@
 }
 
 .markdown {
-  & > *,
+  & *,
   strong,
   li::marker {
     color: var(--bot-font-color);

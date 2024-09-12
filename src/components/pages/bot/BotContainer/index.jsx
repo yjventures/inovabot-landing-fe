@@ -1,3 +1,5 @@
+import logoWhite from '@/assets/images/ui/logo-white.png'
+import logoDark from '@/assets/images/ui/logo.png'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
 import Spinner from '@/components/icons/Spinner'
@@ -33,19 +35,25 @@ export default function BotContainer({
   // Refs
   const audioRef = useRef(new Audio()) // Initialize Audio object in ref
   const endOfMessagesRef = useRef(null)
-  const abortControllerRef = useRef(null)
   const chatContainerRef = useRef(null)
 
   const [audioState, setAudioState] = useState({}) // Store audio URLs and their loading state
   const [currentPlayingId, setCurrentPlayingId] = useState(null) // Track currently playing audio
 
-  const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
+  const { data: messagesList, isLoading: isListLoading, isSuccess } = useGetThreadMessagesQuery(id)
 
   useEffect(() => {
-    if (isSuccess) {
-      setTempMessages(messagesList?.messages || [])
+    const firstMessage = {
+      id: `temp-${Date.now()}`,
+      role: 'assistant',
+      content: [{ text: { value: botData?.first_message } }]
     }
-  }, [messagesList, isSuccess, setTempMessages])
+
+    if (isSuccess) {
+      if (botData?.first_message && !messagesList?.messages?.length) setTempMessages([firstMessage])
+      else setTempMessages(messagesList?.messages || [])
+    }
+  }, [messagesList, isSuccess, setTempMessages, botData])
 
   const scrollToBottom = () => {
     endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -263,6 +271,10 @@ export default function BotContainer({
         current_run={current_run}
         setcurrent_run={setcurrent_run}
       />
+      <div className='fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-5xl flex items-center justify-center px-5 gap-x-3'>
+        <p className='text-xl font-medium'>Powered By</p>
+        <Img src={theme === 'dark' && logoWhite ? logoWhite : logoDark} alt='logo' className='h-8 w-auto' />
+      </div>
       <audio ref={audioRef} />
     </main>
   )
