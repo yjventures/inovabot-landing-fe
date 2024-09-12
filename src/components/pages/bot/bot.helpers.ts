@@ -10,8 +10,7 @@ export const runBotThread = async ({
   setMessage,
   id,
   cb,
-  setaudioURL,
-  controller = null
+  setaudioURL
 }) => {
   const prompt = {
     thread_id: id,
@@ -33,9 +32,10 @@ export const runBotThread = async ({
   setaudioURL(null)
 
   let msgRes = ''
+  let xs = null // Declare xs outside to reference in event handlers
 
   try {
-    const xs = XhrSource(`${API_URL}/threads/run/${id}`, {
+    xs = XhrSource(`${API_URL}/threads/run/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(prompt)
@@ -44,6 +44,7 @@ export const runBotThread = async ({
     xs.addEventListener('error', (e: ErrorEvent) => {
       setisLoading(false)
       console.error(e.message)
+      if (xs) xs.close() // Close the stream on error
     })
 
     xs.addEventListener('close', async () => {
@@ -58,6 +59,8 @@ export const runBotThread = async ({
 
       const url = URL.createObjectURL(res.data)
       setaudioURL(url)
+
+      if (xs) xs.close() // Ensure the stream is closed after completion
     })
 
     xs.addEventListener('message', (e: MessageEvent) => {
@@ -73,10 +76,9 @@ export const runBotThread = async ({
         return updatedMessages
       })
     })
-
-    controller.current = xs
   } catch (error) {
     console.error('Fetch error:', error)
+    if (xs) xs.close() // Ensure the stream is closed on error
   }
 
   setMessage('')

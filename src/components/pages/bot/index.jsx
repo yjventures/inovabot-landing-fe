@@ -1,8 +1,10 @@
 'use client'
 
+import Typography from '@/components/ui/typography'
 import { useCreateThreadMutation, useGetBotFAQQuery, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { getCookie, setCookie } from 'cookies-next'
+import { Loader } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -69,6 +71,17 @@ export default function BotPageComponent() {
 
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isThreadSuccess, isError, error, threadData, bot_id])
+
+  if (!bot_id) {
+    return (
+      <div className='w-full h-screen flex items-center justify-center gap-x-3'>
+        <Typography variant='h3' className='font-normal italic'>
+          Loading Bot
+        </Typography>
+        <Loader className='size-10 animate-spin' />
+      </div>
+    )
+  }
 
   return (
     <div>

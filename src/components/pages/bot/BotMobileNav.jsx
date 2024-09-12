@@ -1,6 +1,5 @@
 'use client'
 
-import rigmtImg from '@/assets/temp/right-img.png'
 import { Img } from '@/components/ui/img'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
@@ -46,7 +45,7 @@ export default function BotMobileNav({
           <X className='text-white cursor-pointer w-8 h-8' strokeWidth={1.5} onClick={() => setnavbarOpen(false)} />
         </div>
 
-        <div className='h-[calc(100vh-92px)] overflow-y-auto pb-5'>
+        <div className='h-[calc(100vh-92px)] overflow-y-auto pb-5 w-full'>
           <div className='w-full flex-col gap-y-5 py-4 my-5 self-start'>
             {faqs?.data?.map(faq => (
               <p
@@ -72,8 +71,6 @@ export default function BotMobileNav({
               </p>
             ))}
           </div>
-
-          <Img src={rigmtImg} alt='right image' className='w-full h-auto px-5 mb-10' />
         </div>
       </div>
     </nav>
