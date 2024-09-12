@@ -59,7 +59,6 @@ export default function BotPageComponent() {
   const [message, setMessage] = useState('')
   const [isLoading, setisLoading] = useState('')
   const [tempMessages, setTempMessages] = useState([])
-  const [audioURL, setaudioURL] = useState(null)
   const [current_run, setcurrent_run] = useState(undefined)
 
   useEffect(() => {
@@ -95,8 +94,6 @@ export default function BotPageComponent() {
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
-        audioURL={audioURL}
-        setaudioURL={setaudioURL}
         faqs={faqs}
         isFaqLoading={isFaqLoading}
         current_run={current_run}
@@ -113,7 +110,6 @@ export default function BotPageComponent() {
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
-        setaudioURL={setaudioURL}
         faqs={faqs}
         isFaqLoading={isFaqLoading}
         setcurrent_run={setcurrent_run}

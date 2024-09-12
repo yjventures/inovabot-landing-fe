@@ -1,17 +1,7 @@
 import { API_URL } from '@/configs'
-import { axiosInstance } from '@/lib/axios/interceptor'
 import { XhrSource } from '@/utils/form/eventStream'
 
-export const runBotThread = async ({
-  msg,
-  setisLoading,
-  setTempMessages,
-  tempMessages,
-  setMessage,
-  id,
-  cb,
-  setaudioURL
-}) => {
+export const runBotThread = async ({ msg, setisLoading, setTempMessages, tempMessages, setMessage, id, cb }) => {
   const prompt = {
     thread_id: id,
     message: msg
@@ -29,7 +19,6 @@ export const runBotThread = async ({
   }
   setTempMessages([...tempMessages, newMessage, newAssistantMessage])
   setisLoading(true)
-  setaudioURL(null)
 
   let msgRes = ''
   let xs = null // Declare xs outside to reference in event handlers
@@ -50,16 +39,6 @@ export const runBotThread = async ({
     xs.addEventListener('close', async () => {
       setisLoading(false)
       await cb()
-
-      const res = await axiosInstance.post(
-        `${API_URL}/audios/text-to-speech`,
-        { message: msgRes },
-        { responseType: 'blob' }
-      )
-
-      const url = URL.createObjectURL(res.data)
-      setaudioURL(url)
-
       if (xs) xs.close() // Ensure the stream is closed after completion
     })
 

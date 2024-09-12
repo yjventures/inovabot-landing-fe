@@ -1,22 +1,17 @@
-/* eslint-disable react/no-children-prop */
-'use client'
-
-import logoWhite from '@/assets/images/ui/logo-white.png'
-import logo from '@/assets/images/ui/logo.png'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
 import Spinner from '@/components/icons/Spinner'
-
 import { Img } from '@/components/ui/img'
 import { Skeleton } from '@/components/ui/skeleton'
+import { API_URL } from '@/configs'
+import { axiosInstance } from '@/lib/axios/interceptor'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
-import { Copy, PlayCircle, StopCircle, StopCircleIcon } from 'lucide-react'
+import { Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { runBotThread } from '../bot.helpers'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
 
@@ -29,8 +24,6 @@ export default function BotContainer({
   setTempMessages,
   isLoading,
   setisLoading,
-  audioURL,
-  setaudioURL,
   faqs,
   isFaqLoading,
   botData,
@@ -38,12 +31,13 @@ export default function BotContainer({
   setcurrent_run
 }) {
   // Refs
-  const audioRef = useRef(null)
+  const audioRef = useRef(new Audio()) // Initialize Audio object in ref
   const endOfMessagesRef = useRef(null)
   const abortControllerRef = useRef(null)
   const chatContainerRef = useRef(null)
 
-  const [isPlaying, setisPlaying] = useState(false)
+  const [audioState, setAudioState] = useState({}) // Store audio URLs and their loading state
+  const [currentPlayingId, setCurrentPlayingId] = useState(null) // Track currently playing audio
 
   const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
@@ -61,16 +55,9 @@ export default function BotContainer({
     scrollToBottom()
   }, [tempMessages])
 
-  useEffect(() => {
-    if (audioURL) {
-      scrollToBottom()
-    }
-  }, [audioURL])
-
   const playAudio = () => {
     if (audioRef.current) {
       audioRef.current.play()
-      setisPlaying(true)
     }
   }
 
@@ -78,32 +65,61 @@ export default function BotContainer({
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.currentTime = 0
-      setisPlaying(false)
+      setCurrentPlayingId(null) // Stop tracking the playing message
     }
   }
 
-  const handleFAQTrigger = faq => {
-    setMessage(faq?.question)
-    runBotThread({
-      msg: faq?.question,
-      setisLoading,
-      setTempMessages,
-      tempMessages,
-      id,
-      cb: () => {
-        refetch()
-        setisPlaying(false)
-      },
-      setMessage,
-      setaudioURL,
-      controller: abortControllerRef,
-      instructions: faq?.objective
-    })
+  useEffect(() => {
+    if (audioRef.current) {
+      // When the audio finishes playing, reset the current playing state
+      const handleAudioEnded = () => {
+        setCurrentPlayingId(null)
+      }
+
+      const audio = audioRef.current
+
+      audio.addEventListener('ended', handleAudioEnded)
+
+      // Clean up the event listener when the component unmounts
+      return () => {
+        if (audio) {
+          audio.removeEventListener('ended', handleAudioEnded)
+        }
+      }
+    }
+  }, [])
+
+  const prepareAudio = async (message, msgId) => {
+    if (audioState[msgId]?.url) {
+      // If audio is already prepared, just play it
+      setCurrentPlayingId(msgId)
+      audioRef.current.src = audioState[msgId].url // Set the audio source
+      playAudio()
+      return
+    }
+
+    setAudioState(prev => ({ ...prev, [msgId]: { isLoading: true } }))
+
+    try {
+      const res = await axiosInstance.post(`${API_URL}/audios/text-to-speech`, { message }, { responseType: 'blob' })
+
+      const url = URL.createObjectURL(res.data)
+      setAudioState(prev => ({ ...prev, [msgId]: { url, isLoading: false } }))
+      setCurrentPlayingId(msgId)
+
+      audioRef.current.src = url // Set the audio source after fetching
+      playAudio()
+    } catch (error) {
+      setAudioState(prev => ({ ...prev, [msgId]: { isLoading: false } }))
+      console.error(error)
+    }
   }
 
-  const handleStop = () => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.close() // Abort current fetch
+  const handlePlay = msg => {
+    if (currentPlayingId === msg.id) {
+      stopAudio()
+    } else {
+      prepareAudio(msg.content[0].text.value, msg.id)
     }
   }
 
@@ -119,7 +135,7 @@ export default function BotContainer({
       className='relative h-screen bg-cover bg-center pl-0 lg:pl-8 xl:pl-10'
       style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
     >
-      {isLoading ? (
+      {isLoading && (
         <div
           className={cn(
             'fixed right-5 top-5 z-50 px-4 py-3 border-2 rounded-xl flex items-center gap-x-2',
@@ -128,9 +144,9 @@ export default function BotContainer({
         >
           <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
-          <StopCircleIcon className='size-9 cursor-pointer' onClick={handleStop} />
+          <StopCircle className='size-9 cursor-pointer' onClick={stopAudio} />
         </div>
-      ) : null}
+      )}
 
       <BotNav botData={botData} setnavbarOpen={setnavbarOpen} />
       <div className='pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
@@ -153,89 +169,78 @@ export default function BotContainer({
         )}
 
         <div className={cn('w-full lg:w-[calc(100%-288px)] overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
-          {id && isListLoading ? (
-            <div className='flex flex-col my-3 gap-y-5'>
+          {isListLoading ? (
+            <div className='flex flex-col my-3 gap-y-5 px-5'>
               {Array.from({ length: 6 }).map((_, index) => (
                 <div key={index} className={cn('flex', { 'justify-end': index % 2, 'justify-start': !index % 2 })}>
                   <Skeleton className='w-2/3 h-40 mb-2' />
                 </div>
               ))}
             </div>
-          ) : null}
-
-          {isSuccess
-            ? tempMessages?.map((msg, i) => (
-                <div
-                  key={msg.id}
-                  className={cn('flex flex-col sm:flex-row gap-x-2 px-3', {
-                    'pl-14 sm:pl-16 md:pl-24 justify-end': msg.role === 'user',
-                    'pr-14 sm:pr-16 md:pr-24 justify-start': msg.role === 'assistant'
-                  })}
-                >
-                  {msg.role === 'assistant' && (
-                    <Img
-                      src={botData.bot_logo || botImg}
-                      alt='Bot'
-                      className='size-10 aspect-square object-cover mt-1 rounded-full'
-                    />
-                  )}
-                  <div className='flex flex-col'>
-                    <div className='group'>
-                      <div
-                        className={cn(
-                          'w-full my-1 text-sm rounded-lg',
-                          {
-                            'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
-                            'mr-auto p-2': msg.role === 'assistant'
-                          },
-                          msg.role === 'user' ? styles.rightMsg : styles.leftMsg
-                        )}
-                      >
-                        {/* <MarkdownRenderer
-                          className='markdown text-sm max-w-4xl'
-                          codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
-                        >
-                          {msg.content[0].text.value}
-                        </MarkdownRenderer> */}
-                        <div
-                          dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
-                          className={cn(styles.text, 'prose')}
-                        ></div>
-                      </div>
-
-                      {msg.role === 'assistant' && (
-                        <Copy
-                          className={cn(
-                            'cursor-pointer size-5 opacity-0 group-hover:opacity-100 transition-opacity ml-2',
-                            styles.text
-                          )}
-                          onClick={() => copyToClipBoard(msg?.content?.[0]?.text?.value)}
-                        />
+          ) : (
+            tempMessages?.map(msg => (
+              <div
+                key={msg.id}
+                className={cn('flex flex-col sm:flex-row gap-x-2 px-3', {
+                  'pl-14 sm:pl-16 md:pl-24 justify-end': msg.role === 'user',
+                  'pr-14 sm:pr-16 md:pr-24 justify-start': msg.role === 'assistant'
+                })}
+              >
+                {msg.role === 'assistant' && (
+                  <Img
+                    src={botData.bot_logo || botImg}
+                    alt='Bot'
+                    className='size-10 aspect-square object-cover mt-1 rounded-full'
+                  />
+                )}
+                <div className='flex flex-col'>
+                  <div className='group'>
+                    <div
+                      className={cn(
+                        'w-full my-1 text-sm rounded-lg',
+                        {
+                          'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
+                          'mr-auto p-2': msg.role === 'assistant'
+                        },
+                        msg.role === 'user' ? styles.rightMsg : styles.leftMsg
                       )}
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
+                        className={cn(styles.text, 'prose')}
+                      ></div>
                     </div>
 
-                    {msg.role === 'assistant' && i + 1 === tempMessages?.length && audioURL !== null ? (
-                      <>
-                        {isPlaying ? (
-                          <StopCircle className='size-10 text-red-500 cursor-pointer' onClick={stopAudio} />
+                    {msg.role === 'assistant' && (
+                      <div className='my-3 flex gap-x-2 group-hover:opacity-100 opacity-0 transition-all duration-300'>
+                        <Copy
+                          className={cn('cursor-pointer size-5', styles.textPrimary)}
+                          onClick={() => copyToClipBoard(msg?.content?.[0]?.text?.value)}
+                        />
+                        {currentPlayingId === msg.id ? (
+                          <StopCircle className='cursor-pointer size-5 text-red-500' onClick={stopAudio} />
+                        ) : audioState[msg.id]?.isLoading ? (
+                          <Loader2 className={cn('cursor-pointer size-5 animate-spin', styles.textPrimary)} />
                         ) : (
-                          <PlayCircle className='size-10 text-green-500 cursor-pointer' onClick={playAudio} />
+                          <PlayCircle
+                            className={cn('cursor-pointer size-5', styles.textPrimary)}
+                            onClick={() => handlePlay(msg)}
+                          />
                         )}
-
-                        <audio ref={audioRef} src={audioURL} controls className='hidden' onEnded={stopAudio} />
-                      </>
-                    ) : null}
+                      </div>
+                    )}
                   </div>
-                  {msg.role === 'user' && (
-                    <Img
-                      src={botData.user_logo || avatarImg}
-                      alt='Avatar'
-                      className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
-                    />
-                  )}
                 </div>
-              ))
-            : null}
+                {msg.role === 'user' && (
+                  <Img
+                    src={botData.user_logo || avatarImg}
+                    alt='Avatar'
+                    className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
+                  />
+                )}
+              </div>
+            ))
+          )}
           <div ref={endOfMessagesRef} />
         </div>
       </div>
@@ -247,13 +252,11 @@ export default function BotContainer({
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
-        setaudioURL={setaudioURL}
+        scrollToBottom={scrollToBottom}
+        current_run={current_run}
+        setcurrent_run={setcurrent_run}
       />
-
-      <div className='fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-5xl flex items-center justify-center px-5 gap-x-3'>
-        <p className='text-xl font-medium'>Powered By</p>
-        <Img src={theme === 'dark' && logoWhite ? logoWhite : logo} alt='logo' className='h-8 w-auto' />
-      </div>
+      <audio ref={audioRef} />
     </main>
   )
 }

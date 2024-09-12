@@ -18,7 +18,6 @@ export default function BotMobileNav({
   setTempMessages,
   isLoading,
   setisLoading,
-  setaudioURL,
   faqs,
   botData
 }) {
@@ -60,9 +59,7 @@ export default function BotMobileNav({
                     tempMessages,
                     id,
                     cb: refetch,
-                    setMessage,
-                    setaudioURL,
-                    instructions: faq?.objective
+                    setMessage
                   })
                   setnavbarOpen(false)
                 }}
