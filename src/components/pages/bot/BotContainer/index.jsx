@@ -10,10 +10,11 @@ import { axiosInstance } from '@/lib/axios/interceptor'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
-import { Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
+import { ArrowDown, Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import { runBotThread } from '../bot.helpers'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
 
@@ -32,6 +33,31 @@ export default function BotContainer({
   current_run,
   setcurrent_run
 }) {
+  const [showScrollButton, setShowScrollButton] = useState(false)
+
+  const handleScroll = () => {
+    const container = chatContainerRef.current
+    console.log(container.scrollHeight, container.scrollTop + container.clientHeight)
+    if (container.scrollTop + container.clientHeight < container.scrollHeight - 100) {
+      setShowScrollButton(true)
+    } else {
+      setShowScrollButton(false)
+    }
+  }
+
+  useEffect(() => {
+    const container = chatContainerRef.current
+    if (container) {
+      container.addEventListener('scroll', handleScroll)
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll)
+      }
+    }
+  }, [])
+
   // Refs
   const audioRef = useRef(new Audio()) // Initialize Audio object in ref
   const endOfMessagesRef = useRef(null)
@@ -40,7 +66,7 @@ export default function BotContainer({
   const [audioState, setAudioState] = useState({}) // Store audio URLs and their loading state
   const [currentPlayingId, setCurrentPlayingId] = useState(null) // Track currently playing audio
 
-  const { data: messagesList, isLoading: isListLoading, isSuccess } = useGetThreadMessagesQuery(id)
+  const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
 
   useEffect(() => {
     const firstMessage = {
@@ -134,6 +160,23 @@ export default function BotContainer({
   const copyToClipBoard = text => {
     navigator.clipboard.writeText(text)
     toast.success('Copied to clipboard!')
+  }
+
+  const handleFAQTrigger = faq => {
+    setMessage(faq?.question)
+    runBotThread({
+      msg: faq?.question,
+      setisLoading,
+      setTempMessages,
+      tempMessages,
+      id,
+      cb: () => {
+        refetch()
+        stopAudio()
+      },
+      setMessage,
+      instructions: faq?.objective
+    })
   }
 
   const { theme } = useTheme()
@@ -257,6 +300,14 @@ export default function BotContainer({
             ))
           )}
           <div ref={endOfMessagesRef} />
+          {showScrollButton && (
+            <button
+              className='fixed bottom-36 left-1/2 transform -translate-x-1/2 p-2 rounded-full bg-gray-800 text-white shadow-md hover:bg-gray-700 transition-all'
+              onClick={scrollToBottom}
+            >
+              <ArrowDown className='size-6' />
+            </button>
+          )}
         </div>
       </div>
       <BotForm
