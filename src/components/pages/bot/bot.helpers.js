@@ -30,7 +30,7 @@ export const runBotThread = async ({ msg, setisLoading, setTempMessages, tempMes
       body: JSON.stringify(prompt)
     })
 
-    xs.addEventListener('error', (e: ErrorEvent) => {
+    xs.addEventListener('error', e => {
       setisLoading(false)
       console.error(e.message)
       if (xs) xs.close() // Close the stream on error
@@ -42,18 +42,19 @@ export const runBotThread = async ({ msg, setisLoading, setTempMessages, tempMes
       if (xs) xs.close() // Ensure the stream is closed after completion
     })
 
-    xs.addEventListener('message', (e: MessageEvent) => {
+    xs.addEventListener('message', e => {
       const msg = JSON.parse(e.data)
-      console.log(msg)
-      setTempMessages(prev => {
-        const updatedMessages = [...prev]
-        const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
-        if (lastMessageIndex !== -1) {
-          updatedMessages[lastMessageIndex].content[0].text.value += msg
-          msgRes += msg
-        }
-        return updatedMessages
-      })
+      if (msg && msg.length > 0) {
+        setTempMessages(prev => {
+          const updatedMessages = [...prev]
+          const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
+          if (lastMessageIndex !== -1) {
+            updatedMessages[lastMessageIndex].content[0].text.value += msg
+            msgRes += msg
+          }
+          return updatedMessages
+        })
+      }
     })
   } catch (error) {
     console.error('Fetch error:', error)

@@ -27,8 +27,6 @@ export default function PricingPlans() {
 
   const selectedPackage = data?.data?.find(tier => tier._id === packageId)
 
-  console.log(selectedPackage)
-
   return (
     <div className='pt-20 pb-10 container'>
       <div className='flex items-center justify-center'>

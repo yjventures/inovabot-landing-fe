@@ -1,5 +1,3 @@
-import logoWhite from '@/assets/images/ui/logo-white.png'
-import logoDark from '@/assets/images/ui/logo.png'
 import avatarImg from '@/assets/temp/avatar.png'
 import botImg from '@/assets/temp/bot.png'
 import Spinner from '@/components/icons/Spinner'
@@ -17,6 +15,7 @@ import toast from 'react-hot-toast'
 import { runBotThread } from '../bot.helpers'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
+import PoweredBy from './PoweredBy'
 
 export default function BotContainer({
   id,
@@ -37,7 +36,6 @@ export default function BotContainer({
 
   const handleScroll = () => {
     const container = chatContainerRef.current
-    console.log(container.scrollHeight, container.scrollTop + container.clientHeight)
     if (container.scrollTop + container.clientHeight < container.scrollHeight - 100) {
       setShowScrollButton(true)
     } else {
@@ -59,7 +57,7 @@ export default function BotContainer({
   }, [])
 
   // Refs
-  const audioRef = useRef(new Audio()) // Initialize Audio object in ref
+  const audioRef = useRef() // Initialize Audio object in ref
   const endOfMessagesRef = useRef(null)
   const chatContainerRef = useRef(null)
 
@@ -229,75 +227,82 @@ export default function BotContainer({
               ))}
             </div>
           ) : (
-            tempMessages?.map(msg => (
-              <div
-                key={msg.id}
-                className={cn('flex sm:flex-row gap-x-2 px-3 gap-y-1', {
-                  'pl-14 sm:pl-16 md:pl-24 items-end sm:items-start sm:justify-end flex-col-reverse':
-                    msg.role === 'user',
-                  'pr-14 sm:pr-16 md:pr-24 items-start sm:justify-start flex-col': msg.role === 'assistant'
-                })}
-              >
-                {msg.role === 'assistant' && (
-                  <Img
-                    src={botData.bot_logo || botImg}
-                    alt='Bot'
-                    className='size-10 aspect-square object-cover mt-1 rounded-full'
-                  />
-                )}
-                <div className='flex flex-col'>
-                  <div className='group'>
-                    <div
-                      className={cn(
-                        'my-1 text-sm rounded-lg',
-                        {
-                          'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
-                          'mr-auto p-2': msg.role === 'assistant'
-                        },
-                        msg.role === 'user' ? styles.rightMsg : styles.leftMsg
-                      )}
-                    >
-                      {/* <MarkdownRenderer
+            tempMessages?.map(
+              msg =>
+                msg?.content?.[0]?.text?.value?.length > 0 && (
+                  <div
+                    key={msg.id}
+                    className={cn('flex sm:flex-row gap-x-2 px-3 gap-y-1', {
+                      'pl-14 sm:pl-16 md:pl-24 items-end sm:items-start sm:justify-end flex-col-reverse':
+                        msg.role === 'user',
+                      'pr-14 sm:pr-16 md:pr-24 items-start sm:justify-start flex-col': msg.role === 'assistant'
+                    })}
+                  >
+                    {msg.role === 'assistant' && (
+                      <Img
+                        src={botData.bot_logo || botImg}
+                        alt='Bot'
+                        className='size-10 aspect-square object-cover mt-1 rounded-full'
+                      />
+                    )}
+                    <div className='flex flex-col'>
+                      <div className='group'>
+                        <div
+                          className={cn(
+                            'my-1 text-sm rounded-lg',
+                            {
+                              'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
+                              'mr-auto p-2': msg.role === 'assistant'
+                            },
+                            msg.role === 'user' ? styles.rightMsg : styles.leftMsg
+                          )}
+                        >
+                          {/* <MarkdownRenderer
                           className='markdown text-sm max-w-4xl'
                           codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
                         >
                           {msg.content[0].text.value}
                         </MarkdownRenderer> */}
-                      <div
-                        dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
-                        className={cn(styles.text, styles.markdown, 'prose text-sm prose-headings:my-3 prose-p:my-1')}
-                      />
-                    </div>
-
-                    {msg.role === 'assistant' && (
-                      <div className='my-3 flex gap-x-2 group-hover:opacity-100 opacity-0 transition-all duration-300'>
-                        <Copy
-                          className={cn('cursor-pointer size-5', styles.textPrimary)}
-                          onClick={() => copyToClipBoard(msg?.content?.[0]?.text?.value)}
-                        />
-                        {currentPlayingId === msg.id ? (
-                          <StopCircle className='cursor-pointer size-5 text-red-500' onClick={stopAudio} />
-                        ) : audioState[msg.id]?.isLoading ? (
-                          <Loader2 className={cn('cursor-pointer size-5 animate-spin', styles.textPrimary)} />
-                        ) : (
-                          <PlayCircle
-                            className={cn('cursor-pointer size-5', styles.textPrimary)}
-                            onClick={() => handlePlay(msg)}
+                          <div
+                            dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
+                            className={cn(
+                              styles.text,
+                              styles.markdown,
+                              'prose text-sm prose-headings:my-3 prose-p:my-1'
+                            )}
                           />
+                        </div>
+
+                        {msg.role === 'assistant' && (
+                          <div className='my-3 flex gap-x-2 group-hover:opacity-100 opacity-0 transition-all duration-300'>
+                            <Copy
+                              className={cn('cursor-pointer size-5', styles.textPrimary)}
+                              onClick={() => copyToClipBoard(msg?.content?.[0]?.text?.value)}
+                            />
+                            {currentPlayingId === msg.id ? (
+                              <StopCircle className='cursor-pointer size-5 text-red-500' onClick={stopAudio} />
+                            ) : audioState[msg.id]?.isLoading ? (
+                              <Loader2 className={cn('cursor-pointer size-5 animate-spin', styles.textPrimary)} />
+                            ) : (
+                              <PlayCircle
+                                className={cn('cursor-pointer size-5', styles.textPrimary)}
+                                onClick={() => handlePlay(msg)}
+                              />
+                            )}
+                          </div>
                         )}
                       </div>
+                    </div>
+                    {msg.role === 'user' && (
+                      <Img
+                        src={botData.user_logo || avatarImg}
+                        alt='Avatar'
+                        className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
+                      />
                     )}
                   </div>
-                </div>
-                {msg.role === 'user' && (
-                  <Img
-                    src={botData.user_logo || avatarImg}
-                    alt='Avatar'
-                    className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
-                  />
-                )}
-              </div>
-            ))
+                )
+            )
           )}
           <div ref={endOfMessagesRef} />
           {showScrollButton && (
@@ -322,10 +327,7 @@ export default function BotContainer({
         current_run={current_run}
         setcurrent_run={setcurrent_run}
       />
-      <div className='fixed bottom-2 left-1/2 -translate-x-1/2 w-full max-w-5xl flex items-center justify-center px-5 gap-x-3'>
-        <p className='text-xl font-medium'>Powered By</p>
-        <Img src={theme === 'dark' && logoWhite ? logoWhite : logoDark} alt='logo' className='h-8 w-auto' />
-      </div>
+      <PoweredBy />
       <audio ref={audioRef} />
     </main>
   )
