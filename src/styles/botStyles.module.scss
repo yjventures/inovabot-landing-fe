@@ -23,3 +23,11 @@
 .borderPrimary {
   border-color: var(--bot-primary-color);
 }
+
+.markdown {
+  & > *,
+  strong,
+  li::marker {
+    color: var(--bot-font-color);
+  }
+}

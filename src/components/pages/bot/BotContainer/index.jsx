@@ -181,9 +181,10 @@ export default function BotContainer({
             tempMessages?.map(msg => (
               <div
                 key={msg.id}
-                className={cn('flex flex-col sm:flex-row gap-x-2 px-3', {
-                  'pl-14 sm:pl-16 md:pl-24 justify-end': msg.role === 'user',
-                  'pr-14 sm:pr-16 md:pr-24 justify-start': msg.role === 'assistant'
+                className={cn('flex sm:flex-row gap-x-2 px-3 gap-y-1', {
+                  'pl-14 sm:pl-16 md:pl-24 items-end sm:items-start sm:justify-end flex-col-reverse':
+                    msg.role === 'user',
+                  'pr-14 sm:pr-16 md:pr-24 items-start sm:justify-start flex-col': msg.role === 'assistant'
                 })}
               >
                 {msg.role === 'assistant' && (
@@ -197,7 +198,7 @@ export default function BotContainer({
                   <div className='group'>
                     <div
                       className={cn(
-                        'w-full my-1 text-sm rounded-lg',
+                        'my-1 text-sm rounded-lg',
                         {
                           'ml-auto order-2 sm:order-1 p-2': msg.role === 'user',
                           'mr-auto p-2': msg.role === 'assistant'
@@ -205,10 +206,16 @@ export default function BotContainer({
                         msg.role === 'user' ? styles.rightMsg : styles.leftMsg
                       )}
                     >
+                      {/* <MarkdownRenderer
+                          className='markdown text-sm max-w-4xl'
+                          codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                        >
+                          {msg.content[0].text.value}
+                        </MarkdownRenderer> */}
                       <div
                         dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
-                        className={cn(styles.text, 'prose')}
-                      ></div>
+                        className={cn(styles.text, styles.markdown, 'prose text-sm prose-headings:my-3 prose-p:my-1')}
+                      />
                     </div>
 
                     {msg.role === 'assistant' && (

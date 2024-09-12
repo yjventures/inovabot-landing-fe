@@ -11,7 +11,7 @@ import { useTheme } from 'next-themes'
 export default function BotNav({ botData, setnavbarOpen }) {
   const { theme } = useTheme()
   return (
-    <nav className='fixed top-0 left-0 w-full h-24 z-20 px-5'>
+    <nav className='fixed top-0 left-0 w-full h-24 z-20 px-8 xl:px-10'>
       <div className='flex items-center justify-between h-full'>
         {botData ? (
           <Img
