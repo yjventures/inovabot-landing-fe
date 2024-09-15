@@ -8,6 +8,7 @@ import { axiosInstance } from '@/lib/axios/interceptor'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery, useStopThreadRunMutation } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
+import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { ArrowDown, Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
@@ -183,13 +184,14 @@ export default function BotContainer({
 
   useEffect(() => {
     if (isError) {
-      toast.error(rtkErrorMesages(error))
+      toast.error(rtkErrorMesage(error))
     }
   }, [isError, error])
 
   const { runId } = useSelector(state => state.bot)
 
   const stopRun = () => {
+    if (!runId) return
     stopRunFn({ run_id: runId, thread_id: id })
     setisLoading(false)
   }
