@@ -61,8 +61,6 @@ export function XhrSource(url, opts) {
 
   eventTarget.close = _ => {
     xhr.abort()
-    ongoing = false
-    eventTarget.dispatchEvent(new CloseEvent('close'))
   }
 
   xhr.send(opts.body)
