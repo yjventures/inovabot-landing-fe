@@ -20,7 +20,7 @@ export function XhrSource(url, opts) {
     xhr.setRequestHeader(k, opts.headers[k])
   }
 
-  const ongoing = false,
+  let ongoing = false,
     start = 0
   xhr.onprogress = function () {
     if (!ongoing) {
