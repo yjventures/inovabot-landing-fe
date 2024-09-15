@@ -16,7 +16,7 @@ export function XhrSource(url, opts) {
   const xhr = new XMLHttpRequest()
 
   xhr.open(opts.method || 'GET', url, true)
-  for (const k in opts.headers) {
+  for (let k in opts.headers) {
     xhr.setRequestHeader(k, opts.headers[k])
   }
 
