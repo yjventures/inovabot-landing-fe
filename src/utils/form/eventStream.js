@@ -24,7 +24,6 @@ export function XhrSource(url, opts) {
     start = 0
   xhr.onprogress = function () {
     if (!ongoing) {
-      // onloadstart is sync with `xhr.send`, listeners don't have a chance
       ongoing = true
       eventTarget.dispatchEvent(
         new Event('open', {

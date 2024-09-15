@@ -6,6 +6,7 @@ import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { X } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
 
 export default function BotMobileNav({
@@ -21,6 +22,7 @@ export default function BotMobileNav({
   faqs,
   botData
 }) {
+  const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
   const { theme } = useTheme()
   return (
@@ -59,7 +61,8 @@ export default function BotMobileNav({
                     tempMessages,
                     id,
                     cb: refetch,
-                    setMessage
+                    setMessage,
+                    dispatch
                   })
                   setnavbarOpen(false)
                 }}

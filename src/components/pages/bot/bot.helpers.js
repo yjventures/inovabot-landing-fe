@@ -1,7 +1,17 @@
 import { API_URL } from '@/configs'
+import { setRunId } from '@/redux/slices/botSlice'
 import { XhrSource } from '@/utils/form/eventStream'
 
-export const runBotThread = async ({ msg, setisLoading, setTempMessages, tempMessages, setMessage, id, cb }) => {
+export const runBotThread = async ({
+  msg,
+  setisLoading,
+  setTempMessages,
+  tempMessages,
+  setMessage,
+  id,
+  cb,
+  dispatch
+}) => {
   const prompt = {
     thread_id: id,
     message: msg
@@ -44,17 +54,18 @@ export const runBotThread = async ({ msg, setisLoading, setTempMessages, tempMes
 
     xs.addEventListener('message', e => {
       const msg = JSON.parse(e.data)
-      if (msg && msg.length > 0) {
-        setTempMessages(prev => {
-          const updatedMessages = [...prev]
-          const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
-          if (lastMessageIndex !== -1) {
-            updatedMessages[lastMessageIndex].content[0].text.value += msg
-            msgRes += msg
-          }
-          return updatedMessages
-        })
-      }
+
+      dispatch(setRunId(msg.id))
+
+      setTempMessages(prev => {
+        const updatedMessages = [...prev]
+        const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
+        if (lastMessageIndex !== -1) {
+          updatedMessages[lastMessageIndex].content[0].text.value += msg.chunk
+          msgRes += msg.chunk
+        }
+        return updatedMessages
+      })
     })
   } catch (error) {
     console.error('Fetch error:', error)

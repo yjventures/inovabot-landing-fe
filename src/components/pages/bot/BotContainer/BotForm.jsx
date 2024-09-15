@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { Plus } from 'lucide-react'
+import { useDispatch } from 'react-redux'
 import AudioRecorder from '../AudioRecorder'
 import { runBotThread } from '../bot.helpers'
 import FileUploader from '../FileUploader'
@@ -25,6 +26,7 @@ export default function BotForm({
   setisLoading,
   setaudioURL
 }) {
+  const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
   const handleSubmit = e => {
     e.preventDefault()
@@ -38,7 +40,8 @@ export default function BotForm({
       id,
       cb: refetch,
       setMessage,
-      setaudioURL
+      setaudioURL,
+      dispatch
     })
   }
   return (

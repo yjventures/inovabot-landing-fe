@@ -24,8 +24,21 @@ const botApi = api.injectEndpoints({
         url: `/faqs/get-all?bot_id=${bot_id}`,
         params: { limit: 100 }
       })
+    }),
+    stopThreadRun: build.mutation({
+      query: body => ({
+        url: '/threads/stop-thread',
+        method: 'POST',
+        body
+      })
     })
   })
 })
 
-export const { useGetThreadMessagesQuery, useGetBotUsingSlugQuery, useCreateThreadMutation, useGetBotFAQQuery } = botApi
+export const {
+  useGetThreadMessagesQuery,
+  useGetBotUsingSlugQuery,
+  useCreateThreadMutation,
+  useGetBotFAQQuery,
+  useStopThreadRunMutation
+} = botApi

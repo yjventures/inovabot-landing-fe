@@ -6,6 +6,7 @@ import styles from '@/styles/botStyles.module.scss'
 import { Mic, Square } from 'lucide-react'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
 
 const AudioRecorder = ({
@@ -18,6 +19,7 @@ const AudioRecorder = ({
   setisLoading,
   setaudioURL
 }) => {
+  const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
 
   const [isRecording, setIsRecording] = useState(false)
@@ -84,7 +86,8 @@ const AudioRecorder = ({
             id,
             cb: refetch,
             setMessage,
-            setaudioURL
+            setaudioURL,
+            dispatch
           })
         }
       } catch (error) {

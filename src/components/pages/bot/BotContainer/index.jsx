@@ -6,12 +6,13 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { API_URL } from '@/configs'
 import { axiosInstance } from '@/lib/axios/interceptor'
 import { cn } from '@/lib/utils'
-import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
+import { useGetThreadMessagesQuery, useStopThreadRunMutation } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { ArrowDown, Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
 import { runBotThread } from '../bot.helpers'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
@@ -32,6 +33,7 @@ export default function BotContainer({
   current_run,
   setcurrent_run
 }) {
+  const dispatch = useDispatch()
   const [showScrollButton, setShowScrollButton] = useState(false)
 
   const handleScroll = () => {
@@ -173,8 +175,23 @@ export default function BotContainer({
         stopAudio()
       },
       setMessage,
-      instructions: faq?.objective
+      dispatch
     })
+  }
+
+  const [stopRunFn, { isError, error }] = useStopThreadRunMutation()
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(rtkErrorMesages(error))
+    }
+  }, [isError, error])
+
+  const { runId } = useSelector(state => state.bot)
+
+  const stopRun = () => {
+    stopRunFn({ run_id: runId, thread_id: id })
+    setisLoading(false)
   }
 
   const { theme } = useTheme()
@@ -191,9 +208,9 @@ export default function BotContainer({
             styles.rightMsg
           )}
         >
-          <p className='text-xl font-semibold'>{botData.name} is thinking...</p>
+          <p className='text-xl font-semibold'>{botData?.name} is thinking...</p>
           <Spinner className='animate-spin size-9' />
-          <StopCircle className='size-9 cursor-pointer' onClick={stopAudio} />
+          <StopCircle className='size-9 cursor-pointer' onClick={stopRun} />
         </div>
       )}
 
@@ -240,7 +257,7 @@ export default function BotContainer({
                   >
                     {msg.role === 'assistant' && (
                       <Img
-                        src={botData.bot_logo || botImg}
+                        src={botData?.bot_logo || botImg}
                         alt='Bot'
                         className='size-10 aspect-square object-cover mt-1 rounded-full'
                       />
@@ -295,7 +312,7 @@ export default function BotContainer({
                     </div>
                     {msg.role === 'user' && (
                       <Img
-                        src={botData.user_logo || avatarImg}
+                        src={botData?.user_logo || avatarImg}
                         alt='Avatar'
                         className='size-10 aspect-square object-cover mt-1 rounded-full ml-auto sm:ml-0 order-1 sm:order-2'
                       />
