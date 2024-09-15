@@ -16,11 +16,11 @@ export function XhrSource(url, opts) {
   const xhr = new XMLHttpRequest()
 
   xhr.open(opts.method || 'GET', url, true)
-  for (var k in opts.headers) {
+  for (const k in opts.headers) {
     xhr.setRequestHeader(k, opts.headers[k])
   }
 
-  var ongoing = false,
+  const ongoing = false,
     start = 0
   xhr.onprogress = function () {
     if (!ongoing) {
@@ -34,7 +34,7 @@ export function XhrSource(url, opts) {
       )
     }
 
-    var i, chunk
+    let i, chunk
     while ((i = xhr.responseText.indexOf('\n\n', start)) >= 0) {
       chunk = xhr.responseText.slice(start, i)
       start = i + 2
