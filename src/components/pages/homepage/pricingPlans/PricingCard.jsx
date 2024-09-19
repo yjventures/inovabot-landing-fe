@@ -24,8 +24,11 @@ export default function PricingCard({ tier, frequency }) {
   const [subscribe, { isLoading, isSuccess, isError, error, data }] = useSubscribeToPackageMutation()
 
   const subscribeFn = () => {
+    const userData = getCookie('userData')
+    const user = userData ? JSON.parse(userData) : {}
+    const company_id = user?.company_id
     const packageData = tier.price[frequency.value]
-    subscribe({ price_id: packageData.stripe_id, package_id: tier._id, recurring_type: frequency.value })
+    subscribe({ price_id: packageData.stripe_id, package_id: tier._id, recurring_type: frequency.value, company_id })
   }
 
   useEffect(() => {
