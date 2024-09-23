@@ -8,7 +8,7 @@ import { LoaderCircle, Upload } from 'lucide-react'
 import { useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 
-export default function FileUploader({ id, cb }) {
+export default function FileUploader({ id }) {
   const inputRef = useRef()
   const [isUploading, setisUploading] = useState(false)
 

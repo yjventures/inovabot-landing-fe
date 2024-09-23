@@ -9,16 +9,7 @@ import toast from 'react-hot-toast'
 import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
 
-const AudioRecorder = ({
-  id,
-  message,
-  setMessage,
-  tempMessages,
-  setTempMessages,
-  isLoading,
-  setisLoading,
-  setaudioURL
-}) => {
+const AudioRecorder = ({ id, setMessage, tempMessages, setTempMessages, setisLoading, setaudioURL }) => {
   const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
 

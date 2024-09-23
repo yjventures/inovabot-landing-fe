@@ -13,11 +13,9 @@ export default function BotMobileNav({
   navbarOpen,
   setnavbarOpen,
   id,
-  message,
   setMessage,
   tempMessages,
   setTempMessages,
-  isLoading,
   setisLoading,
   faqs,
   botData

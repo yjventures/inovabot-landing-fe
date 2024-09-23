@@ -3,6 +3,7 @@
 import Typography from '@/components/ui/typography'
 import usePush from '@/hooks/usePush'
 import { useSignupVerifyMutation } from '@/redux/features/authApi'
+import { getDashboardUrl } from '@/utils/auth/getDashboardUrl'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
 import { setCookie } from 'cookies-next'
 import { MailCheck, MailSearch, MailX } from 'lucide-react'

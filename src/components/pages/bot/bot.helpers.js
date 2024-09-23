@@ -30,7 +30,6 @@ export const runBotThread = async ({
   setTempMessages([...tempMessages, newMessage, newAssistantMessage])
   setisLoading(true)
 
-  let msgRes = ''
   let xs = null // Declare xs outside to reference in event handlers
 
   try {
@@ -62,7 +61,6 @@ export const runBotThread = async ({
         const lastMessageIndex = updatedMessages.findIndex(m => m.id === newAssistantMessage.id)
         if (lastMessageIndex !== -1) {
           updatedMessages[lastMessageIndex].content[0].text.value += msg.chunk
-          msgRes += msg.chunk
         }
         return updatedMessages
       })

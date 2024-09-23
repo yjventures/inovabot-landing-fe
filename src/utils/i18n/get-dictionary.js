@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import 'server-only'
 
 const getDict = dict => async lang => dict[lang]?.() ?? dict.en()
