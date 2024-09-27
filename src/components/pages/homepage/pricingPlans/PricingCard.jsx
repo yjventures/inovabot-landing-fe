@@ -1,8 +1,9 @@
 import { Button } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
 import { useSubscribeToPackageMutation } from '@/redux/features/companiesApi'
+import { useGetUserQuery } from '@/redux/features/usersApi'
+import { getUserId } from '@/utils/auth/getUserId'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
-import { getCookie } from 'cookies-next'
 import { CheckIcon } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import { useEffect } from 'react'
@@ -24,12 +25,16 @@ export default function PricingCard({ tier, frequency }) {
 
   const [subscribe, { isLoading, isSuccess, isError, error, data }] = useSubscribeToPackageMutation()
 
+  const { data: userData } = useGetUserQuery(getUserId())
+
   const subscribeFn = () => {
-    const userData = getCookie('userData')
-    const user = userData ? JSON.parse(userData) : {}
-    const company_id = user?.company_id
     const packageData = tier.price[frequency.value]
-    subscribe({ price_id: packageData.stripe_id, package_id: tier._id, recurring_type: frequency.value, company_id })
+    subscribe({
+      price_id: packageData.stripe_id,
+      package_id: tier._id,
+      recurring_type: frequency.value,
+      company_id: userData?.user?.company_id
+    })
   }
 
   useEffect(() => {
