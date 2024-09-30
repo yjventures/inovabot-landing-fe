@@ -9,7 +9,7 @@ export default function RedirectToDashboard() {
   useEffect(() => {
     const accessToken = getCookie('accessToken')
     if (accessToken) {
-      redirect(getDashboardUrl())
+      redirect(getDashboardUrl(true))
     }
   }, [])
 

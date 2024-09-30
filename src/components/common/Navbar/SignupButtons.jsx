@@ -17,7 +17,7 @@ export default function SignupButtons({ t, className }) {
     <div className={cn('flex flex-col items-center justify-center lg:flex-row gap-y-3 gap-x-6', className)}>
       {refreshToken ? (
         <div className='flex items-center gap-x-3'>
-          <a href={getDashboardUrl()}>
+          <a href={getDashboardUrl(true)}>
             <Button variant='success'>{t.dashboard}</Button>
           </a>
           <Button onClick={() => logoutActions(dispatch, refresh)}>Logout</Button>

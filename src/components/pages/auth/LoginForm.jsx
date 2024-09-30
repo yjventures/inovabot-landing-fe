@@ -73,7 +73,7 @@ export default function LoginForm({ t }) {
       } else if (type === 'company-admin' && !has_company && !company_id) {
         push('/add-company-info')
       } else {
-        redirect(getDashboardUrl())
+        redirect(getDashboardUrl(watch('rememberMe')))
       }
     }
     if (isError) toast.error(rtkErrorMesage(error))
