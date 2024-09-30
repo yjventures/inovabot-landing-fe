@@ -228,11 +228,15 @@ export default function BotContainer({
               styles.border
             )}
           >
-            {faqs?.data?.map(faq => (
-              <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
-                {faq?.question}
-              </p>
-            ))}
+            {faqs?.data?.length ? (
+              faqs?.data?.map(faq => (
+                <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
+                  {faq?.question}
+                </p>
+              ))
+            ) : (
+              <p className='font-medium'>No FAQ found</p>
+            )}
           </div>
         )}
 

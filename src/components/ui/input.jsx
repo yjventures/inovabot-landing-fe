@@ -25,7 +25,21 @@ const Input = forwardRef(
     ref
   ) => {
     const [showPassword, setshowPassword] = useState(false)
-    const inputProps = register ? { ...register(name, { required, ...hookFormConfig }), ...props } : { ...props }
+    const inputProps = register
+      ? {
+          ...register(name, {
+            required,
+            ...hookFormConfig,
+            onChange: e => {
+              const { value } = e.target
+              if (type === 'email') {
+                e.target.value = value.trim().toLowerCase()
+              }
+            }
+          }),
+          ...props
+        }
+      : { ...props }
     return (
       <div className={cn(containerClassName, { 'flex flex-col gap-y-2': label && showLabel })}>
         {label && showLabel && (
