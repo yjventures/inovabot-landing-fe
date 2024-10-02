@@ -27,4 +27,9 @@ const companiesApi = api.injectEndpoints({
   })
 })
 
-export const { useAddCompanyInfoMutation, useGetAllSubscriptionsQuery, useSubscribeToPackageMutation } = companiesApi
+export const {
+  useAddCompanyInfoMutation,
+  useGetAllSubscriptionsQuery,
+  useSubscribeToPackageMutation,
+  useCancelSubscriptionMutation
+} = companiesApi
