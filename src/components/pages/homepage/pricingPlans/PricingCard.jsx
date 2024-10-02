@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import Typography from '@/components/ui/typography'
+import usePush from '@/hooks/usePush'
 import { useSubscribeToPackageMutation } from '@/redux/features/companiesApi'
 import { useGetUserQuery } from '@/redux/features/usersApi'
 import { getUserId } from '@/utils/auth/getUserId'
@@ -21,6 +22,7 @@ function transformFeatures(features) {
 }
 
 export default function PricingCard({ tier, frequency }) {
+  const push = usePush()
   const features = transformFeatures(tier?.features)
 
   const [subscribe, { isLoading, isSuccess, isError, error, data }] = useSubscribeToPackageMutation()
@@ -38,9 +40,12 @@ export default function PricingCard({ tier, frequency }) {
   }
 
   useEffect(() => {
-    if (isSuccess) redirect(data?.stripeSession)
+    if (isSuccess) {
+      if (data?.stripeSession) redirect(data?.stripeSession)
+      else push('/payment/success')
+    }
     if (isError) toast.error(rtkErrorMesage(error))
-  }, [isSuccess, isError, error, data])
+  }, [isSuccess, isError, error, data, push])
 
   return (
     <div key={tier?.id} className='rounded-lg p-8 text-center bg-primary-foreground'>
