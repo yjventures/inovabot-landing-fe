@@ -33,7 +33,7 @@ export default function PricingCard({ tier, frequency }) {
       price_id: packageData.stripe_id,
       package_id: tier._id,
       recurring_type: frequency.value,
-      company_id: userData?.user?.company_idk,
+      company_id: userData?.user?.company_id,
       user_id: getUserId()
     })
   }
