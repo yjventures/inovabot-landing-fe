@@ -27,6 +27,8 @@ export default function PricingPlans() {
 
   const selectedPackage = data?.data?.find(tier => tier._id === packageId)
 
+  const filteredPackages = data?.data?.filter(tier => !tier.hidden)
+
   return (
     <div className='pt-20 pb-10 container'>
       <div className='flex items-center justify-center'>
@@ -51,7 +53,7 @@ export default function PricingPlans() {
           hasPackageId && selectedPackage ? (
             <PricingCard tier={selectedPackage} frequency={frequency} />
           ) : (
-            data?.data?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
+            filteredPackages?.map(tier => <PricingCard key={tier.id} tier={tier} frequency={frequency} />)
           )
         ) : null}
       </div>
