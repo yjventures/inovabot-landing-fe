@@ -5,14 +5,14 @@ import { Img } from '@/components/ui/img'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
-import { Plus, X } from 'lucide-react'
+import { AlignRight, Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
 
 export default function BotMobileNav({
   navbarOpen,
-  setnavbarOpen,
+  closeNavbar,
   id,
   setMessage,
   tempMessages,
@@ -43,7 +43,7 @@ export default function BotMobileNav({
             alt='logo'
             className='h-7 sm:h-12 w-auto'
           />
-          <X className='text-white cursor-pointer w-8 h-8' strokeWidth={1.5} onClick={() => setnavbarOpen(false)} />
+          <AlignRight className='text-text-black cursor-pointer size-8' strokeWidth={1.5} onClick={closeNavbar} />
         </div>
 
         <div className='h-[calc(100vh-92px)] overflow-y-auto pb-5 w-full'>
@@ -69,7 +69,6 @@ export default function BotMobileNav({
                     setMessage,
                     dispatch
                   })
-                  setnavbarOpen(false)
                 }}
               >
                 {faq?.question}

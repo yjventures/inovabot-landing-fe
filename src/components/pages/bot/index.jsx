@@ -72,6 +72,17 @@ export default function BotPageComponent() {
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isThreadSuccess, isError, error, threadData, bot_id])
 
+  const closeNavbar = () => {
+    setnavbarOpen(false)
+    setCookie('navbarOpen', false)
+  }
+
+  useEffect(() => {
+    const isNavbarOpen = getCookie('navbarOpen')
+    if (isNavbarOpen === 'true') setnavbarOpen(true)
+    else setnavbarOpen(false)
+  }, [])
+
   return (
     <div>
       <BotContainer
@@ -94,7 +105,7 @@ export default function BotPageComponent() {
         id={thread_id}
         botData={data?.data}
         navbarOpen={navbarOpen}
-        setnavbarOpen={setnavbarOpen}
+        closeNavbar={closeNavbar}
         message={message}
         setMessage={setMessage}
         tempMessages={tempMessages}
