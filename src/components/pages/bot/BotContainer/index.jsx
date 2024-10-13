@@ -16,7 +16,6 @@ import toast from 'react-hot-toast'
 import { useSelector } from 'react-redux'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
-import PoweredBy from './PoweredBy'
 
 export default function BotContainer({
   id,
@@ -159,23 +158,6 @@ export default function BotContainer({
     toast.success('Copied to clipboard!')
   }
 
-  // const handleFAQTrigger = faq => {
-  //   setMessage(faq?.question)
-  //   runBotThread({
-  //     msg: faq?.question,
-  //     setisLoading,
-  //     setTempMessages,
-  //     tempMessages,
-  //     id,
-  //     cb: () => {
-  //       refetch()
-  //       stopAudio()
-  //     },
-  //     setMessage,
-  //     dispatch
-  //   })
-  // }
-
   const [stopRunFn, { isError, error }] = useStopThreadRunMutation()
 
   useEffect(() => {
@@ -196,7 +178,7 @@ export default function BotContainer({
 
   return (
     <main
-      className='relative h-screen bg-cover bg-center pl-0 lg:pl-8 xl:pl-10'
+      className='relative min-h-screen bg-cover bg-center pl-0 lg:pl-8 xl:pl-10 bg-fixed'
       style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
     >
       {isLoading && (
@@ -213,30 +195,8 @@ export default function BotContainer({
       )}
 
       <BotNav botData={botData} setnavbarOpen={setnavbarOpen} />
-      <div className='pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
-        {/* {isFaqLoading ? (
-          <Skeleton className='w-72 h-96' />
-        ) : (
-          <div
-            className={cn(
-              'w-72 max-h-full min-h-96 overflow-y-auto hidden lg:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
-              styles.rightMsg,
-              styles.border
-            )}
-          >
-            {faqs?.data?.length ? (
-              faqs?.data?.map(faq => (
-                <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
-                  {faq?.question}
-                </p>
-              ))
-            ) : (
-              <p className='font-medium'>No FAQ found</p>
-            )}
-          </div>
-        )} */}
-
-        <div className={cn('w-full lg:w-[calc(100%-288px)] overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
+      <div className='pt-20 pb-28 relative flex gap-x-3 max-w-5xl w-full mx-auto'>
+        <div className={cn('w-full overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5 px-5'>
               {Array.from({ length: 6 }).map((_, index) => (
@@ -264,7 +224,7 @@ export default function BotContainer({
                         className='size-10 aspect-square object-cover mt-1 rounded-full'
                       />
                     )}
-                    <div className='flex flex-col'>
+                    <div className='flex flex-col max-w-full'>
                       <div className='group'>
                         <div
                           className={cn(
@@ -276,18 +236,12 @@ export default function BotContainer({
                             msg.role === 'user' ? styles.rightMsg : styles.leftMsg
                           )}
                         >
-                          {/* <MarkdownRenderer
-                          className='markdown text-sm max-w-4xl'
-                          codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
-                        >
-                          {msg.content[0].text.value}
-                        </MarkdownRenderer> */}
                           <div
                             dangerouslySetInnerHTML={{ __html: msg?.content?.[0]?.text?.value }}
                             className={cn(
                               styles.text,
                               styles.markdown,
-                              'prose text-sm prose-headings:my-3 prose-p:my-1'
+                              'prose max-w-full text-sm prose-headings:my-3 prose-p:my-1'
                             )}
                           />
                         </div>
@@ -346,8 +300,55 @@ export default function BotContainer({
         current_run={current_run}
         setcurrent_run={setcurrent_run}
       />
-      <PoweredBy />
       <audio ref={audioRef} />
     </main>
   )
 }
+
+// Bot FAQ for desktop view, abandoned
+
+/* {isFaqLoading ? (
+          <Skeleton className='w-72 h-96' />
+        ) : (
+          <div
+            className={cn(
+              'w-72 max-h-full min-h-96 overflow-y-auto hidden lg:inline-flex flex-col gap-y-5 px-3 py-4 rounded-xl self-start border-2 custom-scrollbar',
+              styles.rightMsg,
+              styles.border
+            )}
+          >
+            {faqs?.data?.length ? (
+              faqs?.data?.map(faq => (
+                <p key={faq?._id} className='font-medium cursor-pointer' onClick={() => handleFAQTrigger(faq)}>
+                  {faq?.question}
+                </p>
+              ))
+            ) : (
+              <p className='font-medium'>No FAQ found</p>
+            )}
+          </div>
+        )} */
+// const handleFAQTrigger = faq => {
+//   setMessage(faq?.question)
+//   runBotThread({
+//     msg: faq?.question,
+//     setisLoading,
+//     setTempMessages,
+//     tempMessages,
+//     id,
+//     cb: () => {
+//       refetch()
+//       stopAudio()
+//     },
+//     setMessage,
+//     dispatch
+//   })
+// }
+
+// Markdown for message response, abandoned
+/* <MarkdownRenderer
+                          className='markdown text-sm max-w-4xl'
+                          codeClassName='bg-rose-200 font-semibold px-1 py-0.5 text-rose-800 rounded-sm'
+                        >
+                          {msg.content[0].text.value}
+                        </MarkdownRenderer> */

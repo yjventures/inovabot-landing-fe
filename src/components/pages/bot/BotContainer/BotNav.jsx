@@ -11,13 +11,13 @@ import { useTheme } from 'next-themes'
 export default function BotNav({ botData, setnavbarOpen }) {
   const { theme } = useTheme()
   return (
-    <nav className='fixed top-0 left-0 w-full h-24 z-20 px-8 xl:px-10'>
-      <div className='flex items-center justify-between h-full'>
+    <nav className='fixed top-0 left-0 w-full h-[72px] z-20 backdrop-blur-lg'>
+      <div className='flex items-center justify-between h-full container py-3'>
         {botData ? (
           <Img
             src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
             alt='logo'
-            className='h-1/2 w-auto'
+            className='h-full w-auto'
           />
         ) : (
           <Skeleton className='w-28 h-12 rounded-lg' />
