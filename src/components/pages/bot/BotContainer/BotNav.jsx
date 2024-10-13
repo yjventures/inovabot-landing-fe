@@ -28,7 +28,7 @@ export default function BotNav({ botData, setnavbarOpen }) {
           </div>
           <AlignRight
             strokeWidth={1.5}
-            className={cn('size-10 cursor-pointer inline-block lg:hidden', styles.textPrimary)}
+            className={cn('size-10 cursor-pointer inline-block', styles.textPrimary)}
             onClick={() => setnavbarOpen(prev => !prev)}
           />
         </div>

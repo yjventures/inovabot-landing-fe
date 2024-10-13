@@ -13,8 +13,7 @@ import { ArrowDown, Copy, Loader2, PlayCircle, StopCircle } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useDispatch, useSelector } from 'react-redux'
-import { runBotThread } from '../bot.helpers'
+import { useSelector } from 'react-redux'
 import BotForm from './BotForm'
 import BotNav from './BotNav'
 import PoweredBy from './PoweredBy'
@@ -28,13 +27,10 @@ export default function BotContainer({
   setTempMessages,
   isLoading,
   setisLoading,
-  faqs,
-  isFaqLoading,
   botData,
   current_run,
   setcurrent_run
 }) {
-  const dispatch = useDispatch()
   const [showScrollButton, setShowScrollButton] = useState(false)
 
   const handleScroll = () => {
@@ -67,7 +63,7 @@ export default function BotContainer({
   const [audioState, setAudioState] = useState({}) // Store audio URLs and their loading state
   const [currentPlayingId, setCurrentPlayingId] = useState(null) // Track currently playing audio
 
-  const { data: messagesList, isLoading: isListLoading, isSuccess, refetch } = useGetThreadMessagesQuery(id)
+  const { data: messagesList, isLoading: isListLoading, isSuccess } = useGetThreadMessagesQuery(id)
 
   useEffect(() => {
     const firstMessage = {
@@ -163,22 +159,22 @@ export default function BotContainer({
     toast.success('Copied to clipboard!')
   }
 
-  const handleFAQTrigger = faq => {
-    setMessage(faq?.question)
-    runBotThread({
-      msg: faq?.question,
-      setisLoading,
-      setTempMessages,
-      tempMessages,
-      id,
-      cb: () => {
-        refetch()
-        stopAudio()
-      },
-      setMessage,
-      dispatch
-    })
-  }
+  // const handleFAQTrigger = faq => {
+  //   setMessage(faq?.question)
+  //   runBotThread({
+  //     msg: faq?.question,
+  //     setisLoading,
+  //     setTempMessages,
+  //     tempMessages,
+  //     id,
+  //     cb: () => {
+  //       refetch()
+  //       stopAudio()
+  //     },
+  //     setMessage,
+  //     dispatch
+  //   })
+  // }
 
   const [stopRunFn, { isError, error }] = useStopThreadRunMutation()
 
@@ -218,7 +214,7 @@ export default function BotContainer({
 
       <BotNav botData={botData} setnavbarOpen={setnavbarOpen} />
       <div className='pt-24 pb-2 h-[calc(100vh-100px)] overflow-hidden relative flex gap-x-3'>
-        {isFaqLoading ? (
+        {/* {isFaqLoading ? (
           <Skeleton className='w-72 h-96' />
         ) : (
           <div
@@ -238,7 +234,7 @@ export default function BotContainer({
               <p className='font-medium'>No FAQ found</p>
             )}
           </div>
-        )}
+        )} */}
 
         <div className={cn('w-full lg:w-[calc(100%-288px)] overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {isListLoading ? (
