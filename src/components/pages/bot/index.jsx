@@ -17,7 +17,10 @@ export default function BotPageComponent() {
   const { slug } = useParams()
   const { data, isSuccess } = useGetBotUsingSlugQuery(slug)
 
-  const [createThread, { isSuccess: isThreadSuccess, isError, error, data: threadData }] = useCreateThreadMutation()
+  const [
+    createThread,
+    { isSuccess: isThreadSuccess, isError, error, data: threadData, isLoading: isCreateThreadLoading }
+  ] = useCreateThreadMutation()
 
   // Setting the bot variables only for bot page
   const { theme } = useTheme()
@@ -69,17 +72,6 @@ export default function BotPageComponent() {
     if (isError) toast.error(rtkErrorMesage(error))
   }, [isThreadSuccess, isError, error, threadData, bot_id])
 
-  // if (!bot_id) {
-  //   return (
-  //     <div className='w-full h-screen flex items-center justify-center gap-x-3'>
-  //       <Typography variant='h3' className='font-normal italic'>
-  //         Loading Bot
-  //       </Typography>
-  //       <Loader className='size-9 animate-spin' />
-  //     </div>
-  //   )
-  // }
-
   return (
     <div>
       <BotContainer
@@ -112,6 +104,8 @@ export default function BotPageComponent() {
         faqs={faqs}
         isFaqLoading={isFaqLoading}
         setcurrent_run={setcurrent_run}
+        isCreateThreadLoading={isCreateThreadLoading}
+        createNewThread={() => createThread({ bot_id, thread_id: 'new' })}
       />
     </div>
   )

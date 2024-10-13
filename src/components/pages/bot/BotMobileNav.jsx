@@ -1,10 +1,11 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { Img } from '@/components/ui/img'
 import { cn } from '@/lib/utils'
 import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
-import { X } from 'lucide-react'
+import { Plus, X } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
@@ -18,7 +19,9 @@ export default function BotMobileNav({
   setTempMessages,
   setisLoading,
   faqs,
-  botData
+  botData,
+  createNewThread,
+  isCreateThreadLoading
 }) {
   const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
@@ -35,16 +38,20 @@ export default function BotMobileNav({
     >
       <div className='flex flex-col items-center justify-center w-full'>
         <div className='w-full p-3 flex items-center justify-between gap-4 mb-5'>
-          <X className='text-text-white opacity-0 w-8 h-8 select-none' />
           <Img
             src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
             alt='logo'
-            className='h-12 w-auto'
+            className='h-7 sm:h-12 w-auto'
           />
           <X className='text-white cursor-pointer w-8 h-8' strokeWidth={1.5} onClick={() => setnavbarOpen(false)} />
         </div>
 
         <div className='h-[calc(100vh-92px)] overflow-y-auto pb-5 w-full'>
+          <div className='px-5'>
+            <Button className='w-full' icon={<Plus />} onClick={createNewThread} isLoading={isCreateThreadLoading}>
+              Create new chat
+            </Button>
+          </div>
           <div className='w-full flex-col gap-y-5 py-4 my-5 self-start'>
             {faqs?.data?.map(faq => (
               <p
