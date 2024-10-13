@@ -85,6 +85,7 @@ export default function BotPageComponent() {
       <BotContainer
         id={thread_id}
         botData={data?.data}
+        navbarOpen={navbarOpen}
         setnavbarOpen={setnavbarOpen}
         message={message}
         setMessage={setMessage}

@@ -22,6 +22,7 @@ import SendIcon from './SendIcon'
 
 export default function BotForm({
   id,
+  navbarOpen,
   message,
   setMessage,
   tempMessages,
@@ -52,8 +53,13 @@ export default function BotForm({
   const { theme } = useTheme()
 
   return (
-    <div className='fixed bottom-0 left-1/2 -translate-x-1/2 max-w-5xl w-full px-5 pb-3 backdrop-blur-lg'>
-      <div className='flex items-center gap-x-3'>
+    <div
+      className={cn(
+        'fixed bottom-0 left-1/2 -translate-x-1/2 w-full pb-3 backdrop-blur-lg transition-all duration-500',
+        { 'lg:pl-80': navbarOpen }
+      )}
+    >
+      <div className='max-w-5xl mx-auto flex items-center gap-x-3 px-5'>
         <form
           onSubmit={handleSubmit}
           className='flex items-center justify-between rounded-xl gap-x-3 w-full bg-background shadow-md'
@@ -111,7 +117,7 @@ export default function BotForm({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='w-full max-w-5xl flex items-center justify-center px-5 gap-x-3 pt-3'>
+      <div className='w-full max-w-5xl mx-auto flex items-center justify-center px-5 gap-x-3 pt-3'>
         <p className='text-xl font-medium'>Powered By</p>
         <Img src={theme === 'dark' && logoWhite ? logoWhite : logoDark} alt='logo' className='h-8 w-auto' />
       </div>

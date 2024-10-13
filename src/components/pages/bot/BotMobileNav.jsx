@@ -26,9 +26,9 @@ export default function BotMobileNav({
   return (
     <nav
       className={cn(
-        'fixed top-0 right-0 bg-dark-gray w-[330px] h-svh flex flex-col items-center justify-between transition-all duration-500 z-50',
+        'fixed top-0 left-0 bg-dark-gray w-[330px] h-svh flex flex-col items-center justify-between transition-all duration-500 z-50 whitespace-nowrap',
         {
-          '-right-[330px]': !navbarOpen
+          'w-0 overflow-hidden': !navbarOpen
         },
         styles.rightMsg
       )}

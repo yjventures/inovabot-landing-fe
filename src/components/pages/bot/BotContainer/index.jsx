@@ -19,6 +19,7 @@ import BotNav from './BotNav'
 
 export default function BotContainer({
   id,
+  navbarOpen,
   setnavbarOpen,
   message,
   setMessage,
@@ -178,7 +179,9 @@ export default function BotContainer({
 
   return (
     <main
-      className='relative min-h-screen bg-cover bg-center pl-0 lg:pl-8 xl:pl-10 bg-fixed'
+      className={cn('relative min-h-screen bg-cover bg-center bg-fixed transition-all duration-500', {
+        'lg:pl-80': navbarOpen
+      })}
       style={{ backgroundImage: `url(${theme === 'dark' && botData?.bg_dark ? botData?.bg_dark : botData?.bg_light})` }}
     >
       {isLoading && (
@@ -195,7 +198,7 @@ export default function BotContainer({
       )}
 
       <BotNav botData={botData} setnavbarOpen={setnavbarOpen} />
-      <div className='pt-20 pb-28 relative flex gap-x-3 max-w-5xl w-full mx-auto'>
+      <div className={cn('pt-20 pb-28 relative flex gap-x-3 max-w-5xl w-full mx-auto')}>
         <div className={cn('w-full overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {isListLoading ? (
             <div className='flex flex-col my-3 gap-y-5 px-5'>
@@ -299,6 +302,7 @@ export default function BotContainer({
         scrollToBottom={scrollToBottom}
         current_run={current_run}
         setcurrent_run={setcurrent_run}
+        navbarOpen={navbarOpen}
       />
       <audio ref={audioRef} />
     </main>
