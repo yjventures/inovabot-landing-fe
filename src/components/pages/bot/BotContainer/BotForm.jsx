@@ -1,3 +1,5 @@
+'use client'
+
 import logoWhite from '@/assets/images/ui/logo-white.png'
 import logoDark from '@/assets/images/ui/logo.png'
 import {
@@ -10,10 +12,11 @@ import {
 import { Img } from '@/components/ui/img'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { useGetThreadMessagesQuery } from '@/redux/features/botApi'
+import { useGenThreadNameMutation, useGetThreadMessagesQuery, useUpdateThreadMutation } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
 import { Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import AudioRecorder from '../AudioRecorder'
 import { runBotThread } from '../bot.helpers'
@@ -33,6 +36,23 @@ export default function BotForm({
 }) {
   const dispatch = useDispatch()
   const { refetch } = useGetThreadMessagesQuery(id)
+
+  const [genName, { isSuccess, data }] = useGenThreadNameMutation()
+  const [updateThread] = useUpdateThreadMutation()
+  const cb = () => {
+    refetch()
+    if (tempMessages.length === 4) {
+      const messagesTogether = tempMessages.map(m => m.content[0].text.value).join('\n')
+      genName({ text: messagesTogether })
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      updateThread({ id, body: { name: data?.message } })
+    }
+  }, [isSuccess, data, id, updateThread])
+
   const handleSubmit = e => {
     e.preventDefault()
     if (message === '') return
@@ -43,7 +63,7 @@ export default function BotForm({
       setTempMessages,
       tempMessages,
       id,
-      cb: refetch,
+      cb,
       setMessage,
       setaudioURL,
       dispatch

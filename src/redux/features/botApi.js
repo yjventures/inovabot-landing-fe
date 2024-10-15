@@ -47,6 +47,13 @@ const botApi = api.injectEndpoints({
         body
       }),
       invalidatesTags: ['uid']
+    }),
+    genThreadName: build.mutation({
+      query: body => ({
+        url: '/threads/run-chat-completion',
+        method: 'POST',
+        body
+      })
     })
   })
 })
@@ -58,5 +65,6 @@ export const {
   useGetBotFAQQuery,
   useStopThreadRunMutation,
   useGetAllThreadQuery,
-  useUpdateThreadMutation
+  useUpdateThreadMutation,
+  useGenThreadNameMutation
 } = botApi

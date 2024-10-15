@@ -45,9 +45,9 @@ export const runBotThread = async ({
       if (xs) xs.close() // Close the stream on error
     })
 
-    xs.addEventListener('close', async () => {
+    xs.addEventListener('close', () => {
       setisLoading(false)
-      await cb()
+      cb()
       if (xs) xs.close() // Ensure the stream is closed after completion
     })
 

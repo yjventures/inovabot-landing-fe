@@ -32,7 +32,7 @@ export default function RenameThreadModal({ open, setopen, thread }) {
         <DialogHeader>
           <DialogTitle>Rename Chat</DialogTitle>
         </DialogHeader>
-        <form className='space-y-3 pt-6' onClick={handleSubmit}>
+        <form className='space-y-3 pt-6' onSubmit={handleSubmit}>
           <Input value={threadName} onChange={e => setThreadName(e.target.value)} placeholder='New Chat Name' />
           <Button icon={<PencilLine />} type='submit'>
             Rename Chat

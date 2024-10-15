@@ -144,7 +144,9 @@ export default function BotMobileNav({
                       })}
                     >
                       <p
-                        className={cn('cursor-pointer py-2 whitespace-nowrap w-full')}
+                        className={cn(
+                          'cursor-pointer py-2 max-w-full w-full overflow-hidden text-ellipsis whitespace-nowrap'
+                        )}
                         onClick={() => setthread_id(thread?._id)}
                       >
                         <MessageSquare className='size-[18px] inline-block mb-0.5 mr-1' />
@@ -152,7 +154,7 @@ export default function BotMobileNav({
                       </p>
 
                       <PencilLine
-                        className='group-hover:opacity-50 opacity-0 size-5 transition-opacity cursor-pointer'
+                        className='group-hover:opacity-50 opacity-0 size-5 transition-opacity cursor-pointer ml-2'
                         onClick={e => {
                           e.stopPropagation()
                           setopen(true)
