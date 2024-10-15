@@ -89,12 +89,12 @@ export default function BotMobileNav({
           )}
           {isFaqSuccess && (
             <div className='pb-4 pt-6'>
-              <p className='text-lg font-semibold'>FAQs</p>
+              <p className='font-semibold pb-2'>FAQs</p>
               {faqs?.data?.length ? (
                 faqs?.data?.map(faq => (
                   <p
                     key={faq?._id}
-                    className='cursor-pointer py-1'
+                    className='cursor-pointer py-2'
                     onClick={() => {
                       setMessage(faq?.question)
                       runBotThread({
@@ -127,12 +127,12 @@ export default function BotMobileNav({
           )}
           {isAllThreadsSuccess && (
             <div className='pb-4'>
-              <p className='text-lg font-semibold whitespace-nowrap'>Chat History</p>
+              <p className='font-semibold whitespace-nowrap pb-2'>Chat History</p>
               {allThreads?.data?.length ? (
                 allThreads?.data?.map(thread => (
                   <p
                     key={thread?._id}
-                    className={cn('cursor-pointer py-1', {
+                    className={cn('cursor-pointer py-2 whitespace-nowrap', {
                       [`-mx-3 px-3 rounded-lg ${styles.leftMsg}`]: thread_id === thread?._id
                     })}
                     onClick={() => setthread_id(thread?._id)}
