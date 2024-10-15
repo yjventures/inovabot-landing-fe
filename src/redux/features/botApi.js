@@ -43,7 +43,7 @@ const botApi = api.injectEndpoints({
     updateThread: build.mutation({
       query: ({ id, body }) => ({
         url: `/threads/update/${id}`,
-        method: 'POST',
+        method: 'PUT',
         body
       }),
       invalidatesTags: ['uid']

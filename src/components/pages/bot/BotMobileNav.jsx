@@ -6,11 +6,12 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import { useGetAllThreadQuery, useGetBotFAQQuery, useGetThreadMessagesQuery } from '@/redux/features/botApi'
 import styles from '@/styles/botStyles.module.scss'
-import { AlignRight, HelpCircle, MessageSquare, Plus } from 'lucide-react'
+import { AlignRight, HelpCircle, MessageSquare, PencilLine, Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { runBotThread } from './bot.helpers'
+import RenameThreadModal from './RenameThreadModal'
 
 export default function BotMobileNav({
   navbarOpen,
@@ -50,6 +51,9 @@ export default function BotMobileNav({
     }
   }, [allThreads, bot_id, isAllThreadsSuccess, uid, setthread_id])
 
+  const [open, setopen] = useState(false)
+  const [selectedThread, setselectedThread] = useState(undefined)
+
   return (
     <nav
       className={cn(
@@ -70,25 +74,27 @@ export default function BotMobileNav({
           <AlignRight className='text-text-black cursor-pointer size-8' strokeWidth={1.5} onClick={closeNavbar} />
         </div>
 
-        <div className={cn('h-[calc(100vh-92px)] overflow-y-auto pb-5 w-full px-5', styles.font)}>
-          <Button
-            variant='outline'
-            className={cn('w-full bg-transparent hover:bg-transparent', styles.border, styles.font)}
-            icon={<Plus />}
-            onClick={createNewThread}
-            isLoading={isCreateThreadLoading}
-          >
-            Create new chat
-          </Button>
+        <div className={cn('h-[calc(100vh-92px)] overflow-y-auto pb-5 w-full', styles.font)}>
+          <div className='px-5'>
+            <Button
+              variant='outline'
+              className={cn('w-full bg-transparent hover:bg-transparent', styles.border, styles.font)}
+              icon={<Plus />}
+              onClick={createNewThread}
+              isLoading={isCreateThreadLoading}
+            >
+              Create new chat
+            </Button>
+          </div>
           {isFaqLoading && (
-            <div className='space-y-2 py-4'>
+            <div className='space-y-2 py-4 px-5'>
               {Array.from({ length: 5 }).map((_, i) => (
                 <Skeleton key={i} className='w-full h-10' />
               ))}
             </div>
           )}
           {isFaqSuccess && (
-            <div className='pb-4 pt-6'>
+            <div className='pb-4 pt-6 px-5'>
               <p className='font-semibold pb-2'>FAQs</p>
               {faqs?.data?.length ? (
                 faqs?.data?.map(faq => (
@@ -119,7 +125,7 @@ export default function BotMobileNav({
           )}
 
           {isAllThreadsLoading && (
-            <div className='space-y-2 pb-4'>
+            <div className='space-y-2 pb-4 px-5'>
               {Array.from({ length: 5 }).map((_, i) => (
                 <Skeleton key={i} className='w-full h-10' />
               ))}
@@ -127,26 +133,44 @@ export default function BotMobileNav({
           )}
           {isAllThreadsSuccess && (
             <div className='pb-4'>
-              <p className='font-semibold whitespace-nowrap pb-2'>Chat History</p>
-              {allThreads?.data?.length ? (
-                allThreads?.data?.map(thread => (
-                  <p
-                    key={thread?._id}
-                    className={cn('cursor-pointer py-2 whitespace-nowrap', {
-                      [`-mx-3 px-3 rounded-lg ${styles.leftMsg}`]: thread_id === thread?._id
-                    })}
-                    onClick={() => setthread_id(thread?._id)}
-                  >
-                    <MessageSquare className='size-[18px] inline-block mb-0.5 mr-1' /> {thread?.name || 'No Name'}
-                  </p>
-                ))
-              ) : (
-                <p>No Threads Found found</p>
-              )}
+              <p className='font-semibold whitespace-nowrap pb-2 px-5'>Chat History</p>
+              <div className='w-full px-2'>
+                {allThreads?.data?.length ? (
+                  allThreads?.data?.map(thread => (
+                    <div
+                      key={thread?._id}
+                      className={cn('flex items-center justify-between w-full px-3 group', {
+                        [`rounded-lg ${styles.leftMsg}`]: thread_id === thread?._id
+                      })}
+                    >
+                      <p
+                        className={cn('cursor-pointer py-2 whitespace-nowrap w-full')}
+                        onClick={() => setthread_id(thread?._id)}
+                      >
+                        <MessageSquare className='size-[18px] inline-block mb-0.5 mr-1' />
+                        {thread?.name || 'Untitled Chat'}
+                      </p>
+
+                      <PencilLine
+                        className='group-hover:opacity-50 opacity-0 size-5 transition-opacity cursor-pointer'
+                        onClick={e => {
+                          e.stopPropagation()
+                          setopen(true)
+                          setselectedThread(thread)
+                        }}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <p>No Threads Found</p>
+                )}
+              </div>
             </div>
           )}
         </div>
       </div>
+
+      <RenameThreadModal open={open} setopen={setopen} thread={selectedThread} />
     </nav>
   )
 }
