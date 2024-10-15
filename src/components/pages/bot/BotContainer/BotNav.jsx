@@ -5,11 +5,10 @@ import { Img } from '@/components/ui/img'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
 import styles from '@/styles/botStyles.module.scss'
-import { setCookie } from 'cookies-next'
 import { AlignLeft } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-export default function BotNav({ botData, setnavbarOpen }) {
+export default function BotNav({ botData, openNavbar }) {
   const { theme } = useTheme()
   return (
     <nav className='fixed top-0 left-0 w-full h-[72px] z-20 backdrop-blur-lg'>
@@ -18,10 +17,7 @@ export default function BotNav({ botData, setnavbarOpen }) {
           <AlignLeft
             strokeWidth={1.5}
             className={cn('size-7 sm:size-10 cursor-pointer inline-block text-text-black')}
-            onClick={() => {
-              setnavbarOpen(true)
-              setCookie('navbarOpen', true)
-            }}
+            onClick={openNavbar}
           />
           {botData ? (
             <Img

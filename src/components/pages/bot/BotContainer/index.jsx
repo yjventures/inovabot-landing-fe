@@ -20,7 +20,7 @@ import BotNav from './BotNav'
 export default function BotContainer({
   id,
   navbarOpen,
-  setnavbarOpen,
+  openNavbar,
   message,
   setMessage,
   tempMessages,
@@ -197,7 +197,7 @@ export default function BotContainer({
         </div>
       )}
 
-      <BotNav botData={botData} setnavbarOpen={setnavbarOpen} />
+      <BotNav botData={botData} openNavbar={openNavbar} />
       <div className={cn('pt-20 pb-28 relative flex gap-x-3 max-w-5xl w-full mx-auto')}>
         <div className={cn('w-full overflow-y-auto custom-scrollbar')} ref={chatContainerRef}>
           {isListLoading ? (

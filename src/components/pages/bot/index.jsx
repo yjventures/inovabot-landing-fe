@@ -1,7 +1,8 @@
 'use client'
 
-import { useCreateThreadMutation, useGetBotFAQQuery, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
+import { useCreateThreadMutation, useGetBotUsingSlugQuery } from '@/redux/features/botApi'
 import { rtkErrorMesage } from '@/utils/error/errorMessage'
+import uuid from '@/utils/form/uuid'
 import { getCookie, setCookie } from 'cookies-next'
 import { useTheme } from 'next-themes'
 import { useParams } from 'next/navigation'
@@ -13,14 +14,28 @@ import BotMobileNav from './BotMobileNav'
 export default function BotPageComponent() {
   const [bot_id, setbot_id] = useState(undefined)
   const [thread_id, setthread_id] = useState(undefined)
-
-  const { slug } = useParams()
-  const { data, isSuccess } = useGetBotUsingSlugQuery(slug)
+  const [uid, setuid] = useState(undefined)
 
   const [
     createThread,
     { isSuccess: isThreadSuccess, isError, error, data: threadData, isLoading: isCreateThreadLoading }
   ] = useCreateThreadMutation()
+
+  useEffect(() => {
+    if (bot_id) {
+      const localUid = getCookie('uid')
+      if (localUid) setuid(localUid)
+      else {
+        const newUid = uuid()
+        setCookie('uid', newUid)
+        setuid(newUid)
+        createThread({ bot_id, thread_id: 'new', name: 'Untitled Thread', unique_id: newUid })
+      }
+    }
+  }, [bot_id, createThread])
+
+  const { slug } = useParams()
+  const { data, isSuccess } = useGetBotUsingSlugQuery(slug)
 
   // Setting the bot variables only for bot page
   const { theme } = useTheme()
@@ -40,20 +55,6 @@ export default function BotPageComponent() {
     }
   }, [isSuccess, data, theme])
 
-  const { data: faqs, isLoading: isFaqLoading } = useGetBotFAQQuery(bot_id)
-
-  const localBotData = getCookie('botData')
-
-  useEffect(() => {
-    if (localBotData && bot_id) {
-      const botDataParsed = JSON.parse(localBotData)
-      const localBotId = botDataParsed.bot_id
-
-      if (localBotId === bot_id) setthread_id(botDataParsed.thread_id)
-      else createThread({ bot_id, thread_id: 'new' })
-    } else if (!localBotData && bot_id) createThread({ bot_id, thread_id: 'new' })
-  }, [localBotData, bot_id, createThread])
-
   const [navbarOpen, setnavbarOpen] = useState(false)
 
   // Bot States
@@ -64,9 +65,9 @@ export default function BotPageComponent() {
 
   useEffect(() => {
     if (isThreadSuccess && bot_id) {
+      console.log(threadData)
       const newThreadId = threadData?.thread?._id
       setthread_id(newThreadId)
-      setCookie('botData', JSON.stringify({ bot_id, thread_id: newThreadId }))
     }
 
     if (isError) toast.error(rtkErrorMesage(error))
@@ -75,6 +76,11 @@ export default function BotPageComponent() {
   const closeNavbar = () => {
     setnavbarOpen(false)
     setCookie('navbarOpen', false)
+  }
+
+  const openNavbar = () => {
+    setnavbarOpen(true)
+    setCookie('navbarOpen', true)
   }
 
   useEffect(() => {
@@ -89,34 +95,31 @@ export default function BotPageComponent() {
         id={thread_id}
         botData={data?.data}
         navbarOpen={navbarOpen}
-        setnavbarOpen={setnavbarOpen}
+        openNavbar={openNavbar}
         message={message}
         setMessage={setMessage}
         tempMessages={tempMessages}
         setTempMessages={setTempMessages}
         isLoading={isLoading}
         setisLoading={setisLoading}
-        faqs={faqs}
-        isFaqLoading={isFaqLoading}
         current_run={current_run}
         setcurrent_run={setcurrent_run}
       />
       <BotMobileNav
+        uid={uid}
+        bot_id={bot_id}
         id={thread_id}
         botData={data?.data}
         navbarOpen={navbarOpen}
         closeNavbar={closeNavbar}
-        message={message}
         setMessage={setMessage}
         tempMessages={tempMessages}
         setTempMessages={setTempMessages}
-        isLoading={isLoading}
         setisLoading={setisLoading}
-        faqs={faqs}
-        isFaqLoading={isFaqLoading}
-        setcurrent_run={setcurrent_run}
         isCreateThreadLoading={isCreateThreadLoading}
-        createNewThread={() => createThread({ bot_id, thread_id: 'new' })}
+        createNewThread={() => createThread({ bot_id, thread_id: 'new', name: 'Untitled Thread', unique_id: uid })}
+        setthread_id={setthread_id}
+        thread_id={thread_id}
       />
     </div>
   )

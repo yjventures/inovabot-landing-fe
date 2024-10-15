@@ -17,7 +17,8 @@ const botApi = api.injectEndpoints({
         url: '/threads/get-thread',
         method: 'POST',
         body: payload
-      })
+      }),
+      invalidatesTags: ['uid']
     }),
     getBotFAQ: build.query({
       query: bot_id => ({
@@ -31,6 +32,21 @@ const botApi = api.injectEndpoints({
         method: 'POST',
         body
       })
+    }),
+    getAllThread: build.query({
+      query: params => ({
+        url: '/threads/get-all',
+        params
+      }),
+      providesTags: ['uid']
+    }),
+    updateThread: build.mutation({
+      query: ({ id, body }) => ({
+        url: `/threads/update/${id}`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['uid']
     })
   })
 })
@@ -40,5 +56,7 @@ export const {
   useGetBotUsingSlugQuery,
   useCreateThreadMutation,
   useGetBotFAQQuery,
-  useStopThreadRunMutation
+  useStopThreadRunMutation,
+  useGetAllThreadQuery,
+  useUpdateThreadMutation
 } = botApi
