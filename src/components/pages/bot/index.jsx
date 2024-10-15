@@ -55,7 +55,7 @@ export default function BotPageComponent() {
     }
   }, [isSuccess, data, theme])
 
-  const [navbarOpen, setnavbarOpen] = useState(false)
+  const [navbarOpen, setnavbarOpen] = useState(true)
 
   // Bot States
   const [message, setMessage] = useState('')
