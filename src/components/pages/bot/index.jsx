@@ -85,9 +85,9 @@ export default function BotPageComponent() {
 
   useEffect(() => {
     const isNavbarOpen = getCookie('navbarOpen')
-    if (isNavbarOpen === 'true') setnavbarOpen(true)
+    if (isNavbarOpen === 'true' || navbarOpen) setnavbarOpen(true)
     else setnavbarOpen(false)
-  }, [])
+  }, [navbarOpen])
 
   return (
     <div>
@@ -115,6 +115,7 @@ export default function BotPageComponent() {
         setMessage={setMessage}
         tempMessages={tempMessages}
         setTempMessages={setTempMessages}
+        isLoading={isLoading}
         setisLoading={setisLoading}
         isCreateThreadLoading={isCreateThreadLoading}
         createNewThread={() => createThread({ bot_id, thread_id: 'new', name: 'Untitled Thread', unique_id: uid })}

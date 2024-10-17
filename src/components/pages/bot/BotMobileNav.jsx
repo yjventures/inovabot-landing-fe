@@ -21,6 +21,7 @@ export default function BotMobileNav({
   setMessage,
   tempMessages,
   setTempMessages,
+  isLoading,
   setisLoading,
   botData,
   createNewThread,
@@ -66,11 +67,16 @@ export default function BotMobileNav({
     >
       <div className='flex flex-col items-center justify-center w-full'>
         <div className='w-full p-3 flex items-center justify-between gap-4 mb-5'>
-          <Img
-            src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
-            alt='logo'
-            className='h-7 sm:h-12 w-auto'
-          />
+          {isLoading ? (
+            <Skeleton className='size-7 rounded-lg' />
+          ) : (
+            <Img
+              src={theme === 'dark' && botData?.logo_dark ? botData?.logo_dark : botData?.logo_light}
+              alt='logo'
+              className='h-7 sm:h-12 w-auto'
+            />
+          )}
+
           <AlignRight className='text-text-black cursor-pointer size-8' strokeWidth={1.5} onClick={closeNavbar} />
         </div>
 
